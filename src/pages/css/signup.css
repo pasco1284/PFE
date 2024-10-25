@@ -1,0 +1,195 @@
+
+html {
+    font-size: 100%; 
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  
+
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1;
+    color: #333;
+    background: radial-gradient(ellipse at bottom, #0b358f 0%, #000000 100%);
+    background-size: cover; 
+    background-attachment: fixed; 
+    background-repeat: no-repeat; 
+    background-position: center;
+    margin: 0; 
+    padding: 0; 
+    min-height: 100vh;
+    display: flex;  
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+}
+  
+  
+  #particles-js
+  {
+      height: 100%;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, .9);
+    color: #fff;
+    border: 1px solid #333;
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    width: 400px;
+    margin: 20px auto;
+    transform: translate(-50%, -55%);
+    box-shadow: 0 15px 25px #1a1a1a;
+  }
+  
+  
+  .title {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    color: #00bfff;
+  }
+  
+  .title::before,
+  .title::after {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    left: 0px;
+    background-color: #00bfff;
+  }
+  
+  .title::after {
+    width: 18px;
+    height: 18px;
+    animation: pulse 1s linear infinite;
+  }
+  
+  .message,
+  .signin {
+    font-size: 14.5px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .signin {
+    text-align: center;
+  }
+  
+  .signin a {
+    color: #00bfff;
+  }
+  
+  .signin a:hover {
+    text-decoration: underline royalblue;
+  }
+  
+  .flex {
+    display: flex;
+    width: 100%;
+    gap: 35px;
+  }
+  
+  .form label {
+    position: relative;
+  }
+  
+  .form label .input {
+    background-color: transparent;
+    color: #fff;
+    width: 100%;
+    padding: 20px 5px 5px 10px;
+    outline: 0;
+    border: 1px solid rgba(105, 105, 105, 0.397);
+    border-radius: 10px;
+  }
+  
+  .form label .input + span {
+    color: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    left: 10px;
+    top: 0px;
+    font-size: 0.9em;
+    cursor: text;
+    transition: 0.3s ease;
+  }
+  
+  .form label .input:placeholder-shown + span {
+    top: 12.5px;
+    font-size: 0.9em;
+  }
+  
+  .form label .input:focus + span,
+  .form label .input:valid + span {
+    color: #00bfff;
+    top: 0px;
+    font-size: 0.7em;
+    font-weight: 600;
+  }
+  
+  .input {
+    font-size: medium;
+  }
+  
+  .submit {
+    padding: 10px 20px;
+    font-weight: bold;
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: .5s;
+    margin-top: 40px;
+    letter-spacing: 3px;
+  }
+  
+  .submit:hover {
+    background: #000000;
+    color: #272727;
+    border-radius: 5px;
+  }
+  
+  #niveauEtudiant {
+    display: none;
+  }
+  
+  @keyframes pulse {
+    from {
+      transform: scale(0.9);
+      opacity: 1;
+    }
+    to {
+      transform: scale(1.8);
+      opacity: 0;
+    }
+  }
+
+  .footer-distributed{
+    background: #ffffff41;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+    box-sizing: border-box;
+    width: 100%;
+    text-align: left;
+    font: bold 16px sans-serif;
+    padding: 55px 50px;
+    position: fixed;
+      bottom: 0;
+      left: 0;
+  }

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="weight=device-weight, initial-scale=1.0">
+    <title>Upload de Cours par Enseignants</title>
+    <link rel="stylesheet" href="/src/pages/css/enseignant.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/png" href="images/icon.png">
+</head>
+<body>
+
+    <div id="particles-js"></div>
+    <script type="text/javascript" src="js/particles.js"></script>
+    <script type="text/javascript" src="js/app-login.js"></script>
+
+    <div class="profile-menu">
+      <img src="images/photo_profile.jpg" alt="Votre photo de profil" class="profile-icon" id="profileIcon" onclick="toggleMenu()">
+  
+      <i class="fas fa-comments chat-icon" id="messengerIcon" onclick="openMessenger()"></i>
+  
+      <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
+          <ul>
+              <li><a href="Profile.html">Accéder au profil</a></li>
+              <li><a href="index.html">Se déconnecter</a></li>
+          </ul>
+      </div>
+  </div>
+    
+    <div class="container-upload">
+        <h2>Upload de Cours</h2>
+        <form id="upload-form">
+            <div class="upload-section">
+                <label for="subject">Matière :</label>
+                <input type="text" id="subject" required>
+            </div>
+            <div class="upload-section">
+                <label for="course-title">Titre du cours :</label>
+                <input type="text" id="course-title" required>
+            </div>
+            <div class="upload-section">
+                <label for="exercise-title">Exercice :</label>
+                <input type="text" id="exercise-title" required>
+            </div>
+            
+            <div class="container-file">
+                <div class="folder">
+                  <div class="front-side">
+                    <div class="tip"></div>
+                    <div class="cover"></div>
+                  </div>
+                  <div class="back-side cover"></div>
+                </div>
+                <label class="custom-file-upload">
+                  <input class="title" type="file" />
+                  Choisire le fichier du cour
+                </label>
+              </div>
+              
+              <div class="container-file">
+                <div class="folder">
+                  <div class="front-side">
+                    <div class="tip"></div>
+                    <div class="cover"></div>
+                  </div>
+                  <div class="back-side cover"></div>
+                </div>
+                <label class="custom-file-upload">
+                  <input class="title" type="file" />
+                  Choisire le fichier d'exercice
+                </label>
+              </div>
+            <div class="upload-section">
+                <button type="submit">Upload</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

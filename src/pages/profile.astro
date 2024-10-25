@@ -1,0 +1,69 @@
+---
+// Importer des composants
+import Header from './composants/Header.astro'; 
+import Footer from './composants/Footer.astro'; 
+import Menu from './composants/Menu.astro';
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/icon.png">
+    <title>Profil</title>
+    <link rel="stylesheet" href="/src/pages/css/profile.css">
+</head>
+<body>
+    <div id="particles-js"></div>
+    <script type="text/javascript" src="js/particles.js"></script>
+    <script type="text/javascript" src="js/app-login.js"></script>
+    <div class="profile-menu">
+      <img src="images/photo_profile.jpg" alt="Votre photo de profil" class="profile-icon" id="profileIcon" onclick="toggleMenu()">
+      <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
+          <ul>
+              <li><a href="Profile.html">Accéder a votre interface</a></li>
+              <li><a href="index.html">Se déconnecter</a></li>
+          </ul>
+      </div>
+  </div>
+  
+
+    <div class="profile-container">
+        <form class="profile-form">
+            <div class="profile-header">
+                <img src="images/chat en direct.png" alt="Photo de profil" class="profile-pic" id="profilePic">
+                
+                <input type="file" id="profilePicInput" style="display:none;">
+                
+                <label for="profilePicInput" class="upload-button">Changer la photo de profil</label>
+                
+                <h2 id="fullname">Nom Prénom</h2>
+            </div>
+            <div class="form-section">
+                <label for="nom"><strong>Nom:</strong></label>
+                <input type="text" id="nom" name="nom" value="Dupont" readonly>
+            </div>
+
+            <div class="form-section">
+                <label for="prenom"><strong>Prénom:</strong></label>
+                <input type="text" id="prenom" name="prenom" value="Jean" readonly>
+            </div>
+
+            <div class="form-section">
+                <label for="role"><strong>Rôle:</strong></label>
+                <input type="text" id="role" name="role" value="Étudiant" readonly>
+            </div>
+
+            <div class="form-section">
+                <label for="niveau"><strong>Niveau:</strong></label>
+                <input type="text" id="niveau" name="niveau" value="Intermédiaire" readonly>
+            </div>
+
+            <button type="button" id="editButton">Modifier le Profil</button>
+            <button type="submit" id="saveButton" style="display:none;">Enregistrer</button>
+        </form>
+    </div>
+    <Footer />
+</body>
+</html>

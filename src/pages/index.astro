@@ -1,16 +1,108 @@
 ---
-
+// Importer des composants
+import Header from '/Users/loulo/siteweb/src/pages/composants/Header.astro'; 
+import Footer from '/Users/loulo/siteweb/src/pages/composants/Footer.astro'; 
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/images/icon.png">
+    <link rel="stylesheet" href="/src/pages/css/styles.css">
+    <title>Plateforme de Services Éducatifs</title>
+</head>
+<body>
+	<Header />
+  <main>
+    <section class="latest-articles">
+      <h2>NOS SERVICES</h2>
+      <div class="article-container">
+          <article>
+              <img src="/src/pages/images/Téléchargement de fichiers.jpg" alt="Image 1">
+              <h3>Export/import files</h3>
+          </article>
+		  <article>
+			<img src="/src/pages/images/chat en direct.png" alt="Image 2">
+			<h3>Chat box</h3>
+		</article>
+		<article>
+			<img src="/src/pages/images/Suivi des Progrès.png" alt="Image 3">
+			<h3>Progress Tracking</h3>
+		</article>
+	</div>
+  </section>
+  <h2>About Services</h2>
+  <section class="section section-sm section-sm-bottom-100 bg-primary">
+	<div class="container">
+		<div class="row row-30">
+			<div class="col-md-4 wow fadeInUp">
+				<div class="box-icon-2">
+					<div class="icon novi-icon mercury-icon-calc"></div>
+					<h5 class="title">Export/Import :</h5>
+					<p class="text">
+						Le service d'exportation et d'importation de fichiers entre enseignants et étudiants est une fonctionnalité essentielle dans les plateformes éducatives<br> permettant une communication efficace et le partage de ressources. <br> <span style="display: block; text-align: center;">voici une description détaillée de ce service :</span>
+					</p>
+					<div class="center-button">
+						<a href="about.html" class="button-about">Savoir plus</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 wow fadeInUp" data-wow-delay="0.2s">
+				<div class="box-icon-2">
+					<div class="icon novi-icon mercury-icon-chart"></div>
+					<h5 class="title">Chat Box :</h5>
+					<p class="text">
+					  Le service de chat box offre une plateforme de communication instantanée entre les enseignants et les étudiants. <br> Il permet des échanges rapides et efficaces, favorisant un environnement d'apprentissage collaboratif. <br> Les enseignants peuvent répondre aux questions des étudiants en temps réel, organiser des discussions de groupe <br> et fournir des clarifications sur les cours. <br> <span style="display: block; text-align: center;">voici une description détaillée de ce service :</span>
+					</p>
+					<div class="center-button">
+						<a href="about.html" class="button-about">Savoir plus</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 wow fadeInUp" data-wow-delay="0.4s">
+				<div class="box-icon-2">
+					<div class="icon novi-icon mercury-icon-time-sand"></div>
+					<h5 class="title">Objectif 3 : Progress Tracking :</h5>
+					<p class="text">
+						Le service de Progress Tracking payant d'un enseignant offre un suivi personnalisé et approfondi des progrès d'un étudiant moyennant des frais.<br> Ce service inclut une évaluation continue de la performance, des feedbacks détaillés après chaque session <br> ainsi que des rapports réguliers sur les compétences acquises et les domaines à améliorer. <br><br> <span style="display: block; text-align: center;">voici une description détaillée de ce service :</span>
+					</p>
+					<div class="center-button">
+						<a href="about.html" class="button-about">Savoir plus</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+  </section>
+  <section class="slide-section">
+	<h2>Our Objective <br></h2>
+	<div class="slide-container">
+		<div class="slide active">
+			<img src="/src/pages/images/Faciliter le Partage de Ressources.jpg" alt="Chat Service" class="image-login">
+			<div class="slide-text">
+				<h3>Objectif 1 : Faciliter le Partage de Ressources</h3>
+				<p>Offrir une plateforme où les étudiants et les enseignants peuvent facilement partager des fichiers et des ressources, favorisant ainsi une collaboration efficace.</p>
+			</div>
+		</div>
+		<div class="slide">
+			<img src="/src/pages/images/Encourager la Communication Instantanée.png" alt="Another Service" class="image-login">
+			<div class="slide-text">
+				<h3>Objectif 2 : Encourager la Communication Instantanée</h3>
+				<p>Mettre en place un système de chat qui permet aux étudiants et aux enseignants de communiquer en temps réel, afin de poser des questions, obtenir des clarifications et interagir directement.</p>
+			</div>
+		</div>
+		<div class="slide">
+			<img src="/src/pages/images/Suivre et Évaluer les Progrès.jpg" alt="Yet Another Service" class="image-login">
+			<div class="slide-text">
+				<h3>Objectif 3 : Suivre et Évaluer les Progrès</h3>
+				<p>Proposer des outils pour le suivi des progrès des étudiants, permettant aux ense ignants d'évaluer les performances de manière continue et de fournir des retours constructifs pour améliorer l'apprentissage.</p>
+			</div>
+		</div>
+	</div>
+  </section>
+</main>
+<Footer />
+</body>
 </html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Messagerie avec Enseignants</title>
+        <link rel="stylesheet" href="/src/pages/css/etudiant.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="icon" type="image/png" href="images/icon.png">
+    </head>
+<body>
+    <div id="particles-js"></div>
+    <script type="text/javascript" src="js/particles.js"></script>
+    <script type="text/javascript" src="js/app-login.js"></script>
+
+    <div class="profile-menu">
+        <img src="images/photo_profile.jpg" alt="Votre photo de profil" class="profile-icon" id="profileIcon" onclick="toggleMenu()">
+    
+        <i class="fas fa-comments chat-icon" id="messengerIcon" onclick="openMessenger()"></i>
+    
+        <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
+            <ul>
+                <li><a href="Profile.html">Accéder au profil</a></li>
+                <li><a href="index.html">Se déconnecter</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container-file">
+        <div class="section download-section">
+            <h2>Catégories de Téléchargement de Fichiers</h2>
+
+       
+            <div class="course-category">
+                <h3>Mathématiques</h3>
+                <ul class="file-list">
+                    <li class="file-item">
+                        <span>Cours 1 : Introduction aux Fonctions</span>
+                        <a href="math-fonctions.pdf" download>Télécharger</a>
+                    </li>
+                    <li class="file-item">
+                        <span>Exercice 1 : Graphiques des Fonctions</span>
+                        <a href="math-exercice1.pdf" download>Télécharger</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="course-category">
+                <h3>Physique</h3>
+                <ul class="file-list">
+                    <li class="file-item">
+                        <span>Cours 1 : Mécanique des Fluides</span>
+                        <a href="physique-fluides.pdf" download>Télécharger</a>
+                    </li>
+                    <li class="file-item">
+                        <span>Exercice 1 : Propriétés des Fluides</span>
+                        <a href="physique-exercice1.pdf" download>Télécharger</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="course-category">
+                <h3>Chimie</h3>
+                <ul class="file-list">
+                    <li class="file-item">
+                        <span>Cours 1 : Réactions Chimiques</span>
+                        <a href="chimie-reactions.pdf" download>Télécharger</a>
+                    </li>
+                    <li class="file-item">
+                        <span>Exercice 1 : Équilibrer des Équations</span>
+                        <a href="chimie-exercice1.pdf" download>Télécharger</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

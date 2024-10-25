@@ -1,0 +1,46 @@
+---
+// Importer des composants
+import Header from './composants/Header.astro'; 
+import Footer from './composants/Footer.astro'; 
+import Menu from './composants/Menu.astro';
+---
+<!Doctype html>
+<html lang="en">
+<head>
+  <title>Contact Form</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/src/pages/css/contact.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" type="image/png" href="images/icon.png">
+</head>
+<body>
+    <Menu />
+        <div id="particles-js"></div>
+        <script type="text/javascript" src="js/particles.js"></script>
+        <script type="text/javascript" src="js/app-login.js"></script>
+  <section>
+    <div class="container">
+      <h2 class="text-center">Contact</h2>
+      <div class="row">
+        <div class="col-md-7 contact-form">
+          <form id="contactForm" method="POST">
+            <input type="text" name="name" placeholder="Name" required><br>
+            <input type="email" name="email" placeholder="Email" required><br>
+            <input type="text" name="subject" placeholder="Subject" required><br>
+            <textarea name="message" placeholder="Message" required></textarea><br>
+            <button type="submit">Send Message</button>
+          </form>
+        </div>
+        
+        <div class="col-md-5">
+            <h3>Contact Us</h3>
+            <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> 21,Rue moufida bourguiba</p>
+            <p><i class="fas fa-phone-alt"></i> <strong>Phone:</strong> +216 28 459 806</p>
+            <p><i class="fas fa-envelope"></i> <strong>Email:</strong> <a href="mailto:Louey.saadaoui@esgitech.tn">info@yoursite.com</a></p>
+            <p><i class="fas fa-globe"></i> <strong>Website:</strong> <a href="http://yoursite.com" target="_blank">yoursite.com</a></p>
+          </div>
+      </div>
+    </div>
+  </section>
+  </html>

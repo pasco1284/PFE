@@ -1,0 +1,76 @@
+---
+// Importer des composants
+import Header from './composants/Header.astro'; 
+import Footer from './composants/Footer.astro'; 
+import Menu from './composants/Menu.astro';
+---
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/icon.png">
+    <title>Signup</title>
+    <link rel="stylesheet" href="/src/pages/css/signup.css">
+</head>
+<body>
+    <Menu />
+    <div id="particles-js"></div>
+    <script type="text/javascript" src="js/particles.js"></script>
+    <script type="text/javascript" src="js/app-login.js"></script>
+    <form class="form" action="signup.php" method="POST" >
+        <p class="title">Create your account </p>
+        <p class="message">Signup now and get full access to our app.</p>
+    
+        <div class="flex">
+            <label>
+                <input class="input" type="text" placeholder="" required="">
+                <span>Firstname</span>
+            </label>
+    
+            <label>
+                <input class="input" type="text" placeholder="" required="">
+                <span>Lastname</span>
+            </label>
+        </div>
+    
+        <label>
+            <input class="input" type="email" placeholder="" required="">
+            <span>Email</span>
+        </label>
+    
+        <label>
+            <input class="input" type="password" placeholder="" required="">
+            <span>Password</span>
+        </label>
+    
+        <label>
+            <input class="input" type="password" placeholder="" required="">
+            <span>Confirm password</span>
+        </label>
+    
+  <label for="role">Choisir un rôle :</label>
+  <select id="role" name="role" class="input" onchange="afficherOptions()">
+    <option value="">--Sélectionnez--</option>
+    <option value="etudiant">Étudiant</option>
+    <option value="enseignant">Enseignant</option>
+  </select>
+
+  <div id="choixElements" style="display: none;">
+    <label>Choisissez un élément :</label>
+    <div id="checkboxes">
+      <label><input type="checkbox" name="elements" value="element1" onchange="verifierSelection(this)">L1</label><br>
+      <label><input type="checkbox" name="elements" value="element2" onchange="verifierSelection(this)">L2</label><br>
+      <label><input type="checkbox" name="elements" value="element3" onchange="verifierSelection(this)">L3</label><br>
+      <label><input type="checkbox" name="elements" value="element4" onchange="verifierSelection(this)">M1</label><br>
+      <label><input type="checkbox" name="elements" value="element5" onchange="verifierSelection(this)">M2</label><br>
+    </div>
+  </div>
+    
+        <button class="submit">Create account</button>
+        <p class="signin">Already have an acount? <a href="login.html">login</a></p>
+    </form>
+    </div>
+    <Footer />
+</body>
+</html>
