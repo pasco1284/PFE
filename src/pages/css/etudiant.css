@@ -155,6 +155,77 @@
   margin-left: 15px;
   cursor: pointer;
   position: absolute;
-  top: 35%;
+  top: 10%;
   right: 200%;
   }
+
+  @media (max-width: 768px) {
+    /* Adjust container width and padding for tablets */
+    .container-file {
+      max-width: 600px;
+      padding: 20px;
+    }
+  
+    /* Adjust the profile menu and icons for smaller screens */
+    .profile-menu {
+      flex-direction: row;
+      top: 15px;
+      right: 15px;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+  
+    .profile-icon {
+      width: 40px;
+      height: 40px;
+    }
+  
+    .chat-icon {
+      font-size: 20px;
+      position: absolute;
+      top: 10%;
+      right: 200%;
+      }
+    }
+
+  
+  @media (max-width: 550px) {
+    /* Smaller container for mobile screens */
+    .container-file {
+      max-width: 90%;
+      padding: 15px;
+      top: 30%;
+    }
+  
+    /* Profile and chat icons resize */
+    .profile-icon {
+      width: 35px;
+      height: 35px;
+    }
+  
+    .chat-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 10%;
+      right: 1200%;
+      }
+      
+    }
+  
+    /* Resize text in file items */
+    .file-item span {
+      font-size: 14px;
+    }
+    
+    .file-item a {
+      font-size: 14px;
+    }
+  

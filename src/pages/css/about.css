@@ -1,33 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1;
-    color: #333;
-    background-image: url('/src/pages/images/background.png'); 
-    background-size: cover; 
-    background-attachment: fixed; 
-    background-repeat: no-repeat; 
-    background-position: center;
-    margin: 0; 
-    padding: 0; 
-    min-height: 100vh;
-    align-items: flex-end;
-    justify-content: flex-end;
-    
-  }
-  body.dark-mode {
-    background-color: black;
-    color: white;
-  }
+  font-family: Arial, sans-serif;
+  line-height: 1;
+  color: #333;
+  background-image: url('/src/pages/images/background.png'); 
+  background-size: cover; 
+  background-attachment: fixed; 
+  background-repeat: no-repeat; 
+  background-position: center;
+  margin: 0; 
+  padding: 0; 
+  min-height: 100vh;
+  align-items: flex-end;
+  justify-content: flex-end;
   
-  
-  html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-  }
-  
+}
   #content {
     flex: 1; 
     padding: 20px;
@@ -36,12 +29,6 @@ body {
     background-color: transparent; 
   }
   
-  header {
-      background: #007bff;
-      color: white;
-      padding: 20px;
-      text-align: center;
-  }
   
   h1 {
       margin: 0;
@@ -224,4 +211,75 @@ body {
     text-align: left;
     font: bold 16px sans-serif;
     padding: 55px 50px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
+
+  @media (max-width: 1600px) {
+  
+    #content {
+      padding: 10px;
+    }
+
+    .footer-distributed {
+      padding: 500px 20px;
+      position: absolute;
+      top: 100%;
+    }
+
+  }
+  
+  @media (max-width: 992px) {
+
+    .footer-distributed {
+      padding: 150px 20px;
+      position: absolute;
+      top: 120%;
+    }
+  
+
+  }
+  
+  @media (max-width: 768px) {
+  
+    .right-section {
+      width: 100%;
+    }
+  
+    header {
+      padding: 15px;
+    }
+  
+    button {
+      width: 80%;
+    }
+
+    .footer-distributed {
+      padding: 150px 20px;
+      position: absolute;
+      top: 120%;
+    }
+  }
+  
+  
+  @media (max-width: 576px) {
+    h1 {
+      font-size: 24px;
+    }
+  
+    .service {
+      padding: 10px;
+    }
+  
+    button {
+      padding: 8px 15px;
+    }
+  
+    .footer-distributed {
+      padding: 500px 20px;
+      position: absolute;
+      top: 180%;
+      width: 125%;
+    }
   }
