@@ -7,7 +7,6 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "postinstall": "prisma generate",
     "astro": "astro"
   },
   "dependencies": {
