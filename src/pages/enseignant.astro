@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="weight=device-weight, initial-scale=1.0">
     <title>Upload de Cours par Enseignants</title>
-    <link rel="stylesheet" href="src/styles/enseignant.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" type="image/png" href="/icon.png">
 </head>
@@ -75,6 +74,264 @@
             </div>
         </form>
     </div>
+    <style>
+      * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden; 
+    height: 100%;
+    background: radial-gradient(ellipse at bottom, #0b358f 0%, #000000 100%);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+  
+  #particles-js {
+    height: 150%;
+  }
+  .container-upload {
+    position: absolute;
+    top: 25%;
+    left: 5%;
+    width: 90%;
+    max-width: 800px;
+    padding: 20px;
+    background: rgba(0, 0, 9, 0.39);
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px #00000098;
+    border-radius: 10px;
+  }
+    
+    h2 {
+      text-align: center; 
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: white;
+    }
+    
+    .upload-section {
+      margin-bottom: 15px;
+      color: white;
+    }
+    
+    label {
+      display: block; 
+      margin-bottom: 5px; 
+    }
+    
+    input[type="text"],
+    input[type="file"] {
+      width: 100%;
+      padding: 10px; 
+      border: 1px solid #ccc;
+      border-radius: 5px; 
+    }
+    
+    button {
+      padding: 10px 20px; 
+      background-color: #27096b; 
+      color: #ffffff; 
+      border: none; 
+      border-radius: 5px; 
+      cursor: pointer; 
+      font-size: 1.2rem;
+    }
+    
+    button:hover {
+      background-color: #000000; 
+    }
+    
+    .container-file {
+      --transition: 350ms;
+      --folder-W: 120px;
+      --folder-H: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 10px;
+      background: transparent;
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      height: calc(var(--folder-H) * 1.7);
+      position: relative;
+    }
+    
+    .folder {
+      position: absolute;
+      top: 10px;
+      left: calc(50% - 60px);
+      animation: float 2.5s infinite ease-in-out;
+      transition: transform var(--transition) ease;
+    }
+    
+    .folder:hover {
+      transform: scale(1.05);
+    }
+    
+    .folder .front-side,
+    .folder .back-side {
+      position: absolute;
+      transition: transform var(--transition);
+      transform-origin: bottom center;
+    }
+    
+    .folder .back-side::before,
+    .folder .back-side::after {
+      content: "";
+      display: block;
+      background-color: white;
+      opacity: 0.5;
+      z-index: 0;
+      width: var(--folder-W);
+      height: var(--folder-H);
+      position: absolute;
+      transform-origin: bottom center;
+      border-radius: 15px;
+      transition: transform 350ms;
+      z-index: 0;
+    }
+    
+    .container:hover .back-side::before {
+      transform: rotateX(-5deg) skewX(5deg);
+    }
+    .container:hover .back-side::after {
+      transform: rotateX(-15deg) skewX(12deg);
+    }
+    
+    .folder .front-side {
+      z-index: 1;
+    }
+    
+    .container:hover .front-side {
+      transform: rotateX(-40deg) skewX(15deg);
+    }
+    
+    .folder .tip {
+      background: linear-gradient(135deg, #ff9a56, #ff6f56);
+      width: 80px;
+      height: 20px;
+      border-radius: 12px 12px 0 0;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      position: absolute;
+      top: -10px;
+      z-index: 2;
+    }
+    
+    .folder .cover {
+      background: linear-gradient(135deg, #ffe563, #ffc663);
+      width: var(--folder-W);
+      height: var(--folder-H);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+    }
+    
+    .custom-file-upload {
+      font-size: 1.1em;
+      color: #ffffff;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: background var(--transition) ease;
+      display: inline-block;
+      width: 100%;
+      padding: 10px 35px;
+      position: relative;
+    }
+  
+   
+    
+    .custom-file-upload:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+    
+    .custom-file-upload input[type="file"] {
+      display: none;
+    }
+    
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
+      }
+    
+      50% {
+        transform: translateY(-20px);
+      }
+    
+      100% {
+        transform: translateY(0px);
+      }
+    }
+    
+  
+    .profile-menu {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .profile-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid white;
+    }
+    
+    
+    .dropdown-menu {
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    .dropdown-menu ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .dropdown-menu ul li {
+      padding: 10px;
+      text-align: left;
+    }
+    
+    .dropdown-menu ul li a {
+      text-decoration: none;
+      color: #000;
+      display: block;
+    }
+    
+    .dropdown-menu ul li:hover {
+      background-color: #f0f0f0;
+    }
+  .chat-icon {
+    font-size: 24px;
+    color: #ffffff;
+    margin-left: 15px;
+    cursor: pointer;
+    position: absolute;
+    top: 35%;
+    right: 200%;
+  }
+    </style>
     <script src="/src/scripts/enseignant.js" defer></script>
 </body>
 </html>

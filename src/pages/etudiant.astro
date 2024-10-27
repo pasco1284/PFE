@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Messagerie avec Enseignants</title>
-        <link rel="stylesheet" href="src/styles/etudiant.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <link rel="icon" type="image/png" href="/icon.png">
     </head>
@@ -73,6 +72,239 @@
             </div>
         </div>
     </div>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden; 
+    height: 100vh;
+    background: radial-gradient(ellipse at bottom, #0b358f 0%, #000000 100%);
+    background-size: cover;
+      background-attachment: fixed;
+      background-repeat: no-repeat; 
+      background-position: center;
+      margin: 0; 
+      padding: 0; 
+      align-items: flex-end;
+      justify-content: flex-end;
+  }
+  
+  #particles-js {
+    height: 100%;
+  }
+  
+  .container-file {
+    max-width: 800px; 
+    margin: 20px; 
+    padding: 30px; 
+    background-color: rgba(0, 0, 0, 0.253); 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    text-align: left; 
+   position: absolute;
+   top: 5%;
+  }
+  
+  .download-section h2 {
+    text-align: left; 
+    font-size: 24px;
+    color: #ffffff;
+    margin-bottom: 20px;
+  }
+  
+  .course-category {
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: transparent;
+    border-left: 5px solid #007BFF;
+    border-radius: 5px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .course-category h3 {
+    font-size: 20px;
+    color: #007BFF;
+    margin-bottom: 10px;
+    text-align: left; 
+  }
+  
+  
+  .file-list {
+    list-style-type: none;
+    padding: 0px;
+    margin: 20px;
+  }
+  
+  .file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .file-item:last-child {
+    border-bottom: none;
+  }
+  
+  .file-item span {
+    font-size: 16px;
+    color: #ffffff;
+    text-align: left; 
+  }
+  
+  
+  .file-item a {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .file-item a:hover {
+    text-decoration: underline;
+  }
+  
+  
+  .file-item a:hover {
+    text-decoration: underline;
+  }
+  
+  
+  .profile-menu {
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .profile-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
+  }
+  
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .dropdown-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .dropdown-menu ul li {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .dropdown-menu ul li a {
+    text-decoration: none;
+    color: #000;
+    display: block;
+  }
+  
+  .dropdown-menu ul li:hover {
+    background-color: #f0f0f0;
+  }
+  .chat-icon {
+  font-size: 24px;
+  color: #ffffff;
+  margin-left: 15px;
+  cursor: pointer;
+  position: absolute;
+  top: 10%;
+  right: 200%;
+  }
+
+  @media (max-width: 768px) {
+    /* Adjust container width and padding for tablets */
+    .container-file {
+      max-width: 600px;
+      padding: 20px;
+    }
+  
+    /* Adjust the profile menu and icons for smaller screens */
+    .profile-menu {
+      flex-direction: row;
+      top: 15px;
+      right: 15px;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+  
+    .profile-icon {
+      width: 40px;
+      height: 40px;
+    }
+  
+    .chat-icon {
+      font-size: 20px;
+      position: absolute;
+      top: 10%;
+      right: 200%;
+      }
+    }
+
+  
+  @media (max-width: 550px) {
+    /* Smaller container for mobile screens */
+    .container-file {
+      max-width: 90%;
+      padding: 15px;
+      top: 30%;
+    }
+  
+    /* Profile and chat icons resize */
+    .profile-icon {
+      width: 35px;
+      height: 35px;
+    }
+  
+    .chat-icon {
+      font-size: 18px;
+      position: absolute;
+      top: 10%;
+      right: 1200%;
+      }
+      
+    }
+  
+    /* Resize text in file items */
+    .file-item span {
+      font-size: 14px;
+    }
+    
+    .file-item a {
+      font-size: 14px;
+    }
+  
+    </style>
     <script src="/src/scripts/etudiant.js" defer></script>
 </body>
 </html>
