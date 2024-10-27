@@ -118,5 +118,25 @@
 .menu ul li a:target {
     border-bottom-color: #ffffff;
 }
+@media (min-width: 1200px) {
+    .menu {
+    display: block;
+    margin: 30px auto;
+    width: 100px;
+    height: 100px;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    position: absolute;
+    left: 50%; /* Utilisation de left pour centrer */
+    top: -6%;
+    transform: translateX(-50%); /* Centrage parfait */
+    transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+}
   </style>
 </html>
