@@ -224,6 +224,8 @@ html {
       text-align: left;
       font: bold 16px sans-serif;
       padding: 55px 50px;
+      position: absolute;
+      top: 75%;
     }
     
     /* Styles pour les écrans de moins de 550px (mobiles) */
