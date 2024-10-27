@@ -15,6 +15,10 @@ import Menu from './composants/Menu.astro';
     <link rel="stylesheet" href="src/styles/profile.css">
 </head>
 <body>
+    <div id="particles-js"></div>
+    <script src="/src/scripts/particles.js" defer></script>
+    <script src="/src/scripts/app-login.js" defer></script>
+    
     <div class="profile-menu">
       <img src="images/photo_profile.jpg" alt="Votre photo de profil" class="profile-icon" id="profileIcon" onclick="toggleMenu()">
       <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
@@ -62,6 +66,6 @@ import Menu from './composants/Menu.astro';
         </form>
     </div>
     <Footer />
-    <script src="src/scripts/profile.js" defer></script>
+    import "/src/scripts/profil.js";
 </body>
 </html>
