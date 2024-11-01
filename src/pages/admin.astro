@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interface Administrateur</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <h1>Tableau de Bord Administrateur</h1>
+
+    <!-- Section pour les créations de compte -->
+    <section id="account-creation-logs">
+        <h2>Logs de Création de Comptes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Utilisateur</th>
+                    <th>Type de Compte</th>
+                    <th>Date</th>
+                    <th>IP</th>
+                </tr>
+            </thead>
+            <tbody id="accountLogs">
+                <!-- Les données seront injectées ici -->
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Section pour le trafic entre étudiants et enseignants -->
+    <section id="traffic-logs">
+        <h2>Trafic Étudiant-Enseignant</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Événement</th>
+                    <th>Émetteur</th>
+                    <th>Destinataire</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="trafficLogs">
+                <!-- Les données seront injectées ici -->
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Section pour les fichiers échangés -->
+    <section id="file-logs">
+        <h2>Logs de Fichiers Échangés</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom de Fichier</th>
+                    <th>Utilisateur</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="fileLogs">
+                <!-- Les données seront injectées ici -->
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Section pour les conversations -->
+    <section id="conversation-logs">
+        <h2>Logs de Conversations</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Émetteur</th>
+                    <th>Destinataire</th>
+                    <th>Message</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="conversationLogs">
+                <!-- Les données seront injectées ici -->
+            </tbody>
+        </table>
+    </section>
+
+</body>
+</html>

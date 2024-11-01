@@ -28,20 +28,19 @@
     
     <div class="container-upload">
         <h2>Upload de Cours</h2>
-        <form id="upload-form">
-            <div class="upload-section">
-                <label for="subject">Matière :</label>
-                <input type="text" id="subject" required>
-            </div>
-            <div class="upload-section">
-                <label for="course-title">Titre du cours :</label>
-                <input type="text" id="course-title" required>
-            </div>
-            <div class="upload-section">
-                <label for="exercise-title">Exercice :</label>
-                <input type="text" id="exercise-title" required>
-            </div>
-            
+        <form id="upload-form" action="upload.php" method="POST" enctype="multipart/form-data">
+          <div class="upload-section">
+              <label for="subject">Matière :</label>
+              <input type="text" id="subject" name="subject" required>
+          </div>
+          <div class="upload-section">
+              <label for="course-title">Titre du cours :</label>
+              <input type="text" id="course-title" name="course_title" required>
+          </div>
+          <div class="upload-section">
+              <label for="exercise-title">Exercice :</label>
+              <input type="text" id="exercise-title" name="exercise_title" required>
+          </div>
             <div class="container-file">
                 <div class="folder">
                   <div class="front-side">
@@ -51,7 +50,7 @@
                   <div class="back-side cover"></div>
                 </div>
                 <label class="custom-file-upload">
-                  <input class="title" type="file" />
+                  <input type="file" name="file" required>
                   Choisire le fichier du cour
                 </label>
               </div>
