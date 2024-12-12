@@ -1,0 +1,230 @@
+---
+// Importer des composants
+import Header from './composants/Header.astro'; 
+import Footer from './composants/Footer.astro'; 
+import Menu from './composants/Menu.astro';
+---
+<!Doctype html>
+<html lang="en">
+<head>
+  <title>Contact Form</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" type="image/png" href="/icon.png">
+</head>
+<body>
+  <div id="particles-js"></div>
+  <script src="/particles.js" defer></script>
+  <script src="/app-login.js" defer></script>
+    <Menu />
+  <section>
+    <div class="container">
+      <h2 class="text-center">Contact</h2>
+      <div class="row">
+        <div class="col-md-7 contact-form">
+          <form id="contactForm" action="/send_contact_email.php" method="POST">
+            <input type="text" name="name" placeholder="Name" required><br>
+            <input type="email" name="email" placeholder="Email" required><br>
+            <input type="text" name="subject" placeholder="Subject" required><br>
+            <textarea name="message" placeholder="Message" required></textarea><br>
+            <button type="submit">Send Message</button>
+        </form>
+        </div>
+        
+        <div class="col-md-5">
+            <h3>Contact Us</h3>
+            <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> 21,Rue moufida bourguiba</p>
+            <p><i class="fas fa-phone-alt"></i> <strong>Phone:</strong> +216 28 459 806</p>
+            <p><i class="fas fa-envelope"></i> <strong>Email:</strong> <a href="mailto:Louey.saadaoui@esgitech.tn">info@yoursite.com</a></p>
+            <p><i class="fas fa-globe"></i> <strong>Website:</strong> <a href="http://yoursite.com" target="_blank">yoursite.com</a></p>
+          </div>
+      </div>
+    </div>
+  </section>
+  <style>
+    html {
+    font-size: 100%; 
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  
+
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1;
+    color: #333;
+    background: radial-gradient(ellipse at bottom, #0b358f 0%, #000000 100%);
+    background-size: cover; 
+    background-attachment: fixed; 
+    background-repeat: no-repeat; 
+    background-position: center;
+    margin: 0; 
+    padding: 0; 
+    min-height: 100vh; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+}
+
+#particles-js {
+    height: 100%;
+}
+
+.container {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 100%;
+  width: 1200px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.164);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px #00000098;
+  border-radius: 10px;
+}
+
+h2, h3 {
+    text-align: center;
+    color: #230da3;
+    margin-bottom: 20px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+.contact-form, .contact-info {
+    background-color: #00000000;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.contact-form {
+    flex: 2;
+}
+
+.contact-info {
+    flex: 1;
+    background-color: #ffffff00;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(160, 26, 26, 0.1);
+}
+
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #00000086;
+    color: white;
+}
+
+textarea {
+    resize: vertical;
+    height: 150px;
+}
+
+button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+
+.contact-info p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.contact-info strong {
+    color: #007bff;
+}
+
+.contact-info a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
+.col-md-5 i {
+    color: #007bff; 
+    margin-right: 10px; 
+    font-size: 18px; 
+    vertical-align: middle; 
+}
+
+.col-md-5 strong {
+    display: inline-block;
+    font-weight: bold;
+    color: #f10000;
+    font-size: 16px;
+    text-decoration: none;
+    overflow: hidden;
+    transition: .5s;
+    margin-top: 40px;
+    letter-spacing: 3px;
+}
+
+.col-md-5 a {
+    display: inline-block;
+    font-weight: bold;
+    color: #007bff;
+    font-size: 16px;
+    text-decoration: none;
+    overflow: hidden;
+    transition: 1.5s;
+    margin-top: 40px;
+    letter-spacing: 3px;
+}
+
+.col-md-5 p {
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 16px;
+    text-decoration: none;
+    overflow: hidden;
+    transition: 1.5s;
+    margin-top: 40px;
+    letter-spacing: 3px;
+}
+footer-distributed{
+    background: #ffffff41;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+    box-sizing: border-box;
+    width: 100%;
+    text-align: left;
+    font: bold 16px sans-serif;
+    padding: 55px 50px;
+  }
+  </style>
+</body>
+</html>

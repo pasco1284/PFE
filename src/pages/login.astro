@@ -1,0 +1,300 @@
+---
+// Importer des composants
+import Header from './composants/Header.astro'; 
+import Footer from './composants/Footer.astro'; 
+import Menu from './composants/Menu.astro';
+
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/icon.png">
+    <title>Login</title>
+</head>
+<body>
+  <div id="particles-js"></div>
+  <script src="/particles.js" defer></script>
+  <script src="/app-login.js" defer></script>
+  
+    <Menu />
+    <div class="login-box">
+        <p>Login</p>
+        <form action="login.php" method="POST">
+          <div class="user-box">
+            <input required="" name="" type="text">
+            <label>Email</label>
+          </div>
+          <div class="user-box">
+            <input required="" name="" type="password">
+            <label>Password</label>
+          </div>
+          <a href="#">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Login
+          </a>
+        </form>
+        <p>Do you forget?<a href="password" class="a2"> Password ?</a></p>
+        <p>Don't have an account? <a href="signup" class="a2">Sign up!</a></p>
+      </div>
+</body>
+<Footer />
+<style>
+  
+  html {
+      font-size: 100%; 
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    
+  
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1;
+      color: #333;
+      background: radial-gradient(ellipse at bottom, #0b358f 0%, #000000 100%);
+      background-size: cover; 
+      background-attachment: fixed; 
+      background-repeat: no-repeat; 
+      background-position: center;
+      margin: 0; 
+      padding: 0; 
+      min-height: 100vh;
+      justify-content: center; 
+      align-items: center; 
+  }
+    
+    
+    #particles-js
+    {
+        height: 100%;
+    }
+    
+    
+    
+    .login-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 400px;
+      padding: 40px;
+      margin: 20px auto;
+      transform: translate(-50%, -55%);
+      background: rgba(0,0,0,.9);
+      box-sizing: border-box;
+      box-shadow: 0 15px 25px #00000098;
+      border-radius: 10px;
+  }
+  
+    
+      .login-box p:first-child {
+        margin: 0 0 30px;
+        padding: 0;
+        color: #fff;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
+      
+      .login-box .user-box {
+        position: relative;
+      }
+      
+      .login-box .user-box input {
+        width: 100%;
+        padding: 10px 0;
+        font-size: 16px;
+        color: #fff;
+        margin-bottom: 30px;
+        border: none;
+        border-bottom: 1px solid #fff;
+        outline: none;
+        background: transparent;
+      }
+      
+      .login-box .user-box label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 10px 0;
+        font-size: 16px;
+        color: #fff;
+        pointer-events: none;
+        transition: .5s;
+      }
+      
+      .login-box .user-box input:focus ~ label,
+      .login-box .user-box input:valid ~ label {
+        top: -20px;
+        left: 0;
+        color: #fff;
+        font-size: 12px;
+      }
+      
+      .login-box form a {
+        position: relative;
+        display: inline-block;
+        padding: 10px 20px;
+        font-weight: bold;
+        color: #fff;
+        font-size: 16px;
+        text-decoration: none;
+        text-transform: uppercase;
+        overflow: hidden;
+        transition: .5s;
+        margin-top: 40px;
+        letter-spacing: 3px
+      }
+      
+      .login-box a:hover {
+        background: #fff;
+        color: #272727;
+        border-radius: 5px;
+      }
+      
+      .login-box a span {
+        position: absolute;
+        display: block;
+      }
+      
+      .login-box a span:nth-child(1) {
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #fff);
+        animation: btn-anim1 1.5s linear infinite;
+      }
+      
+      @keyframes btn-anim1 {
+        0% {
+          left: -100%;
+        }
+      
+        50%,100% {
+          left: 100%;
+        }
+      }
+      
+      .login-box a span:nth-child(2) {
+        top: -100%;
+        right: 0;
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(180deg, transparent, #fff);
+        animation: btn-anim2 1.5s linear infinite;
+        animation-delay: .375s
+      }
+      
+      @keyframes btn-anim2 {
+        0% {
+          top: -100%;
+        }
+      
+        50%,100% {
+          top: 100%;
+        }
+      }
+      
+      .login-box a span:nth-child(3) {
+        bottom: 0;
+        right: -100%;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(270deg, transparent, #fff);
+        animation: btn-anim3 1.5s linear infinite;
+        animation-delay: .75s
+      }
+      
+      @keyframes btn-anim3 {
+        0% {
+          right: -100%;
+        }
+      
+        50%,100% {
+          right: 100%;
+        }
+      }
+      
+      .login-box a span:nth-child(4) {
+        bottom: -100%;
+        left: 0;
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(360deg, transparent, #fff);
+        animation: btn-anim4 1.5s linear infinite;
+        animation-delay: 1.125s
+      }
+      
+      @keyframes btn-anim4 {
+        0% {
+          bottom: -100%;
+        }
+      
+        50%,100% {
+          bottom: 100%;
+        }
+      }
+      
+      .login-box p{
+        color: #aaa;
+        font-size: 14px;
+      }
+      
+      .login-box a.a2 {
+        color: #fff;
+        text-decoration: none;
+      }
+      
+      .login-box a.a2:hover {
+        background: transparent;
+        color: #aaa;
+        border-radius: 5px;
+      }
+  
+      .footer-distributed{
+        background: #ffffff41;
+        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+        box-sizing: border-box;
+        width: 100%;
+        text-align: left;
+        font: bold 16px sans-serif;
+        padding: 55px 50px;
+        position: absolute;
+        top: 75%;
+      }
+      
+      /* Styles pour les écrans de moins de 550px (mobiles) */
+      @media (max-width: 1200px) {
+        .login-box {
+          width: 90%;
+          padding: 20px;
+          transform: translate(-50%, -60%);
+        }
+        
+        .login-box p:first-child {
+          font-size: 1.1rem;
+        }
+        
+        .login-box .user-box input {
+          font-size: 14px;
+        }
+        
+        .login-box form a {
+          font-size: 12px;
+          padding: 6px 14px;
+        }
+      }
+  </style>
+</html>
