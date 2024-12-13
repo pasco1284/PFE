@@ -41,6 +41,12 @@
     </div>
     <style>
 
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
       .footer-distributed{
     background: #ffffff41;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
@@ -49,14 +55,51 @@
     text-align: left;
     font: bold 16px sans-serif;
     padding: 55px 50px;ound: #ffffff41;
+    margin-top: auto;
+
       }
 
       @media (max-width: 1200px) {
         .footer-distributed {
           padding: 30px 20px;
           text-align: center;
-          position: absolute;
+          position: relative;
           top: 100%;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .footer-distributed {
+          padding: 30px 20px;
+          text-align: center;
+        }
+
+        .footer-left, .footer-center, .footer-right {
+          flex: 1 1 100%; /* Stack sections vertically */
+          text-align: center;
+        }
+
+        .footer-left h3 {
+          font-size: 24px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .footer-distributed {
+          padding: 20px 10px;
+        }
+
+        .footer-left h3 {
+          font-size: 20px;
+        }
+
+        .footer-links a {
+          display: block;
+          margin: 5px 0; /* Stack links vertically */
+        }
+
+        .footer-company-about {
+          font-size: 14px;
         }
       }
     
@@ -67,6 +110,9 @@
 .footer-distributed .footer-right{
   display: inline-block;
   vertical-align: top;
+  flex: 1 1 30%;
+  min-width: 200px; /* Ensure content fits */
+  margin-bottom: 20px;
 }
 
 

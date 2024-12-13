@@ -125,8 +125,28 @@
       @media (max-width: 576px) {
     .site-header {
       position: relative;
-      width: 125%;
+      width: 100%;
 }
+@media (max-width: 768px) {
+  .site-header h1 {
+    font-size: 1.8em;  /* Réduit la taille du texte sur les tablettes et téléphones */
+  }
+
+  .icon-container {
+    flex-direction: column; /* Empile les icônes verticalement sur des écrans plus petits */
+    align-items: center; /* Centre les icônes */
+  }
+
+  .icon-item {
+    margin: 5px 0;  /* Réduit l'espacement entre les icônes */
+  }
+
+  .icon-item svg {
+    width: 18px;  /* Réduit la taille des icônes */
+    height: 18px;
+  }
+}
+
   }
       </style>
 </header>

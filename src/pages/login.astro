@@ -22,7 +22,7 @@ import Menu from './composants/Menu.astro';
     <Menu />
     <div class="login-box">
         <p>Login</p>
-        <form action="/backend/api/_login.php" method="POST">
+        <form action="login.php" method="POST">
           <div class="user-box">
             <input required="" name="" type="text">
             <label>Email</label>
@@ -43,7 +43,6 @@ import Menu from './composants/Menu.astro';
         <p>Don't have an account? <a href="signup" class="a2">Sign up!</a></p>
       </div>
 </body>
-<Footer />
 <style>
   
   html {
@@ -261,18 +260,6 @@ import Menu from './composants/Menu.astro';
         background: transparent;
         color: #aaa;
         border-radius: 5px;
-      }
-  
-      .footer-distributed{
-        background: #ffffff41;
-        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
-        box-sizing: border-box;
-        width: 100%;
-        text-align: left;
-        font: bold 16px sans-serif;
-        padding: 55px 50px;
-        position: absolute;
-        top: 75%;
       }
       
       /* Styles pour les écrans de moins de 550px (mobiles) */

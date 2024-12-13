@@ -4,9 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interface Administrateur</title>
-    <link rel="stylesheet" href="admin.css">
 </head>
 <body>
+    <style>/* Réinitialiser les marges et les paddings de tous les éléments */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Corps de la page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        
+        /* Titre principal */
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        
+        /* Sections */
+        section {
+            margin: 20px 0;
+        }
+        
+        /* Titre de section */
+        section h2 {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            font-size: 1.5rem;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        /* Tableaux */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        /* En-têtes des tableaux */
+        table th {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        /* Cellules de tableaux */
+        table td {
+            background-color: #fff;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        /* Lignes alternées */
+        table tr:nth-child(even) td {
+            background-color: #f9f9f9;
+        }
+        
+        /* Conteneur de la section table */
+        #account-creation-logs,
+        #traffic-logs,
+        #file-logs,
+        #conversation-logs {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            padding: 20px;
+        }
+        
+        /* Styles de tableau pour mobile */
+        @media (max-width: 768px) {
+            table {
+                font-size: 14px;
+            }
+        
+            table th, table td {
+                padding: 8px;
+            }
+        }
+        </style>
     <h1>Tableau de Bord Administrateur</h1>
 
     <!-- Section pour les créations de compte -->

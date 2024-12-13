@@ -9,9 +9,7 @@
 <body>
     <div class="profile-menu">
         <img src="/photo_profile.jpg" alt="Votre photo de profil" class="profile-icon" id="profileIcon" onclick="toggleMenu()">
-    
         <i class="fas fa-comments chat-icon" id="messengerIcon" onclick="openMessenger()"></i>
-    
         <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
             <ul>
                 <li><a href="profile">Accéder au profil</a></li>
@@ -47,288 +45,283 @@
         </div>
     </div>
     <style>
-        
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    background-color: #eef2f7;
-    color: #333;
-}
+        /* Styles généraux */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #eef2f7;
+            color: #333;
+        }
 
+        .container {
+            display: flex;
+            height: 100vh;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
 
-.container {
-    display: flex;
-    height: 100vh;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
+        .sidebar {
+            width: 300px;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
+        .sidebar h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
 
-.sidebar {
-    width: 300px;
-    background-color: #2c3e50;
-    color: #ecf0f1;
-    padding: 20px;
-}
+        .user {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-bottom: 1px solid #34495e;
+        }
 
-.sidebar h2 {
-    font-size: 20px;
-    margin-bottom: 20px;
-}
+        .user:hover {
+            background-color: #34495e;
+        }
 
-.user {
-    display: flex;
-    align-items: center;
-    padding: 10px 0;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border-bottom: 1px solid #34495e;
-}
+        .user-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 2px solid #ecf0f1;
+        }
 
-.user:hover {
-    background-color: #34495e;
-}
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+        }
 
-.user-pic {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 15px;
-    border: 2px solid #ecf0f1;
-}
+        .chat-header {
+            padding: 20px;
+            background-color: #3498db;
+            color: #fff;
+            text-align: center;
+            font-size: 18px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
 
+        .messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #f0f0f0;
+        }
 
-.chat-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: #fff;
-}
+        .message.sent {
+            background-color: #0078ff;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 10%;
+            margin: 10px 0;
+            align-self: flex-end; 
+            text-align: left;
+        }
 
-.chat-header {
-    padding: 20px;
-    background-color: #3498db;
-    color: #fff;
-    text-align: center;
-    font-size: 18px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
+        .message.received {
+            background-color: #b1a5a5;
+            color: rgb(255, 255, 255);
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 10%;
+            margin: 10px 0;
+            align-self: flex-start; 
+            text-align: right;
+        }
 
+        .message-input {
+            display: flex;
+            padding: 15px;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+        }
 
-.messages {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    background-color: #f0f0f0;
-}
+        .message-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            outline: none;
+            font-size: 16px;
+        }
 
-.message.sent {
-    background-color: #0078ff;
-    color: white;
-    padding: 10px;
-    border-radius: 10px;
-    max-width: 10%;
-    margin: 10px 0;
-    align-self: flex-end; 
-    text-align: left;
-}
+        .message-input button, 
+        #recordButton {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 40px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
+        .message-input button:hover,
+        #recordButton:hover {
+            background-color: #2980b9;
+        }
 
-.message.received {
-    background-color: #b1a5a5;
-    color: rgb(255, 255, 255);
-    padding: 10px;
-    border-radius: 10px;
-    max-width: 10%;
-    margin: 10px 0;
-    align-self: flex-start; 
-    text-align: right;
-}
+        .send-file {
+            display: inline-flex; 
+            justify-content: center;
+            align-items: center;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px; 
+            height: 40px;
+            margin-left: 10px; 
+            font-size: 18px; 
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
+        .send-file:hover {
+            background-color: #2980b9; 
+        }
 
-.message-input {
-    display: flex;
-    padding: 15px;
-    background-color: #fff;
-    border-top: 1px solid #ddd;
-}
+        #fileInput {
+            display: none;
+        }
 
-.message-input input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    outline: none;
-    font-size: 16px;
-}
+        #recordButton {
+            font-size: 20px;
+        }
 
-.message-input button, 
-#recordButton {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 60px;
-    height: 40px;
-    margin-left: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+        /* Profile menu */
+        .profile-menu {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-.message-input button:hover,
-#recordButton:hover {
-    background-color: #2980b9;
-}
+        .profile-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
+        .dropdown-menu {
+            position: absolute;
+            top: 70px;
+            right: 0;
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            display: none;
+        }
 
-.send-file {
-    display: inline-flex; 
-    justify-content: center;
-    align-items: center;
-    background-color: #3498db;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 60px; 
-    height: 40px;
-    margin-left: 10px; 
-    font-size: 18px; 
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+        .dropdown-menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 10px;
+        }
 
-.send-file:hover {
-    background-color: #2980b9; 
-}
+        .dropdown-menu ul li {
+            padding: 10px;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
 
+        .dropdown-menu ul li:hover {
+            background-color: #f0f0f0;
+        }
 
-#fileInput {
-    display: none;
-}
+        .dropdown-menu ul li a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
 
-#recordButton {
-    font-size: 20px;
-}
+        /* Media Queries */
+        @media (max-width: 1000px) {
+            .sidebar {
+                width: 250px;
+            }
+        }
 
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
 
-.profile-menu {
-    position: fixed;
-    top: 100px;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+            .sidebar {
+                width: 100%;
+                padding: 10px;
+            }
+            
+            .profile-menu {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                flex-direction: row;
+            }
+        }
 
-.profile-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+        @media (max-width: 600px) {
+            .profile-menu {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                flex-direction: row;
+            }
 
-.dropdown-menu {
-    position: absolute;
-    top: 70px;
-    right: 0;
-    background-color: white;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
-    display: none;
-}
+            .chat-header {
+                font-size: 16px;
+                padding: 10px;
+            }
+        }
 
-.dropdown-menu ul {
-    list-style: none;
-    margin: 0;
-    padding: 10px;
-}
+        @media (max-width: 380px) {
+            .sidebar h2 {
+                font-size: 16px;
+            }
 
-.dropdown-menu ul li {
-    padding: 10px;
-    text-align: center;
-    transition: background-color 0.2s;
-}
+            .user {
+                font-size: 14px;
+            }
 
-.dropdown-menu ul li:hover {
-    background-color: #f0f0f0;
-}
+            .message.sent, .message.received {
+                max-width: 70%;
+            }
 
-.dropdown-menu ul li a {
-    text-decoration: none;
-    color: #333;
-    display: block;
-}
+            .message-input {
+                flex-direction: column;
+            }
 
-@media (max-width: 1000px) {
-    .sidebar {
-        width: 250px;
-    }
-}
+            .message-input input {
+                width: 100%;
+                margin-bottom: 5px;
+            }
 
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-    }
-
-    .sidebar {
-        width: 100%;
-        padding: 10px;
-    }
-    
-    .profile-menu {
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        flex-direction: row;
-    }
-}
-
-@media (max-width: 600px) {
-    .profile-menu {
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        flex-direction: row;
-    }
-
-    .chat-header {
-        font-size: 16px;
-        padding: 10px;
-    }
-}
-
-@media (max-width: 380px) {
-    .sidebar h2 {
-        font-size: 16px;
-    }
-
-    .user {
-        font-size: 14px;
-    }
-
-    .message.sent, .message.received {
-        max-width: 70%;
-    }
-    .message-input {
-        flex-direction: column;
-    }
-
-    .message-input input {
-        width: 100%;
-        margin-bottom: 5px;
-    }
-
-    .message-input button,
-    #recordButton {
-        display: inline-flex; 
-        justify-content: center;
-        align-items: center;
-    }
-}
+            .message-input button,
+            #recordButton {
+                display: inline-flex; 
+                justify-content: center;
+                align-items: center;
+            }
+        }
     </style>
     <script src="/src/scripts/dialogue.js" defer></script>
 </body>
