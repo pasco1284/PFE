@@ -22,23 +22,17 @@ import Menu from './composants/Menu.astro';
     <Menu />
     <div class="login-box">
         <p>Login</p>
-        <form action="login.php" method="POST">
+        <form action="http://localhost/siteweb/_login.php" method="POST">
           <div class="user-box">
-            <input required="" name="" type="text">
-            <label>Email</label>
+              <input required name="email" type="email">
+              <label>Email</label>
           </div>
           <div class="user-box">
-            <input required="" name="" type="password">
-            <label>Password</label>
+              <input required name="password" type="password">
+              <label>Password</label>
           </div>
-          <a href="#">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            Login
-          </a>
-        </form>
+          <button type="submit">Login</button>
+      </form>      
         <p>Do you forget?<a href="password" class="a2"> Password ?</a></p>
         <p>Don't have an account? <a href="signup" class="a2">Sign up!</a></p>
       </div>
@@ -141,7 +135,7 @@ import Menu from './composants/Menu.astro';
         font-size: 12px;
       }
       
-      .login-box form a {
+      .login-box form button {
         position: relative;
         display: inline-block;
         padding: 10px 20px;
@@ -156,18 +150,18 @@ import Menu from './composants/Menu.astro';
         letter-spacing: 3px
       }
       
-      .login-box a:hover {
-        background: #fff;
+      .login-box button:hover {
+        background: #000000;
         color: #272727;
         border-radius: 5px;
       }
       
-      .login-box a span {
+      .login-box button span {
         position: absolute;
         display: block;
       }
       
-      .login-box a span:nth-child(1) {
+      .login-box button span:nth-child(1) {
         top: 0;
         left: -100%;
         width: 100%;
@@ -186,7 +180,7 @@ import Menu from './composants/Menu.astro';
         }
       }
       
-      .login-box a span:nth-child(2) {
+      .login-box button span:nth-child(2) {
         top: -100%;
         right: 0;
         width: 2px;

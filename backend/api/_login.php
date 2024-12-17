@@ -1,28 +1,69 @@
 <?php
-require 'database.php';
-
 session_start();
+include '_Database.php'; // Inclure le fichier de connexion à la base de données
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = trim($_POST["email"]);
-    $password = $_POST["password"];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-    // Fetch user from the database
-    $sql = "SELECT * FROM users WHERE email = :email";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([':email' => $email]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Vérification dans la table 'users'
+    $query_users = "SELECT * FROM users WHERE email = ?";
+    $stmt_users = $conn->prepare($query_users);
+    $stmt_users->bind_param("s", $email);
+    $stmt_users->execute();
+    $result_users = $stmt_users->get_result();
 
-    if ($user && password_verify($password, $user['password'])) {
-        // Set session variables
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['user_email'] = $user['email'];
+    if ($result_users->num_rows === 1) {
+        $user = $result_users->fetch_assoc();
+        
+        // Vérification du mot de passe dans la table 'users'
+        if (password_verify($password, $user['password'])) {
+            // Stocker les informations de l'utilisateur dans la session
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['role'] = $user['role'];
 
-        // Redirect to the appropriate page
-        header("Location: dashboard.php");
-        exit();
+            // Rediriger en fonction du rôle
+            if ($user['role'] === 'etudiant') {
+                header('Location: http://localhost:4321/etudiant');
+                exit();
+            } elseif ($user['role'] === 'enseignant') {
+                header('Location: http://localhost:4321/enseignant');
+                exit();
+            }
+        } else {
+            echo "Mot de passe incorrect pour la table users.";
+        }
     } else {
-        $error_message = "Invalid email or password.";
+        // Si l'email n'existe pas dans la table 'users', vérification dans la table 'accounts'
+        $query_accounts = "SELECT * FROM accounts WHERE email = ?";
+        $stmt_accounts = $conn->prepare($query_accounts);
+        $stmt_accounts->bind_param("s", $email);
+        $stmt_accounts->execute();
+        $result_accounts = $stmt_accounts->get_result();
+
+        if ($result_accounts->num_rows === 1) {
+            $user = $result_accounts->fetch_assoc();
+            
+            // Vérification du mot de passe dans la table 'accounts'
+            if (password_verify($password, $user['password'])) {
+                // Stocker les informations de l'utilisateur dans la session
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['role'] = $user['role'];
+
+                // Rediriger en fonction du rôle
+                if ($user['role'] === 'etudiant') {
+                    header('Location: http://localhost:4321/etudiant');
+                    exit();
+                } elseif ($user['role'] === 'enseignant') {
+                    header('Location: http://localhost:4321/enseignant');
+                    exit();
+                }
+            } else {
+                echo "Mot de passe incorrect pour la table accounts.";
+            }
+        } else {
+            echo "Identifiants invalides.";
+        }
     }
 }
 ?>

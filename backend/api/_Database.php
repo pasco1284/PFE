@@ -1,13 +1,19 @@
 <?php
-$host = 'localhost'; // Database host
-$dbname = 'siteweb'; // Database name
-$username = 'root';  // Database username
-$password = '';      // Database password
+// _Database.php : Fichier de connexion à la base de données avec mysqli
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
+$servername = "localhost";
+$username = "root"; // Utilisateur de la base de données
+$password = ""; // Mot de passe de la base de données
+$dbname = "siteweb"; // Nom de la base de données
+
+// Créer la connexion mysqli
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Vérifier la connexion
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} else {
+    // Optionnel : afficher "Connexion réussie" pour tester la connexion
+    // echo "Connexion réussie";
 }
 ?>
