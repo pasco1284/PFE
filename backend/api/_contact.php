@@ -1,47 +1,28 @@
 <?php
-session_start();
-include '_Database.php'; // Inclure le fichier de connexion à la base de données
-
-// Vérification des données envoyées par le formulaire
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = htmlspecialchars($_POST['name']);
-    $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+    $email = htmlspecialchars($_POST['email']);
     $subject = htmlspecialchars($_POST['subject']);
     $message = htmlspecialchars($_POST['message']);
+    
+    $to = "louey.saadaoui10@gmail.com"; // Remplacez par votre adresse email
+    $headers = "From: $email" . "\r\n" .
+               "Reply-To: $email" . "\r\n" .
+               "X-Mailer: PHP/" . phpversion();
+    
+    $email_subject = "Contact Form Submission: $subject";
+    $email_body = "Vous avez reçu un nouveau message de contact.\n\n".
+                  "Nom: $name\n".
+                  "Email: $email\n".
+                  "Sujet: $subject\n".
+                  "Message:\n$message\n";
 
-    if ($name && $email && $subject && $message) {
-        try {
-            // Enregistrement dans la base de données
-            $stmt = $pdo->prepare("INSERT INTO contact_messages (name, email, subject, message) VALUES (:name, :email, :subject, :message)");
-            $stmt->execute([
-                ':name' => $name,
-                ':email' => $email,
-                ':subject' => $subject,
-                ':message' => $message
-            ]);
-
-            // Envoi d'un e-mail de confirmation
-            $to = $email;
-            $headers = "From: no-reply@yoursite.com\r\n";
-            $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-            $email_subject = "Confirmation de réception de votre message";
-            $email_body = "Bonjour $name,\n\nMerci de nous avoir contactés. Voici un récapitulatif de votre message :\n\nSujet : $subject\n\nMessage :\n$message\n\nNous vous répondrons dans les plus brefs délais.\n\nCordialement,\nL'équipe Support.";
-
-            mail($to, $email_subject, $email_body, $headers);
-
-            // Redirection avec un message de succès
-            header("Location: http://localhost:4321/contact?success=1");
-            exit;
-        } catch (Exception $e) {
-            die("Erreur : " . $e->getMessage());
-        }
+    if (mail($to, $email_subject, $email_body, $headers)) {
+        echo "Message envoyé avec succès!";
     } else {
-        header("Location: http://localhost:4321/contact?error=1");
-        exit;
+        echo "Échec de l'envoi du message.";
     }
 } else {
-    header("HTTP/1.1 405 Method Not Allowed");
     echo "Méthode non autorisée.";
-    exit;
 }
 ?>

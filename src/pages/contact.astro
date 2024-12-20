@@ -42,12 +42,6 @@ import Menu from './composants/Menu.astro';
       </div>
     </div>
   </section>
-  <?php if (isset($_GET['success'])): ?>
-    <p style="color: green;">Votre message a été envoyé avec succès. Merci de nous avoir contactés !</p>
-  <?php elseif (isset($_GET['error'])): ?>
-    <p style="color: red;">Erreur : Veuillez remplir correctement tous les champs.</p>
-  <?php endif; ?>
-
   <style>
     html {
     font-size: 100%; 
