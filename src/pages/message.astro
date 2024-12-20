@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="profile-menu">
-        <img src="/photo_profile.jpg" alt="Votre photo de profil" class="profile-icon" id="profileIcon" onclick="toggleMenu()">
+        <img src="<?php echo $photoUrl; ?>" alt="Photo de profil" class="profile-icon" id="profileIcon" onclick="toggleMenu()">
         <i class="fas fa-comments chat-icon" id="messengerIcon" onclick="openMessenger()"></i>
         <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
             <ul>
