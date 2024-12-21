@@ -19,10 +19,10 @@ import Menu from './composants/Menu.astro';
     <script src="/app-login.js" defer></script>
     
     <div class="profile-menu">
-        <img src="images/photo_profile.jpg" alt="Votre photo de profil" class="profile-icon" id="profileIcon" onclick="toggleMenu()">
+        <img src="/profile.jpg" alt="Votre photo de profil" class="profile-icon" id="profileIcon" onclick="toggleMenu()">
         <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
             <ul>
-                <li><a href="Profile">Accéder à votre interface</a></li>
+                <li><a href="">Accéder à votre interface</a></li>
                 <li><a href="http://localhost:4321/home">Se déconnecter</a></li>
             </ul>
         </div>
@@ -31,7 +31,7 @@ import Menu from './composants/Menu.astro';
     <div class="profile-container">
         <form class="profile-form">
             <div class="profile-header">
-                <img src="/chat en direct.png" alt="Photo de profil" class="profile-pic" id="profilePic">
+                <img src="/profile.jpg" alt="Photo de profil" class="profile-pic" id="profilePic">
                 <input type="file" id="profilePicInput" style="display:none;">
                 <label for="profilePicInput" class="upload-button">Changer la photo de profil</label>
                 <h2 id="fullname">Nom Prénom</h2>
@@ -39,22 +39,22 @@ import Menu from './composants/Menu.astro';
 
             <div class="form-section">
                 <label for="nom"><strong>Nom:</strong></label>
-                <input type="text" id="nom" name="nom" value="Dupont" readonly>
+                <input type="text" id="nom" name="nom" value="Pasco" readonly>
             </div>
 
             <div class="form-section">
                 <label for="prenom"><strong>Prénom:</strong></label>
-                <input type="text" id="prenom" name="prenom" value="Jean" readonly>
+                <input type="text" id="prenom" name="prenom" value="Russo" readonly>
             </div>
 
             <div class="form-section">
                 <label for="role"><strong>Rôle:</strong></label>
-                <input type="text" id="role" name="role" value="Étudiant" readonly>
+                <input type="text" id="role" name="role" value="Énseignant" readonly>
             </div>
 
             <div class="form-section">
                 <label for="niveau"><strong>Niveau:</strong></label>
-                <input type="text" id="niveau" name="niveau" value="Intermédiaire" readonly>
+                <input type="text" id="niveau" name="niveau" value="" readonly>
             </div>
 
             <button type="button" id="editButton">Modifier le Profil</button>
@@ -137,6 +137,11 @@ body {
         .dropdown-menu ul li:hover {
             background-color: #f0f0f0;
         }
+
+        .form-section strong {
+            color: white;
+        }
+    
         
         /* Container du profil */
         .profile-container {

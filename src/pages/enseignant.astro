@@ -14,7 +14,7 @@
   <script src="/app-login.js" defer></script>
   
     <div class="profile-menu">
-      <img src="images/photo_profile.jpg" alt="Votre photo de profil" class="profile-icon" id="profileIcon" onclick="toggleMenu()">
+      <img src="/profile.jpg" alt="Votre photo de profil" class="profile-icon" id="profileIcon" onclick="toggleMenu()">
   
       <i class="fas fa-comments chat-icon" id="messengerIcon" onclick="openMessenger()"></i>
   
@@ -26,52 +26,48 @@
       </div>
   </div>
     
-    <div class="container-upload">
-        <h2>Upload de Cours</h2>
-        <form id="upload-form" action="/backend/api/_upload.php" method="POST" enctype="multipart/form-data">
-          <div class="upload-section">
-              <label for="subject">Matière :</label>
-              <input type="text" id="subject" name="subject" required>
+  <div class="container-upload">
+    <h2>Upload de Cours</h2>
+    <form id="upload-form" action="http://localhost/siteweb/_upload.php" method="post" enctype="multipart/form-data">
+      <label for="subject">Matière</label>
+      <input type="text" id="subject" name="subject" required>
+      
+      <label for="course_title">Titre du Cours</label>
+      <input type="text" id="course_title" name="course_title" required>
+      
+      <label for="exercise_title">Titre de l'Exercice</label>
+      <input type="text" id="exercise_title" name="exercise_title" required>
+  
+
+      <div class="container-file">
+        <div class="folder">
+          <div class="front-side">
+            <div class="tip"></div>
+            <div class="cover"></div>
           </div>
-          <div class="upload-section">
-              <label for="course-title">Titre du cours :</label>
-              <input type="text" id="course-title" name="course_title" required>
+          <div class="back-side cover"></div>
+        </div>
+        
+        <label for="file"></label>
+      <input type="file" id="file" name="file" required>
+        </label>
+      </div>
+      
+      <div class="container-file">
+        <div class="folder">
+          <div class="front-side">
+            <div class="tip"></div>
+            <div class="cover"></div>
           </div>
-          <div class="upload-section">
-              <label for="exercise-title">Exercice :</label>
-              <input type="text" id="exercise-title" name="exercise_title" required>
-          </div>
-            <div class="container-file">
-                <div class="folder">
-                  <div class="front-side">
-                    <div class="tip"></div>
-                    <div class="cover"></div>
-                  </div>
-                  <div class="back-side cover"></div>
-                </div>
-                <label class="custom-file-upload">
-                  <input type="file" name="file" required>
-                  Choisire le fichier du cour
-                </label>
-              </div>
-              
-              <div class="container-file">
-                <div class="folder">
-                  <div class="front-side">
-                    <div class="tip"></div>
-                    <div class="cover"></div>
-                  </div>
-                  <div class="back-side cover"></div>
-                </div>
-                <label class="custom-file-upload">
-                  <input class="title" type="file" />
-                  Choisire le fichier d'exercice
-                </label>
-              </div>
-            <div class="upload-section">
-                <button type="submit">Upload</button>
-            </div>
-        </form>
+          <div class="back-side cover"></div>
+        </div>
+        <label for="exercise_file"></label>
+      <input type="file" id="exercise_file" name="exercise_file" required>
+        </label>
+      </div>
+  
+      <button type="submit">Télécharger</button>
+  </form>
     </div>
     <style>
       * {
@@ -123,6 +119,7 @@
     label {
       display: block; 
       margin-bottom: 5px; 
+      color: white ;
     }
     
     input[type="text"],
@@ -165,7 +162,7 @@
     
     .folder {
       position: absolute;
-      top: 10px;
+      top: 25px;
       left: calc(50% - 60px);
       animation: float 2.5s infinite ease-in-out;
       transition: transform var(--transition) ease;
@@ -232,32 +229,6 @@
       border-radius: 10px;
     }
     
-    .custom-file-upload {
-      font-size: 1.1em;
-      color: #ffffff;
-      text-align: center;
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
-      border-radius: 10px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-      cursor: pointer;
-      transition: background var(--transition) ease;
-      display: inline-block;
-      width: 100%;
-      padding: 10px 35px;
-      position: relative;
-    }
-  
-   
-    
-    .custom-file-upload:hover {
-      background: rgba(255, 255, 255, 0.4);
-    }
-    
-    .custom-file-upload input[type="file"] {
-      display: none;
-    }
-    
     @keyframes float {
       0% {
         transform: translateY(0px);
@@ -271,8 +242,148 @@
         transform: translateY(0px);
       }
     }
-    
-  
+    input[type="file"] {
+  display: none; /* Masque le champ de fichier par défaut */
+}
+
+input[type="exercise_file"] {
+  display: none; /* Masque le champ de fichier par défaut */
+}
+
+.custom-file-upload {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #27096b;
+  color: white;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Changement de couleur du bouton au survol */
+.custom-file-upload:hover {
+  background-color: #1c0650;
+}
+
+/* Animation pour l'effet de survol */
+.container-file:hover .front-side {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #cccccc00;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+  border-color: #691b9a00;
+  outline: none;
+}
+
+label[for="file"] {
+  display: inline-block;
+  background-color: #691b9a00;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+label[for="file"]:hover {
+  background-color: #4a148c00;
+}
+
+label[for="file"]:focus {
+  outline: none;
+  background-color: #4a148c00;
+}
+
+/* Style du texte à l'intérieur du champ de fichier */
+input[type="file"]:not(:empty) + label {
+  background-color: #e1bee7;
+  color: #333;
+}
+
+input[type="file"]:not(:empty) + label::after {
+  content: "Fichier sélectionné";
+  font-style: italic;
+}
+
+/* Ajout d'une icône si nécessaire */
+label[for="file"]:before {
+  content: "\f15b"; /* Code de l'icône FontAwesome pour le fichier */
+  font-family: 'FontAwesome';
+  margin-right: 8px;
+}
+
+/* Responsiveness */
+@media (max-width: 600px) {
+  label[for="file"] {
+    font-size: 0.9rem;
+    padding: 10px 15px;
+  }
+}
+
+label[for="exercise_file"] {
+  display: inline-block;
+  background-color: #691b9a00;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+label[for="exercise_file"]:hover {
+  background-color: #4a148c00;
+}
+
+label[for="exercise_file"]:focus {
+  outline: none;
+  background-color: #4a148c00;
+}
+
+/* Style du texte à l'intérieur du champ de fichier */
+input[type="exercise_file"]:not(:empty) + label {
+  background-color: #e1bee7;
+  color: #333;
+}
+
+input[type="exercise_file"]:not(:empty) + label::after {
+  content: "Fichier sélectionné";
+  font-style: italic;
+}
+
+/* Ajout d'une icône si nécessaire */
+label[for="exercise_file"]:before {
+  content: "\f15b"; /* Code de l'icône FontAwesome pour le fichier */
+  font-family: 'FontAwesome';
+  margin-right: 8px;
+}
+
+/* Responsiveness */
+@media (max-width: 600px) {
+  label[for="exercise_file"] {
+    font-size: 0.9rem;
+    padding: 10px 15px;
+  }
+}
+
     .profile-menu {
       position: absolute;
       top: 20px;
