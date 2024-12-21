@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Rediriger en fonction du rôle
             if ($user['role'] === 'etudiant') {
-                header('Location: http://localhost/siteweb/_download.php');
+                header('Location: http://localhost/siteweb/Etudiant.php');
                 exit();
             } elseif ($user['role'] === 'enseignant') {
                 header('Location: http://localhost:4321/enseignant');
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 // Rediriger en fonction du rôle
                 if ($user['role'] === 'etudiant') {
-                    header('Location: http://localhost/siteweb/_download.php');
+                    header('Location: http://localhost/siteweb/Etudiant.php');
                     exit();
                 } elseif ($user['role'] === 'enseignant') {
                     header('Location: http://localhost:4321/enseignant');

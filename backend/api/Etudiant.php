@@ -30,8 +30,8 @@ $files = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
     <div id="particles-js"></div>
-    <script src="/particles.js" defer></script>
-    <script src="/app-login.js" defer></script>
+    <script type="text/javascript" src="images/particles.js"></script>
+    <script type="text/javascript" src="images/app-login.js"></script>
 
     <div class="container-file">
         <h2>Liste des Cours et Exercices : </h2>
