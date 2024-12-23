@@ -12,6 +12,26 @@ try {
     die("Erreur de connexion à la base de données : " . $e->getMessage());
 }
 
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    die("Veuillez vous connecter pour accéder à cette page.");
+}
+$user_id = $_SESSION['user_id'];
+
+$sql = "SELECT id, firstname, lastname, email, role, elements, created_at, photo FROM accounts WHERE id = :user_id";
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+$stmt->execute();
+
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$user) {
+    die("Utilisateur non trouvé.");
+}
+
+// Vérification de la photo
+$photo = ($user['photo'] && file_exists('images/' . $user['photo'])) ? $user['photo'] : 'default-profile.png';
+
 // Requête pour récupérer les fichiers depuis la base de données
 $sql = "SELECT id, subject, course_title, exercise_title, course_file, exercise_file FROM uploads";
 $stmt = $pdo->prepare($sql);
@@ -26,9 +46,44 @@ $files = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Liste des Cours et Exercices</title>
 </head>
 <body>
+
+<!-- Profile Menu -->
+<div class="profile-menu">
+    <img src="images/<?php echo htmlspecialchars($photo); ?>" alt="Votre photo de profil" class="profile-icon" id="profileIcon" onclick="toggleMenu()">
+  
+    <i class="fas fa-comments chat-icon" id="messengerIcon" onclick="openMessenger()"></i>
+  
+    <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
+        <ul>
+            <li><a href="http://localhost/siteweb/Profile.php">Accéder au profil</a></li>
+            <li><a href="http://localhost:4321/home">Se déconnecter</a></li>
+        </ul>
+    </div>
+</div>
+
+<script>
+         // Attendre que la fenêtre soit entièrement chargée
+ window.addEventListener("load", function() {
+    // Fonction pour afficher ou masquer le menu déroulant
+    function toggleMenu() {
+        const dropdownMenu = document.getElementById("dropdownMenu");
+        dropdownMenu.style.display = dropdownMenu.style.display === "none" ? "block" : "none";
+    }
+
+    // Fonction pour rediriger vers la page de messagerie
+    function openMessenger() {
+        window.location.href = "http://localhost/siteweb/Messanger.php"; // Remplacez "messagerie.html" par le chemin de votre page de messagerie
+    }    
+    // Ajouter des événements sur les éléments pour éviter l'utilisation de `onclick` directement dans le HTML
+    document.getElementById("profileIcon").addEventListener("click", toggleMenu);
+    document.getElementById("messengerIcon").addEventListener("click", openMessenger);
+});
+    </script>
+
     <div id="particles-js"></div>
     <script type="text/javascript" src="images/particles.js"></script>
     <script type="text/javascript" src="images/app-login.js"></script>

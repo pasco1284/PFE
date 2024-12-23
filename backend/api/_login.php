@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header('Location: http://localhost/siteweb/Etudiant.php');
                 exit();
             } elseif ($user['role'] === 'enseignant') {
-                header('Location: http://localhost:4321/enseignant');
+                header('Location: http://localhost/siteweb/Enseignant.php');
                 exit();
             }
         } else {
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     header('Location: http://localhost/siteweb/Etudiant.php');
                     exit();
                 } elseif ($user['role'] === 'enseignant') {
-                    header('Location: http://localhost:4321/enseignant');
+                    header('Location: http://localhost/siteweb/Enseignant.php');
                     exit();
                 }
             } else {

@@ -1,35 +1,43 @@
-document.getElementById('send-btn').addEventListener('click', function() {
-    const email = document.getElementById('email').value;
-    
-    if (email) {
- 
-        
-        document.getElementById('email-form').style.display = 'none';
-        document.getElementById('code-verification-form').style.display = 'block';
-    } 
-});
+// script.js
+document.addEventListener("DOMContentLoaded", () => {
+    const steps = document.querySelectorAll(".form-step");
+    let currentStep = 0;
 
-document.getElementById('verify-btn').addEventListener('click', function() {
-    const code = document.getElementById('verification-code').value;
+    const showStep = (index) => {
+        steps.forEach((step, i) => {
+            step.classList.toggle("active", i === index);
+        });
+    };
 
-    if (code === '123456') {  
+    const validateStep = () => {
+        const inputs = steps[currentStep].querySelectorAll("input");
+        for (let input of inputs) {
+            if (!input.value.trim()) {
+                alert("Veuillez remplir tous les champs requis avant de continuer.");
+                return false;
+            }
+        }
+        return true;
+    };
 
-      
-        document.getElementById('code-verification-form').style.display = 'none';
-        document.getElementById('new-password-form').style.display = 'block';
-    }
-});
+    document.querySelectorAll(".next-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            if (validateStep() && currentStep < steps.length - 1) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        });
+    });
 
-document.getElementById('confirm-btn').addEventListener('click', function(event) {
-    event.preventDefault();
-    
-    const newPassword = document.getElementById('new-password').value;
-    const confirmPassword = document.getElementById('confirm-password').value;
+    document.querySelectorAll(".prev-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            if (currentStep > 0) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        });
+    });
 
-    if (newPassword === confirmPassword) {
-    
-        
-
-        window.location.href = 'login.html';
-    }
+    // Initial display
+    showStep(currentStep);
 });
