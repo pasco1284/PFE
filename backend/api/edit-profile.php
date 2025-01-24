@@ -1,6 +1,6 @@
 <?php
 // Connexion à la base de données
-$host = 'localhost';
+$host = '57.129.134.101';
 $dbname = 'siteweb';
 $username = 'root';
 $password = '';
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $update_stmt->execute();
 
     // Rediriger après la mise à jour
-    header("Location: http://localhost/siteweb/Profile.php");
+    header("Location: http://57.129.134.101/siteweb/Profile.php");
     exit();
 }
 ?>

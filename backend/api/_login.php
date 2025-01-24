@@ -24,10 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Rediriger en fonction du rôle
             if ($user['role'] === 'etudiant') {
-                header('Location: http://localhost/siteweb/Etudiant.php');
+                header('Location: http://57.129.134.101/siteweb/Etudiant.php');
                 exit();
             } elseif ($user['role'] === 'enseignant') {
-                header('Location: http://localhost/siteweb/Enseignant.php');
+                header('Location: http://57.129.134.101/siteweb/Enseignant.php');
                 exit();
             }
         } else {
@@ -52,10 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 // Rediriger en fonction du rôle
                 if ($user['role'] === 'etudiant') {
-                    header('Location: http://localhost/siteweb/Etudiant.php');
+                    header('Location: http://57.129.134.101/siteweb/Etudiant.php');
                     exit();
                 } elseif ($user['role'] === 'enseignant') {
-                    header('Location: http://localhost/siteweb/Enseignant.php');
+                    header('Location: http://57.129.134.101/siteweb/Enseignant.php');
                     exit();
                 }
             } else {
