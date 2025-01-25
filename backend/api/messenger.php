@@ -23,7 +23,7 @@ function getMessages($sender_id, $receiver_id) {
 }
 
 // Envoi d'un message texte
-if (isset($_POST['message'])) {;
+if (isset($_POST['message'])) {
     $sender_id = $_POST['sender_id'];
     $receiver_id = $_POST['receiver_id'];
     $message = $_POST['message'];
