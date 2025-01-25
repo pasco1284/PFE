@@ -1,7 +1,7 @@
 <?php
 // Connexion à la base de données
-$host = 'localhost';
-$dbname = 'chat_db'; // Nom de votre base de données
+$host = '57.129.134.101';
+$dbname = 'siteweb'; // Nom de votre base de données
 $username = 'root'; // Votre nom d'utilisateur MySQL
 $password = ''; // Votre mot de passe MySQL
 

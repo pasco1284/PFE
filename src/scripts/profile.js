@@ -42,12 +42,12 @@ function goBack() {
     const previousPage = localStorage.getItem('previousPage');
     
 
-    if (previousPage === 'http://localhost:4321/etudiant') {
-        window.location.href = 'http://localhost:4321/etudiant';
-    } else if (previousPage === 'http://localhost:4321/enseignant') {
-        window.location.href = 'http://localhost:4321/enseignant';
+    if (previousPage === 'http://57.129.134.101/etudiant') {
+        window.location.href = 'http://57.129.134.101/etudiant';
+    } else if (previousPage === 'http://57.129.134.101/enseignant') {
+        window.location.href = 'http://57.129.134.101/enseignant';
     } else {
-        window.location.href = 'http://localhost:4321/home';  
+        window.location.href = 'http://57.129.134.101/home';  
     }
 }
 

@@ -53,7 +53,7 @@ if (empty($errors)) {
         $stmt->execute();
 
         
-        header("Location: http://localhost:4321/login");
+        header("Location: http://57.129.134.101:49152/login");
         exit;
     } catch (Exception $e) {
         $errors[] = "Erreur lors de l'inscription : " . $e->getMessage();

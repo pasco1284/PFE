@@ -1,6 +1,6 @@
 <?php
 // Connexion à la base de données
-$host = 'localhost'; // Votre hôte
+$host = '57.129.134.101'; // Votre hôte
 $dbname = 'siteweb'; // Nom de la base de données
 $username = 'root'; // Utilisateur de la base de données
 $password = ''; // Mot de passe de la base de données

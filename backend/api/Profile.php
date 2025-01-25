@@ -1,6 +1,6 @@
 <?php
 // Connexion à la base de données
-$host = 'localhost';
+$host = '57.129.134.101';
 $dbname = 'siteweb';
 $username = 'root';
 $password = '';
@@ -191,7 +191,7 @@ p {
         </div>
 
         <div style="text-align: center;">
-            <a href="http://localhost/siteweb/edit-profile.php" class="btn">Modifier le Profil</a>
+            <a href="http://57.129.134.101/siteweb/edit-profile.php" class="btn">Modifier le Profil</a>
         </div>
     </div>
 
