@@ -41,8 +41,11 @@ import Footer from './composants/Footer.astro';
 					<div class="icon novi-icon mercury-icon-calc"></div>
 					<h5 class="title">Export/Import :</h5>
 					<p class="text">
-						Le service d'exportation et d'importation de fichiers entre enseignants et étudiants est une fonctionnalité essentielle dans les plateformes éducatives<br> permettant une communication efficace et le partage de ressources.
+						Le service d'exportation et d'importation de fichiers entre enseignants et étudiants est une fonctionnalité essentielle dans les plateformes éducatives<br> permettant une communication efficace et le partage de ressources. <br> <span style="display: block; text-align: center;">voici une description détaillée de ce service :</span>
 					</p>
+					<div class="center-button">
+						<a href="http://57.129.134.101/about" class="button-about">Savoir plus</a>
+					</div>
 				</div>
 			</div>
 			<div class="col-md-4 wow fadeInUp" data-wow-delay="0.2s">
@@ -50,8 +53,11 @@ import Footer from './composants/Footer.astro';
 					<div class="icon novi-icon mercury-icon-chart"></div>
 					<h5 class="title">Chat Box :</h5>
 					<p class="text">
-					  Le service de chat box offre une plateforme de communication instantanée entre les enseignants et les étudiants. <br> Il permet des échanges rapides et efficaces, favorisant un environnement d'apprentissage collaboratif. <br> Les enseignants peuvent répondre aux questions des étudiants en temps réel, organiser des discussions de groupe <br> et fournir des clarifications sur les cours.
+					  Le service de chat box offre une plateforme de communication instantanée entre les enseignants et les étudiants. <br> Il permet des échanges rapides et efficaces, favorisant un environnement d'apprentissage collaboratif. <br> Les enseignants peuvent répondre aux questions des étudiants en temps réel, organiser des discussions de groupe <br> et fournir des clarifications sur les cours. <br> <span style="display: block; text-align: center;">voici une description détaillée de ce service :</span>
 					</p>
+					<div class="center-button">
+						<a href="http://57.129.134.101/about" class="button-about">Savoir plus</a>
+					</div>
 				</div>
 			</div>
 			<div class="col-md-4 wow fadeInUp" data-wow-delay="0.4s">
@@ -59,15 +65,15 @@ import Footer from './composants/Footer.astro';
 					<div class="icon novi-icon mercury-icon-time-sand"></div>
 					<h5 class="title">Objectif 3 : Progress Tracking :</h5>
 					<p class="text">
-						Le service de Progress Tracking payant d'un enseignant offre un suivi personnalisé et approfondi des progrès d'un étudiant moyennant des frais.<br> Ce service inclut une évaluation continue de la performance, des feedbacks détaillés après chaque session <br> ainsi que des rapports réguliers sur les compétences acquises et les domaines à améliorer.
+						Le service de Progress Tracking payant d'un enseignant offre un suivi personnalisé et approfondi des progrès d'un étudiant moyennant des frais.<br> Ce service inclut une évaluation continue de la performance, des feedbacks détaillés après chaque session <br> ainsi que des rapports réguliers sur les compétences acquises et les domaines à améliorer. <br><br> <span style="display: block; text-align: center;">voici une description détaillée de ce service :</span>
 					</p>
+					<div class="center-button">
+						<a href="http://57.129.134.101/about" class="button-about">Savoir plus</a>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-  					<div class="center-button">
-						<a href="http://57.129.134.101/about" class="button-about">Savoir plus</a>
-					</div>
   </section>
   <section class="slide-section">
 	<h2>Our Objective <br></h2>
@@ -99,7 +105,7 @@ import Footer from './composants/Footer.astro';
 <Footer />
 <style>
 	:root {
-    --primary-color: rgb(225, 76, 65);
+    --primary-color: royalblue;
     --secondary-color: rgb(46, 3, 146);
     --text-color: #fff;
     --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -118,7 +124,7 @@ body {
   font-family: Arial, sans-serif;
   line-height: 1;
   color: #333;
-  background-image: url('/box-icon2.png'); 
+  background-image: url('/background.png'); 
   background-size: cover; 
   background-attachment: fixed; 
   background-repeat: no-repeat; 
@@ -139,12 +145,12 @@ body {
 }
 
 .site-header {
-    background:linear-gradient(to right, #00000083, #00000000);
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-    position: relative;
-    width: 100%;
+  background: linear-gradient(135deg, #f8f8f800 0%, #00000073 100%);
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  position: relative;
+  width: 100%;
 }
 
 .site-header h1 {
@@ -199,10 +205,9 @@ section {
 }
 
 .article-container {
-    display: flex; 
-    justify-content: space-between; 
-    flex-wrap: wrap; 
-    filter: drop-shadow(4px 4px  17px rgba(0, 255, 255, 0.479));
+  display: flex; 
+  justify-content: space-between; 
+  flex-wrap: wrap; 
 }
 
 .article-container article {
@@ -301,37 +306,29 @@ button, a.button {
 
 
 .button-about {
-    display: inline-block;
-    text-align: center;
-    outline: none;
-    text-decoration: none;
-    width: 130px;
-    height: 40px;
-    color: #fff;
-    border-radius: 5px;
-    padding: 10px 25px;
-    font-family: 'Lato', sans-serif;
-    font-weight: 500;
-    background: linear-gradient(0deg, rgb(0, 16, 247) 0%, rgb(0, 16, 247) 0%);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    display: inline-block;
-    box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5),
-      7px 7px 20px 0px rgba(0,0,0,.1),
-      4px 4px 5px 0px rgba(0,0,0,.1);
-    outline: none;
-    text-size-adjust: 1.2;
-   }
+  width: 130px;
+  height: 40px;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 25px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  background: linear-gradient(0deg, rgb(0, 16, 247) 0%, rgb(0, 16, 247) 0%);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    7px 7px 20px 0px rgba(0,0,0,.1),
+    4px 4px 5px 0px rgba(0,0,0,.1);
+  outline: none;
+ }
 
-   button.button-about:hover, a.button-about:hover {
-    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .5),
-                -4px -4px 6px 0 rgba(116, 125, 136, .5),
-                inset -4px -4px 6px 0 rgba(255, 255, 255, .2),
-                inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
-    color: black;
-    text-size-adjust: 1.4;
-    background: linear-gradient(0deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 0%);
+ button.button-about:hover, a.button-about:hover {
+  box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .5),
+              -4px -4px 6px 0 rgba(116, 125, 136, .5),
+              inset -4px -4px 6px 0 rgba(255, 255, 255, .2),
+              inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
 }
 
 
@@ -340,7 +337,6 @@ button, a.button {
   display: flex; 
   justify-content: center; 
   margin-top: 10px; 
-  text-decoration: none;
 }
 
 
@@ -357,22 +353,11 @@ button, a.button {
 }
 
 .box-icon-2 {
-    padding: 20px; 
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.521); 
-    transition: transform 0.3s;
-    height: 100%; 
-    background-image:url(/box-icon2.png);
-    background-size: cover; 
-    background-attachment: fixed; 
-    background-repeat: no-repeat;
-    background-position: center;
-    border: 1px solid #ddd;
-    transition: all 0.7s ease;
-    position: relative; 
-    left:10%; 
-    width: 80%;
-    border-radius: 8px;
-    margin-bottom: 20px;
+  padding: 20px; 
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+  transition: transform 0.3s;
+  height: 100%; 
+  border: 1px solid #ddd;
 }
 
 .icon {
@@ -382,12 +367,7 @@ button, a.button {
 }
 
 .box-icon-2:hover {
-    background-image:url(/box-icon2-hover.png);
-    background-size: cover; 
-    background-attachment: fixed; 
-    background-repeat: no-repeat; 
-    background-position: center;
-    box-shadow: 0 2px 10px rgba(0, 238, 255, 0.521);
+  transform: translateY(-5px); 
 }
 
 h5.title {
