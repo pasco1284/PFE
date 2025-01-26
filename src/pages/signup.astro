@@ -39,26 +39,27 @@ import Menu from './composants/Menu.astro';
           <input class="input" type="password" name="confirm_password" required="">
           <span>Confirm Password</span>
       </label>
-  <label for="role">Choisir un rôle :</label>
-  <select id="role" name="role" class="input" onchange="afficherOptions()">
-    <option value="">--Sélectionnez--</option>
-    <option value="etudiant">Étudiant</option>
-    <option value="enseignant">Enseignant</option>
-  </select>
-
-  <div id="choixElements" style="display: none;">
-    <label>Choisissez un élément :</label>
-    <div id="checkboxes">
-      <label><input type="checkbox" name="elements" value="element1" onchange="verifierSelection(this)">L1</label><br>
-      <label><input type="checkbox" name="elements" value="element2" onchange="verifierSelection(this)">L2</label><br>
-      <label><input type="checkbox" name="elements" value="element3" onchange="verifierSelection(this)">L3</label><br>
-      <label><input type="checkbox" name="elements" value="element4" onchange="verifierSelection(this)">M1</label><br>
-      <label><input type="checkbox" name="elements" value="element5" onchange="verifierSelection(this)">M2</label><br>
-    </div>
-  </div>
+      <label for="role">Choisir un rôle :
+        <select id="role" name="role" class="input" onchange="afficherOptions()" style="border-radius: 10px; width: 50%;color:black; background-color: white; height: 500%; text-align: center; height: min-content;">
+          <option value="">Sélectionnez</option>
+          <option value="etudiant">Etudiant</option>
+          <option value="enseignant">Enseignant</option>
+        </select>
+      </label>
+        <div id="choixElements" style="display: none;">
+          <label>Choisissez un élément :</label>
+          <div id="checkboxes"><br>
+            <label><input type="checkbox" name="elements" value="element1" onchange="verifierSelection(this)">　L1　　</label>
+            <label><input type="checkbox" name="elements" value="element2" onchange="verifierSelection(this)">　L2　　</label>
+            <label><input type="checkbox" name="elements" value="element3" onchange="verifierSelection(this)">　L3　　</label>
+            <label><input type="checkbox" name="elements" value="element4" onchange="verifierSelection(this)">　M1　</label>
+            <label><input type="checkbox" name="elements" value="element5" onchange="verifierSelection(this)">　M2　　</label>
+          </div>
+        </div>
     
-        <button class="submit">Create account</button>
-        <p class="signin">Already have an acount? <a href="http://57.129.134.101/login">login</a></p>
+        <button class="submit" style="margin-top: 40px;">Create account</button>
+        <p class="signin" style="color:rgb(0, 4, 255); ">Already have an acount? <a href="login.html" style="color:rgb(255, 0, 0);">login</a></p> 
+
     </form>
     </div>
     <style>
@@ -99,21 +100,22 @@ html {
   }
   
   .form {
+    background: linear-gradient(to bottom, #0011ff, #06eeff);
     display: flex;
     flex-direction: column;
     gap: 10px;
     padding: 20px;
     border-radius: 20px;
-    background-color: rgba(0, 0, 0, .9);
     color: #fff;
-    border: 1px solid #333;
+    border: 1px solid #33333300;
     position: absolute;
-    top: 45%;
+    top: 50%;
     left: 50%;
     width: 400px;
     margin: 20px auto;
     transform: translate(-50%, -55%);
     box-shadow: 0 15px 25px #1a1a1a;
+    opacity: 90%;
   }
   
   
@@ -179,15 +181,15 @@ html {
     width: 100%;
     padding: 20px 5px 5px 10px;
     outline: 0;
-    border: 1px solid rgba(105, 105, 105, 0.397);
+    border: 1px solid rgba(255, 255, 255, 0.521);
     border-radius: 10px;
   }
   
   .form label .input + span {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgb(255, 255, 255);
     position: absolute;
     left: 10px;
-    top: 0px;
+    top: 15px;
     font-size: 0.9em;
     cursor: text;
     transition: 0.3s ease;
@@ -199,35 +201,38 @@ html {
   }
   
   .form label .input:focus + span,
-  .form label .input:valid + span {
-    color: #00bfff;
-    top: 0px;
-    font-size: 0.7em;
-    font-weight: 600;
-  }
+.form label .input:valid + span {
+  color: #ffffff;
+  top: 0px;
+  font-size: 0.7em;
+  font-weight: 600;
+}
   
   .input {
     font-size: medium;
   }
   
   .submit {
-    padding: 10px 20px;
-    font-weight: bold;
-    color: #fff;
-    font-size: 16px;
-    text-decoration: none;
-    text-transform: uppercase;
-    overflow: hidden;
-    transition: .5s;
-    margin-top: 40px;
-    letter-spacing: 3px;
-  }
-  
-  .submit:hover {
-    background: #000000;
-    color: #272727;
-    border-radius: 5px;
-  }
+    background: linear-gradient(to right, #0011ff, #06eeff);
+  padding: 10px 20px;
+  font-weight: bold;
+  color: #fff;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 3px;
+  border-radius: 15px;
+  transition: all ease ;
+}
+.submit:hover {
+  background: linear-gradient(to left, #0011ff, #06eeff);
+  color: #ffffff;
+  border-radius: 10px;
+
+}
   
   #niveauEtudiant {
     display: none;
@@ -262,7 +267,7 @@ html {
     .form {
       width: 90%;
       padding: 10px;
-      top: 45%;
+      top: 55%;
       transform: translate(-50%, -50%);
     }
 
