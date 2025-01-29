@@ -3,7 +3,7 @@
 
 $servername = "57.129.134.101";
 $username = "root"; // Utilisateur de la base de données
-$password = ""; // Mot de passe de la base de données
+$password = "12345678"; // Mot de passe de la base de données
 $dbname = "siteweb"; // Nom de la base de données
 
 // Créer la connexion mysqli

@@ -3,7 +3,7 @@
 $host = '57.129.134.101'; // Votre hôte
 $dbname = 'siteweb'; // Nom de la base de données
 $username = 'root'; // Utilisateur de la base de données
-$password = ''; // Mot de passe de la base de données
+$password = '12345678'; // Mot de passe de la base de données
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);

@@ -3,7 +3,7 @@
 $host = '57.129.134.101';
 $dbname = 'siteweb';
 $username = 'root';
-$password = '';
+$password = '12345678';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $update_stmt->execute();
 
     // Rediriger après la mise à jour
-    header("Location: http://57.129.134.101/siteweb/Profile.php");
+    header("Location: http://57.129.134.101/Profile.php");
     exit();
 }
 ?>

@@ -3,7 +3,7 @@
 $host = '57.129.134.101';
 $dbname = 'siteweb';
 $username = 'root';
-$password = '';
+$password = '12345678';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -191,7 +191,7 @@ p {
         </div>
 
         <div style="text-align: center;">
-            <a href="http://57.129.134.101/siteweb/edit-profile.php" class="btn">Modifier le Profil</a>
+            <a href="http://57.129.134.101/edit-profile.php" class="btn">Modifier le Profil</a>
         </div>
     </div>
 

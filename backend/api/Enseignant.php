@@ -3,7 +3,7 @@
 $host = '57.129.134.101'; // Votre hôte
 $dbname = 'siteweb'; // Nom de la base de données
 $username = 'root'; // Utilisateur de la base de données
-$password = ''; // Mot de passe de la base de données
+$password = '12345678'; // Mot de passe de la base de données
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -101,8 +101,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   
     <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
         <ul>
-            <li><a href="http://57.129.134.101/siteweb/Profile.php">Accéder au profil</a></li>
-            <li><a href="http://57.129.134.101:49152/home">Se déconnecter</a></li>
+            <li><a href="http://57.129.134.101/Profile.php">Accéder au profil</a></li>
+            <li><a href="http://57.129.134.101/home">Se déconnecter</a></li>
         </ul>
     </div>
 </div>
@@ -428,7 +428,7 @@ button:hover {
 
     // Fonction pour rediriger vers la page de messagerie
     function openMessenger() {
-        window.location.href = "http://57.129.134.101/siteweb/Messanger.php"; // Remplacez "messagerie.html" par le chemin de votre page de messagerie
+        window.location.href = "http://57.129.134.101/Messanger.php"; // Remplacez "messagerie.html" par le chemin de votre page de messagerie
     }    
     // Ajouter des événements sur les éléments pour éviter l'utilisation de `onclick` directement dans le HTML
     document.getElementById("profileIcon").addEventListener("click", toggleMenu);

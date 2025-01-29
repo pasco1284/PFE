@@ -3,7 +3,7 @@
 $host = '57.129.134.101'; // Votre hôte
 $dbname = 'siteweb'; // Nom de la base de données
 $username = 'root'; // Utilisateur de la base de données
-$password = ''; // Mot de passe de la base de données
+$password = '12345678'; // Mot de passe de la base de données
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -46,8 +46,8 @@ $photo = ($user['photo'] && file_exists('images/' . $user['photo'])) ? $user['ph
     <img src="images/<?php echo htmlspecialchars($photo); ?>" alt="Votre photo de profil" class="profile-icon" id="profileIcon" onclick="toggleMenu()"> 
     <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
         <ul>
-            <li><a href="http://57.129.134.101/siteweb/Profile.php">Accéder au profil</a></li>
-            <li><a href="http://57.129.134.101:49152/home">Se déconnecter</a></li>
+            <li><a href="http://57.129.134.101/Profile.php">Accéder au profil</a></li>
+            <li><a href="http://57.129.134.101/home">Se déconnecter</a></li>
         </ul>
     </div>
 </div>
