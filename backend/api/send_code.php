@@ -48,7 +48,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->Body = "Votre code de réinitialisation est : $code";
 
             $mail->send();
-            echo "Un email avec le code de réinitialisation a été envoyé.";
+            
+            // Redirection vers l'étape 2 après l'envoi réussi
+            echo "<script type='text/javascript'>
+                    window.location.href = 'http://57.129.134.101/'; // Change l'URL selon ton besoin
+                    alert('Un email avec le code de réinitialisation a été envoyé.');
+                </script>";
         } catch (Exception $e) {
             echo "Erreur lors de l'envoi de l'email : " . $mail->ErrorInfo;
         }
