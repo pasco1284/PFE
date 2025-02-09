@@ -36,47 +36,49 @@ $photo = ($user['photo'] && file_exists('images/' . $user['photo'])) ? $user['ph
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['subject'], $_POST['course_title'], $_POST['exercise_title']) && isset($_FILES['file'], $_FILES['exercise_file'])) {
-        $subject = $_POST['subject'];
-        $courseTitle = $_POST['course_title'];
-        $exerciseTitle = $_POST['exercise_title'];
+  if (isset($_POST['subject'], $_POST['course_title'], $_POST['exercise_title'], $_POST['level']) && isset($_FILES['file'], $_FILES['exercise_file'])) {
+      $subject = $_POST['subject'];
+      $courseTitle = $_POST['course_title'];
+      $exerciseTitle = $_POST['exercise_title'];
+      $level = $_POST['level']; // Récupérer l'élément choisi
 
-        // Fichiers uploadés
-        $course_file = $_FILES['file'];
-        $exercise_file = $_FILES['exercise_file'];
+      // Fichiers uploadés
+      $course_file = $_FILES['file'];
+      $exercise_file = $_FILES['exercise_file'];
 
-        // Vérification des erreurs d'upload
-        if ($course_file['error'] === UPLOAD_ERR_OK && $exercise_file['error'] === UPLOAD_ERR_OK) {
-            $upload_dir = 'uploads/';
-            $course_file_path = $upload_dir . basename($course_file['name']);
-            $exercise_file_path = $upload_dir . basename($exercise_file['name']);
+      // Vérification des erreurs d'upload
+      if ($course_file['error'] === UPLOAD_ERR_OK && $exercise_file['error'] === UPLOAD_ERR_OK) {
+          $upload_dir = 'uploads/';
+          $course_file_path = $upload_dir . basename($course_file['name']);
+          $exercise_file_path = $upload_dir . basename($exercise_file['name']);
 
-            // Déplacement des fichiers
-            if (move_uploaded_file($course_file['tmp_name'], $course_file_path) && move_uploaded_file($exercise_file['tmp_name'], $exercise_file_path)) {
-                // Insertion dans la base de données
-                $sql = "INSERT INTO uploads (subject, course_title, exercise_title, course_file, exercise_file) 
-                        VALUES (:subject, :course_title, :exercise_title, :course_file, :exercise_file)";
-                $stmt = $pdo->prepare($sql);
-                $stmt->bindParam(':subject', $subject);
-                $stmt->bindParam(':course_title', $courseTitle);
-                $stmt->bindParam(':exercise_title', $exerciseTitle);
-                $stmt->bindParam(':course_file', $course_file_path);
-                $stmt->bindParam(':exercise_file', $exercise_file_path);
+          // Déplacement des fichiers
+          if (move_uploaded_file($course_file['tmp_name'], $course_file_path) && move_uploaded_file($exercise_file['tmp_name'], $exercise_file_path)) {
+              // Insertion dans la base de données avec l'élément choisi
+              $sql = "INSERT INTO uploads (subject, course_title, exercise_title, level, course_file, exercise_file) 
+                      VALUES (:subject, :course_title, :exercise_title, :level, :course_file, :exercise_file)";
+              $stmt = $pdo->prepare($sql);
+              $stmt->bindParam(':subject', $subject);
+              $stmt->bindParam(':course_title', $courseTitle);
+              $stmt->bindParam(':exercise_title', $exerciseTitle);
+              $stmt->bindParam(':level', $level);
+              $stmt->bindParam(':course_file', $course_file_path);
+              $stmt->bindParam(':exercise_file', $exercise_file_path);
 
-                if ($stmt->execute()) {
-                    $message = "Les fichiers ont été téléchargés avec succès.";
-                } else {
-                    $message = "Erreur lors de l'insertion dans la base de données.";
-                }
-            } else {
-                $message = "Erreur lors du déplacement des fichiers.";
-            }
-        } else {
-            $message = "Erreur lors de l'upload des fichiers.";
-        }
-    } else {
-        $message = "Tous les champs sont obligatoires.";
-    }
+              if ($stmt->execute()) {
+                  $message = "Les fichiers ont été téléchargés avec succès.";
+              } else {
+                  $message = "Erreur lors de l'insertion dans la base de données.";
+              }
+          } else {
+              $message = "Erreur lors du déplacement des fichiers.";
+          }
+      } else {
+          $message = "Erreur lors de l'upload des fichiers.";
+      }
+  } else {
+      $message = "Tous les champs sont obligatoires.";
+  }
 }
 ?>
 
@@ -113,14 +115,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p><?= htmlspecialchars($message) ?></p>
         <?php endif; ?>
         <form id="upload-form" method="post" enctype="multipart/form-data">
-            <label for="subject">Matière</label>
-            <input type="text" id="subject" name="subject" required>
-            
-            <label for="course_title">Titre du Cours</label>
-            <input type="text" id="course_title" name="course_title" required>
-            
-            <label for="exercise_title">Titre de l'Exercice</label>
-            <input type="text" id="exercise_title" name="exercise_title" required>
+    <label for="subject">Matière</label>
+    <input type="text" id="subject" name="subject" required>
+    
+    <label for="course_title">Titre du Cours</label>
+    <input type="text" id="course_title" name="course_title" required>
+    
+    <label for="exercise_title">Titre de l'Exercice</label>
+    <input type="text" id="exercise_title" name="exercise_title" required>
+    
+    <!-- Sélectionner l'élément -->
+    <label for="level">Élément</label>
+    <select id="level" name="level" required>
+        <option value="L1">L1</option>
+        <option value="L2">L2</option>
+        <option value="L3">L3</option>
+        <option value="M1">M1</option>
+        <option value="M2">M2</option>
+    </select>
 
             <div class="container">
   <div class="folder">
