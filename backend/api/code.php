@@ -40,10 +40,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
         $mail->Subject = "Votre code de vérification";
         $mail->Body = "Votre code de vérification est : $verificationCode";
 
-        $mail->send();
-        echo "Code envoyé avec succès à $email";
+        // Vérifier si l'email est bien envoyé
+        if ($mail->send()) {
+            // Redirection après envoi réussi
+            header("Location: http://57.129.134.101/verification.php");
+            exit;
+        } else {
+            echo "Erreur d'envoi: " . $mail->ErrorInfo;
+        }
     } catch (Exception $e) {
-        echo "Erreur d'envoi: " . $mail->ErrorInfo;
+        echo "Erreur de PHPMailer: " . $mail->ErrorInfo;
     }
 }
 ?>
