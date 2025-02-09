@@ -13,13 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validation des champs
     if (empty($name) || empty($email) || empty($subject) || empty($message)) {
-        echo json_encode(['status' => 'error', 'message' => 'Veuillez remplir tous les champs.']);
+        echo "<script>showNotification('Veuillez remplir tous les champs.');</script>";
         exit;
     }
 
     // Vérification de l'email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo json_encode(['status' => 'error', 'message' => 'Adresse e-mail invalide.']);
+        echo "<script>showNotification('Adresse e-mail invalide.');</script>";
         exit;
     }
 
@@ -37,16 +37,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mail->Port = 587;
 
         // Destinataire et expéditeur
-        $mail->setFrom('louey.saadaoui10@gmail.com', 'Nom'); // L'email de ton compte Gmail
-        $mail->addAddress('louey.saadaoui10@gmail.com'); // Adresse où l'e-mail sera envoyé
+        $mail->setFrom('louey.saadaoui10@gmail.com', 'Nom');
+        $mail->addAddress('louey.saadaoui10@gmail.com');
         $mail->Subject = $subject;
         $mail->Body = "Nom: $name\nEmail: $email\n\nMessage:\n$message";
 
         // Envoi de l'e-mail
         $mail->send();
-        echo json_encode(['status' => 'success', 'message' => 'Votre message a été envoyé avec succès.']);
+        echo "<script>showNotification('Votre message a été envoyé avec succès.');</script>";
     } catch (Exception $e) {
-        echo json_encode(['status' => 'error', 'message' => 'Erreur lors de l\'envoi de l\'e-mail: ' . $mail->ErrorInfo]);
+        echo "<script>showNotification('Erreur lors de l\'envoi de l\'e-mail: {$mail->ErrorInfo}');</script>";
     }
 }
+
 ?>

@@ -44,7 +44,10 @@ import Menu from './composants/Menu.astro';
       </div>
   </section>
   <!-- Notification (cachée au début) -->
-  <div id="notification" class="notification"></div>
+  <div id="notification" class="notification">
+    <p id="notification-text"></p>
+    <button onclick="closeNotification()">Fermer</button>
+</div>
 
   <script>
     document.getElementById('contactForm').addEventListener('submit', function (e) {
@@ -64,21 +67,24 @@ import Menu from './composants/Menu.astro';
         showNotification('error', 'Erreur lors de l\'envoi du message.');
       });
     });
+    function showNotification(message) {
+    var notification = document.getElementById('notification');
+    var notificationText = document.getElementById('notification-text');
+    notificationText.textContent = message;
 
-    // Fonction pour afficher la notification
-    function showNotification(status, message) {
-      var notification = document.getElementById('notification');
-      notification.classList.remove('success', 'error');
-      notification.classList.add(status);
-      notification.innerText = message;
+    // Afficher la notification avec animation
+    notification.classList.add('show');
+    
+    // La notification disparait après 5 secondes
+    setTimeout(function() {
+        notification.classList.remove('show');
+    }, 5000);
+}
 
-      notification.style.display = 'block';
-
-      // Masquer la notification après 4 secondes
-      setTimeout(function() {
-        notification.style.display = 'none';
-      }, 4000);
-    }
+function closeNotification() {
+    var notification = document.getElementById('notification');
+    notification.classList.remove('show');
+}
   </script>
   <style>
     html {
@@ -264,28 +270,55 @@ footer-distributed{
     padding: 55px 50px;
   }
 
-  .notification {
-      display: none;
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 15px;
-      color: white;
-      font-size: 16px;
-      border-radius: 5px;
-      text-align: center;
-      z-index: 1000;
-      width: 300px;
-    }
+  /* Style de la notification */
+.notification {
+    position: fixed;
+    top: -100px;  /* Départ au-dessus de l'écran */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #28a745;  /* Vert pour une notification de succès */
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;  /* Initialement invisible */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 300px;
+    z-index: 9999;
+    transition: all 0.5s ease;
+}
 
-    .notification.success {
-      background-color: #28a745;
-    }
+.notification.show {
+    top: 20px;  /* Position visible après l'animation */
+    opacity: 1;
+}
 
-    .notification.error {
-      background-color: #dc3545;
+.notification button {
+    background: none;
+    color: white;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.notification button:hover {
+    color: #ccc;
+}
+
+/* Animation de l'ouverture */
+@keyframes slideDown {
+    0% {
+        top: -100px;
+        opacity: 0;
     }
+    100% {
+        top: 20px;
+        opacity: 1;
+    }
+}
+
   </style>
 </body>
 </html>
