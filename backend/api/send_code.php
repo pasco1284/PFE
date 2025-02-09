@@ -19,16 +19,16 @@ try {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
 
-    // Vérifier si l'email existe dans la base de données
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+    // Vérifier si l'email existe dans la table accounts
+    $stmt = $pdo->prepare("SELECT * FROM accounts WHERE email = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
     if ($user) {
         $code = rand(100000, 999999); // Générer un code à 6 chiffres
 
-        // Enregistrer le code dans la base de données (ajoute une colonne reset_code si nécessaire)
-        $stmt = $pdo->prepare("UPDATE users SET reset_code = ? WHERE email = ?");
+        // Enregistrer le code dans la base de données
+        $stmt = $pdo->prepare("UPDATE accounts SET reset_code = ? WHERE email = ?");
         $stmt->execute([$code, $email]);
 
         // Configurer PHPMailer
@@ -37,8 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'louey.saadaoui10@gmail.com'; // Remplace par ton email
-            $mail->Password = 'jjgm mihv otsa izdx'; // Remplace par ton mot de passe ou mot de passe d’application
+            $mail->Username = 'louey.saadaoui10@gmail.com'; // Ton email
+            $mail->Password = 'jjgm mihv otsa izdx'; // Mot de passe d’application Gmail
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 

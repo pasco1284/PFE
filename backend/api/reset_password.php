@@ -1,10 +1,4 @@
 <?php
-session_start();
-if (!isset($_SESSION['reset_email'])) {
-    header("Location: forget_password.html");
-    exit();
-}
-
 $host = "localhost";
 $dbname = "siteweb";
 $username = "root";
@@ -18,15 +12,15 @@ try {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $new_password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-    $email = $_SESSION['reset_email'];
+    $email = $_POST['email'];
+    $new_password = password_hash($_POST['new_password'], PASSWORD_BCRYPT);
 
-    // Mettre à jour le mot de passe et supprimer le code
-    $stmt = $pdo->prepare("UPDATE users SET password = ?, reset_code = NULL WHERE email = ?");
-    $stmt->execute([$new_password, $email]);
-
-    // Nettoyer la session et rediriger vers la connexion
-    session_destroy();
-    echo "Mot de passe réinitialisé avec succès. <a href='login.html'>Connectez-vous</a>";
+    // Mettre à jour le mot de passe
+    $stmt = $pdo->prepare("UPDATE accounts SET password = ?, reset_code = NULL WHERE email = ?");
+    if ($stmt->execute([$new_password, $email])) {
+        echo "Mot de passe réinitialisé avec succès.";
+    } else {
+        echo "Erreur lors de la mise à jour.";
+    }
 }
 ?>
