@@ -1,4 +1,4 @@
-<?php
+<?php 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -13,13 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validation des champs
     if (empty($name) || empty($email) || empty($subject) || empty($message)) {
-        echo "Veuillez remplir tous les champs.";
+        echo json_encode(['status' => 'error', 'message' => 'Veuillez remplir tous les champs.']);
         exit;
     }
 
     // Vérification de l'email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "Adresse e-mail invalide.";
+        echo json_encode(['status' => 'error', 'message' => 'Adresse e-mail invalide.']);
         exit;
     }
 
@@ -44,9 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Envoi de l'e-mail
         $mail->send();
-        echo "Votre message a été envoyé avec succès.";
+        echo json_encode(['status' => 'success', 'message' => 'Votre message a été envoyé avec succès.']);
     } catch (Exception $e) {
-        echo "Erreur lors de l'envoi de l'e-mail: {$mail->ErrorInfo}";
+        echo json_encode(['status' => 'error', 'message' => 'Erreur lors de l\'envoi de l\'e-mail: ' . $mail->ErrorInfo]);
     }
 }
 ?>

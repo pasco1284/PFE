@@ -120,6 +120,10 @@ if ($step == 3) {
             padding: 20px;
         }
 
+        #particles-js {
+    height: 100%;
+  }
+
         .form-container {
             background: rgba(0, 0, 0, 0.267);
             padding: 20px;
@@ -127,6 +131,9 @@ if ($step == 3) {
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 400px;
+            position: absolute;
+            top: 40%;
+            left: 50;
         }
 
         h2 {
@@ -182,6 +189,10 @@ if ($step == 3) {
     </style>
 </head>
 <body>
+<div id="particles-js"></div>
+    <script type="text/javascript" src="images/particles.js"></script>
+    <script type="text/javascript" src="images/app-login.js"></script>
+
     <div class="form-container">
         <!-- Étape 1 : Envoi du code -->
         <form method="POST" action="" class="form-step <?php echo $step == 1 ? 'active' : ''; ?>">
