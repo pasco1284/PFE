@@ -1,43 +1,31 @@
-// script.js
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
     const steps = document.querySelectorAll(".form-step");
+    const nextButtons = document.querySelectorAll(".next-btn");
+    const prevButtons = document.querySelectorAll(".prev-btn");
+
     let currentStep = 0;
 
-    const showStep = (index) => {
+    function showStep(index) {
         steps.forEach((step, i) => {
             step.classList.toggle("active", i === index);
         });
-    };
+    }
 
-    const validateStep = () => {
-        const inputs = steps[currentStep].querySelectorAll("input");
-        for (let input of inputs) {
-            if (!input.value.trim()) {
-                alert("Veuillez remplir tous les champs requis avant de continuer.");
-                return false;
-            }
-        }
-        return true;
-    };
-
-    document.querySelectorAll(".next-btn").forEach((btn) => {
+    nextButtons.forEach((btn, index) => {
         btn.addEventListener("click", () => {
-            if (validateStep() && currentStep < steps.length - 1) {
-                currentStep++;
-                showStep(currentStep);
+            if (index === 0 && !document.querySelector("input[name='email']").value) {
+                alert("Veuillez entrer un e-mail valide.");
+                return;
             }
+            currentStep++;
+            showStep(currentStep);
         });
     });
 
-    document.querySelectorAll(".prev-btn").forEach((btn) => {
+    prevButtons.forEach((btn) => {
         btn.addEventListener("click", () => {
-            if (currentStep > 0) {
-                currentStep--;
-                showStep(currentStep);
-            }
+            currentStep--;
+            showStep(currentStep);
         });
     });
-
-    // Initial display
-    showStep(currentStep);
 });
