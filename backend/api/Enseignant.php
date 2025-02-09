@@ -444,7 +444,7 @@ button:hover {
 
     // Fonction pour rediriger vers la page de messagerie
     function openMessenger() {
-        window.location.href = "http://57.129.134.101/Messanger.php"; // Remplacez "messagerie.html" par le chemin de votre page de messagerie
+        window.location.href = "http://57.129.134.101/messenger.php"; // Remplacez "messagerie.html" par le chemin de votre page de messagerie
     }    
     // Ajouter des événements sur les éléments pour éviter l'utilisation de `onclick` directement dans le HTML
     document.getElementById("profileIcon").addEventListener("click", toggleMenu);
