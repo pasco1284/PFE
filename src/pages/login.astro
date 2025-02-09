@@ -19,10 +19,21 @@ import Menu from './composants/Menu.astro';
   <script src="/particles.js" defer></script>
   <script src="/app-login.js" defer></script>
   
-    <Menu />
-    <div class="login-box">
-        <p>Login</p>
-        <form action="http://57.129.134.101/_login.php" method="POST">
+  <?php session_start(); ?>
+  <Menu />
+  <div class="login-box">
+      <p>Login</p>
+  
+      <?php if (!empty($_SESSION['error'])): ?>
+          <div id="errorMessage" class="error-message">
+              <?php 
+                  echo $_SESSION['error']; 
+                  unset($_SESSION['error']);
+              ?>
+          </div>
+      <?php endif; ?>
+  
+      <form action="http://57.129.134.101/_login.php" method="POST">
           <div class="user-box">
               <input required name="email" type="email">
               <label>Email</label>
@@ -32,7 +43,18 @@ import Menu from './composants/Menu.astro';
               <label>Password</label>
           </div>
           <button type="submit">Login</button>
-      </form>      
+      </form>
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let errorBox = document.getElementById("errorMessage");
+            if (errorBox) {
+                setTimeout(() => {
+                    errorBox.classList.add("fade-out");
+                    setTimeout(() => errorBox.style.display = "none", 500);
+                }, 3000); // Disparaît après 3 secondes
+            }
+        });
+    </script>
         <p style="margin: 10px;">Do you forget?<a href="http://57.129.134.101/password" class="a2" style="margin: 5px;"> Password ?</a></p>
         <p style="margin: 10px;">Don't have an account? <a href="http://57.129.134.101/signup" class="a2" style="margin: 5px;">Sign up!</a></p>
       </div>
@@ -280,5 +302,38 @@ import Menu from './composants/Menu.astro';
           padding: 6px 14px;
         }
       }
+      .error-message {
+    background-color: rgba(255, 0, 0, 0.9);
+    color: white;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    max-width: 80%;
+    z-index: 1000;
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.fade-out {
+    animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
   </style>
+
 </html>

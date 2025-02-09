@@ -1,6 +1,6 @@
 <?php
 // Connexion à la base de données
-$host = '57.129.134.101';
+$host = 'localhost';
 $dbname = 'siteweb'; // Nom de votre base de données
 $username = 'root'; // Votre nom d'utilisateur MySQL
 $password = '12345678'; // Votre mot de passe MySQL

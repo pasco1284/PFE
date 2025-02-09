@@ -1,7 +1,7 @@
 <?php
 // _Database.php : Fichier de connexion à la base de données avec mysqli
 
-$servername = "57.129.134.101";
+$servername = "localhost";
 $username = "root"; // Utilisateur de la base de données
 $password = "12345678"; // Mot de passe de la base de données
 $dbname = "siteweb"; // Nom de la base de données

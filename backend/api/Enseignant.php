@@ -1,6 +1,6 @@
 <?php
 // Connexion à la base de données
-$host = '57.129.134.101'; // Votre hôte
+$host = 'localhost'; // Votre hôte
 $dbname = 'siteweb'; // Nom de la base de données
 $username = 'root'; // Utilisateur de la base de données
 $password = '12345678'; // Mot de passe de la base de données
@@ -171,6 +171,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+  }
+
+  button {
+    margin: 10px;
   }
   
   #particles-js {

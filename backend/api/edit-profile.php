@@ -1,6 +1,6 @@
 <?php
 // Connexion à la base de données
-$host = '57.129.134.101';
+$host = 'localhost';
 $dbname = 'siteweb';
 $username = 'root';
 $password = '12345678';
@@ -30,7 +30,7 @@ if (!$user) {
 }
 
 // Vérification de la photo
-$photo = ($user['photo'] && file_exists('images/' . $user['photo'])) ? $user['photo'] : 'default-profile.png';
+$photo = !empty($user['photo']) ? 'images/' . $user['photo'] : 'images/default-profile.png';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Traitement des données du formulaire
@@ -49,10 +49,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Définir le nom du fichier
         $photoName = time() . '_' . $_FILES['photo']['name'];
-        $photoPath = 'images/' . $photoName;
+        $photoPath = __DIR__ . '/images/' . $photoName;
 
         // Déplacer le fichier téléchargé vers le dossier images
         if (!move_uploaded_file($_FILES['photo']['tmp_name'], $photoPath)) {
+            var_dump($_FILES['photo']);
             die("Erreur lors du téléchargement de la photo.");
         }
 
