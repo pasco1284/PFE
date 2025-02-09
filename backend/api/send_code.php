@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
-            $mail->setFrom('louey.saadaoui10@gmail.com', 'Support');
+            $mail->setFrom('louey.saadaoui10@gmail.com', 'Plateforme de Services Éducatifs');
             $mail->addAddress($email);
             $mail->Subject = 'Code de réinitialisation de mot de passe';
             $mail->Body = "Votre code de réinitialisation est : $code";
@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             // Redirection vers l'étape 2 après l'envoi réussi
             echo "<script type='text/javascript'>
-                    window.location.href = 'http://57.129.134.101/verification_code'; // Change l'URL selon ton besoin
+                    window.location.href = 'http://57.129.134.101/verify_code.php'; // Change l'URL selon ton besoin
                     alert('Un email avec le code de réinitialisation a été envoyé.');
                 </script>";
         } catch (Exception $e) {
