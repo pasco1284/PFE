@@ -19,6 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['role'] = $user['role'];
 
+            // Mettre à jour le statut de l'utilisateur à 'online'
+    $update_status_query = "UPDATE users SET status = 'online' WHERE id = ?";
+    $stmt_update_status = $conn->prepare($update_status_query);
+    $stmt_update_status->bind_param("i", $user['id']);
+    $stmt_update_status->execute();
+
             // Redirection selon le rôle
             if ($user['role'] === 'etudiant') {
                 header('Location: http://57.129.134.101/Etudiant.php');
@@ -45,6 +51,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (password_verify($password, $user['password'])) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['role'] = $user['role'];
+
+                // Mettre à jour le statut de l'utilisateur à 'online'
+    $update_status_query = "UPDATE accounts SET status = 'online' WHERE id = ?";
+    $stmt_update_status = $conn->prepare($update_status_query);
+    $stmt_update_status->bind_param("i", $user['id']);
+    $stmt_update_status->execute();
 
                 if ($user['role'] === 'etudiant') {
                     header('Location: http://57.129.134.101/Etudiant.php');

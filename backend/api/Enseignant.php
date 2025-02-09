@@ -194,7 +194,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
   .container-upload {
     position: absolute;
-    top: 8%;
+    top: 28%;
     left: 5%;
     width: 90%;
     max-width: 800px;

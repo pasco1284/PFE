@@ -1,18 +1,13 @@
 <?php
-$conn = new mysqli('localhost', 'root', '12345678', 'siteweb');
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+include '_Database.php';
+
+$query = "SELECT id, name FROM users WHERE status = 'online'";
+$result = $conn->query($query);
+
+$online_users = [];
+while ($row = $result->fetch_assoc()) {
+    $online_users[] = $row;
 }
 
-$sql = "SELECT id, username FROM accounts WHERE status = 'online'";
-$result = $conn->query($sql);
-$users = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $users[] = $row;
-    }
-}
-
-echo json_encode($users);
-$conn->close();
+echo json_encode($online_users);
 ?>

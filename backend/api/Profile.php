@@ -168,7 +168,7 @@ p {
   transition-duration: 0.3s;
   overflow: hidden;
   position: absolute;
-  top: 10%;
+  top: 1%;
   right: 48%;
   rotate: 10px;
 }
