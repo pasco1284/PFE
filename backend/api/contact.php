@@ -1,7 +1,9 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
+require 'vendor/autoload.php';  // Si tu utilises Composer
 
-// Vérifier si le formulaire a été soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupérer les données du formulaire
     $name = htmlspecialchars(trim($_POST['name']));
@@ -15,33 +17,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Vérifier si l'email est valide
+    // Vérification de l'email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo "Adresse e-mail invalide.";
         exit;
     }
 
-    // Configuration de l'e-mail
-    $to = "louey.saadaoui10@gmail.com"; 
-    $headers = "From: $email\r\n";
-    $headers .= "Reply-To: $email\r\n";
-    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    // Créer une nouvelle instance de PHPMailer
+    $mail = new PHPMailer(true);
 
-    // Contenu de l'e-mail
-    $emailContent = "Nom: $name\n";
-    $emailContent .= "E-mail: $email\n";
-    $emailContent .= "Sujet: $subject\n\n";
-    $emailContent .= "Message:\n$message\n";
+    try {
+        // Paramètres du serveur SMTP
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com'; // Exemple pour Gmail
+        $mail->SMTPAuth = true;
+        $mail->Username = 'louey.saadaoui10@gmail.com'; // Remplace par ton adresse Gmail
+        $mail->Password = 'jjgm mihv otsa izdx'; // Utilise un mot de passe d'application
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
 
-    // Envoi de l'e-mail
-    if (mail($to, $subject, $emailContent, $headers)) {
+        // Destinataire et expéditeur
+        $mail->setFrom('louey.saadaoui10@gmail.com', 'Nom'); // L'email de ton compte Gmail
+        $mail->addAddress('louey.saadaoui10@gmail.com'); // Adresse où l'e-mail sera envoyé
+        $mail->Subject = $subject;
+        $mail->Body = "Nom: $name\nEmail: $email\n\nMessage:\n$message";
+
+        // Envoi de l'e-mail
+        $mail->send();
         echo "Votre message a été envoyé avec succès.";
-    } else {
-        echo "Erreur lors de l'envoi de l'e-mail. Veuillez réessayer plus tard.";
+    } catch (Exception $e) {
+        echo "Erreur lors de l'envoi de l'e-mail: {$mail->ErrorInfo}";
     }
-} else {
-    // Rediriger si la méthode de requête n'est pas POST
-    header("Location: /");
-    exit;
 }
 ?>

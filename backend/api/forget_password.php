@@ -1,17 +1,10 @@
 <?php
 session_start();
-require 'vendor/autoload.php'; // Charger PHPMailer
+
+include '_Database.php'; 
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
-try {
-    // Connexion à la base de données
-    $pdo = new PDO("mysql:host=localhost;dbname=siteweb", "root", "12345678");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Erreur de connexion à la base de données : " . $e->getMessage());
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['email'])) {
@@ -36,10 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mail = new PHPMailer(true);
         try {
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com'; // Serveur SMTP
+            $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'louey.saadaoui10@gmail.com'; // Ton adresse Gmail
-            $mail->Password = 'lzyk svyh hpsx hqbd'; // Mot de passe d'application
+            $mail->Username = 'louey.saadaoui10@gmail.com'; // Votre adresse Gmail
+            $mail->Password = 'jjgm mihv otsa izdx'; // Mot de passe d'application
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
 
@@ -107,116 +100,167 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Réinitialisation du mot de passe</title>
 </head>
 <body>
+<div id="particles-js"></div>
+    <script type="text/javascript" src="images/particles.js"></script>
+    <script type="text/javascript" src="images/app-login.js"></script>
+    
     <div class="form-container">
         <!-- Étape 1 : Envoi du code -->
+        <?php if (!isset($_SESSION['verification_code'])): ?>
         <form method="POST" action="forget_password.php">
             <h2>Étape 1 : Envoyer le code</h2>
             <input type="email" name="email" placeholder="Entrez votre e-mail" required>
             <button type="submit">Envoyer le code</button>
         </form>
+        <?php endif; ?>
 
         <!-- Étape 2 : Vérification du code -->
+        <?php if (isset($_SESSION['verification_code']) && !isset($_SESSION['verified'])): ?>
         <form method="POST" action="forget_password.php">
             <h2>Étape 2 : Vérifier le code</h2>
             <input type="text" name="verification_code" placeholder="Entrez le code" required>
             <button type="submit">Vérifier le code</button>
         </form>
+        <?php endif; ?>
 
         <!-- Étape 3 : Réinitialisation du mot de passe -->
+        <?php if (isset($_SESSION['verified'])): ?>
         <form method="POST" action="forget_password.php">
             <h2>Étape 3 : Nouveau mot de passe</h2>
             <input type="password" name="new_password" placeholder="Nouveau mot de passe" required>
             <input type="password" name="confirm_password" placeholder="Confirmez le mot de passe" required>
             <button type="submit">Mettre à jour le mot de passe</button>
         </form>
+        <?php endif; ?>
     </div>
+    <button class="button" onclick="window.history.back();">
+  <svg class="svgIcon" viewBox="0 0 384 512">
+    <path
+      d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"
+    ></path>
+  </svg>
+</button>
     <style>
-    
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            background: radial-gradient(ellipse at bottom, #0b358f 0%, #000000 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .form-container {
+            position: absolute;
+            top: 40%;
+            left: 40%;
+            background: rgba(0, 0, 0, 0.267);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 120%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        input[type="email"], input[type="text"], input[type="password"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"] {
+            background: #007bff;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+        /* From Uiverse.io by vinodjangid07 */ 
+.button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgb(20, 20, 20);
+  border: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 0px 4px rgba(180, 160, 255, 0.253);
+  cursor: pointer;
+  transition-duration: 0.3s;
+  overflow: hidden;
+  position: absolute;
+  top: 10%;
+  right: 46%;
+  rotate: 10px;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    height: 100vh;
-    background: radial-gradient(ellipse at bottom, #0b358f 0%, #000000 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+.svgIcon {
+  width: 12px;
+  transition-duration: 0.3s;
 }
 
-#particles-js {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
+.svgIcon path {
+  fill: white;
 }
 
-.form-container {
-    background: rgba(0, 0, 0, 0.267);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
+.button:hover {
+  width: 140px;
+  border-radius: 50px;
+  transition-duration: 0.3s;
+  background-color: rgb(181, 160, 255);
+  align-items: center;
 }
 
-h2 {
-    text-align: center;
-    color: #ffffff;
-    margin-bottom: 20px;
+.button:hover .svgIcon {
+  /* width: 20px; */
+  transition-duration: 0.3s;
+  transform: translateY(-200%);
 }
 
-.form-step {
-    display: none;
-    flex-direction: column;
+.button::before {
+  position: absolute;
+  content: "Back";
+  color: white;
+  /* transition-duration: .3s; */
+  font-size: 0px;
 }
 
-.form-step.active {
-    display: flex;
+.button:hover::before {
+  font-size: 13px;
+  opacity: 1;
+  bottom: unset;
+  /* transform: translateY(-30px); */
+  transition-duration: 0.3s;
 }
 
-input[type="email"], input[type="text"], input[type="password"] {
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    width: 100%;
-    font-size: 16px;
-}
 
-button {
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button.next-btn {
-    background: #021807;
-    color: white;
-}
-
-button.prev-btn {
-    background: #ffffff;
-    color: black;
-    margin-right: 10px;
-}
-
-button[type="submit"] {
-    background: #007bff;
-    color: white;
-}
-
-button:hover {
-    opacity: 0.9;
-}
     </style>
 </body>
 </html>
