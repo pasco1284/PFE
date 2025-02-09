@@ -16,9 +16,9 @@ try {
     die("Erreur de connexion : " . $e->getMessage());
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $step = $_POST['step'] ?? 1; // On détermine quelle étape est en cours
+$step = $_POST['step'] ?? 1; // On détermine quelle étape est en cours
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Étape 1 : Envoi du code
     if ($step == 1) {
         $email = $_POST['email'];
@@ -74,26 +74,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($user) {
             $step = 3; // Passer à l'étape 3
         } else {
-            echo "Code incorrect.";
         }
     }
 
-    // Étape 3 : Réinitialiser le mot de passe
-    if ($step == 3) {
-        $email = $_POST['email'];
-        $new_password = password_hash($_POST['new_password'], PASSWORD_BCRYPT);
+// Étape 3 : Réinitialiser le mot de passe
+if ($step == 3) {
+    $email = $_POST['email'];
+    $new_password = password_hash($_POST['new_password'], PASSWORD_BCRYPT);
 
-        // Mettre à jour le mot de passe
-        $stmt = $pdo->prepare("UPDATE accounts SET password = ?, reset_code = NULL WHERE email = ?");
-        if ($stmt->execute([$new_password, $email])) {
-            echo "Mot de passe réinitialisé avec succès.";
-        } else {
-            echo "Erreur lors de la mise à jour.";
-        }
+    // Mettre à jour le mot de passe
+    $stmt = $pdo->prepare("UPDATE accounts SET password = ?, reset_code = NULL WHERE email = ?");
+    if ($stmt->execute([$new_password, $email])) {
+        echo "Mot de passe réinitialisé avec succès.";
+
+        // Rediriger vers la page de login
+        header("Location: http://57.129.134.101/login"); // Remplace 'login.php' par le chemin correct de ta page de login
+        exit();
+    } else {
+        echo "Erreur lors de la mise à jour.";
     }
 }
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -168,6 +170,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         button:hover {
             opacity: 0.9;
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
         }
     </style>
 </head>

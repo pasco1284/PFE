@@ -19,19 +19,10 @@ import Menu from './composants/Menu.astro';
   <script src="/particles.js" defer></script>
   <script src="/app-login.js" defer></script>
   
-  <?php session_start(); ?>
   <Menu />
   <div class="login-box">
       <p>Login</p>
-  
-      <?php if (!empty($_SESSION['error'])): ?>
-          <div id="errorMessage" class="error-message">
-              <?php 
-                  echo $_SESSION['error']; 
-                  unset($_SESSION['error']);
-              ?>
           </div>
-      <?php endif; ?>
   
       <form action="http://57.129.134.101/_login.php" method="POST">
           <div class="user-box">
