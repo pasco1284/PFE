@@ -345,7 +345,7 @@ body {
   overflow: hidden;
   position: absolute;
   top: 1%;
-  right: 48%;
+  right: 80%;
   rotate: 10px;
 }
 
