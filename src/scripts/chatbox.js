@@ -1,115 +1,105 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const messageForm = document.getElementById("message-form");
-    const messageInput = document.getElementById("message-input");
-    const imageInput = document.getElementById("image-input");
-    const audioInput = document.getElementById("audio-input");
-    const conversation = document.getElementById("conversation");
+let currentUser = '';
 
-    // Liste des utilisateurs en ligne
-    const onlineUsers = document.getElementById("online-users").querySelector("ul");
+function openChat(user) {
+    currentUser = user;
+    document.getElementById('chatHeader').innerText = `Chat avec ${user}`;
+    document.getElementById('messagesArea').innerHTML = ''; 
+}
 
-    // Fonction pour afficher les utilisateurs en ligne
-    function loadOnlineUsers() {
-        // Ici, tu peux faire une requête AJAX pour récupérer les utilisateurs en ligne
-        // Pour le moment, on les simule
-        const users = ["Alice", "Bob", "Charlie"];
-        users.forEach(user => {
-            const userItem = document.createElement("li");
-            userItem.textContent = user;
-            userItem.addEventListener("click", () => openChat(user));
-            onlineUsers.appendChild(userItem);
-        });
-    }
+function sendMessage(event) {
+    if (event.key === 'Enter' || event.type === 'click') {
+        const messageInput = document.getElementById("messageInput");
+        const messageText = messageInput.value.trim();
 
-    // Ouvrir une conversation avec un utilisateur
-    function openChat(user) {
-        conversation.innerHTML = ""; // Réinitialiser la conversation précédente
-        loadMessages(user);
-    }
+        if (messageText !== "") {
+            const messageElement = document.createElement("div");
+            messageElement.classList.add("message", "sent"); 
 
-    // Charger les messages de la conversation
-    function loadMessages(user) {
-        // Tu devrais récupérer les messages depuis ta base de données via une API
-        // Simuler les messages ici
-        const messages = [
-            { sender: "Alice", message: "Bonjour!", type: "text" },
-            { sender: "Bob", message: "Salut!", type: "text" }
-        ];
+            messageElement.textContent = messageText;
 
-        messages.forEach(msg => {
-            const messageDiv = document.createElement("div");
-            if (msg.type === "text") {
-                messageDiv.textContent = `${msg.sender}: ${msg.message}`;
-            }
-            // Affichage d'images ou de messages vocaux
-            if (msg.type === "image") {
-                const img = document.createElement("img");
-                img.src = msg.message;
-                img.alt = "Image";
-                messageDiv.appendChild(img);
-            }
-            if (msg.type === "audio") {
-                const audio = document.createElement("audio");
-                audio.controls = true;
-                audio.src = msg.message;
-                messageDiv.appendChild(audio);
-            }
-            conversation.appendChild(messageDiv);
-        });
-    }
+            document.getElementById("messagesArea").appendChild(messageElement);
 
-    // Gérer l'envoi de messages
-    messageForm.addEventListener("submit", function(e) {
-        e.preventDefault();
-        const message = messageInput.value;
-        let messageType = "text";
-
-        // Gérer l'envoi d'une image
-        if (imageInput.files.length > 0) {
-            messageType = "image";
-            // Simuler l'envoi de l'image (en réalité, tu l'enverrais au serveur)
-            const imageUrl = URL.createObjectURL(imageInput.files[0]);
-            sendMessage(message, messageType, imageUrl);
-            imageInput.value = ""; // Réinitialiser l'image
+            messageInput.value = "";
+            
+            document.getElementById("messagesArea").scrollTop = document.getElementById("messagesArea").scrollHeight;
         }
-        // Gérer l'envoi d'un message vocal
-        else if (audioInput.files.length > 0) {
-            messageType = "audio";
-            // Simuler l'envoi de l'audio
-            const audioUrl = URL.createObjectURL(audioInput.files[0]);
-            sendMessage(message, messageType, audioUrl);
-            audioInput.value = ""; // Réinitialiser l'audio
-        }
-        // Gérer l'envoi d'un message texte
-        else if (message.trim() !== "") {
-            sendMessage(message, messageType);
-        }
+    }
+}
 
-        messageInput.value = ""; // Réinitialiser l'input du message
-    });
-
-    // Fonction pour envoyer un message
-    function sendMessage(message, type, mediaUrl = null) {
-        const messageData = {
-            sender_id: 1, // L'ID de l'utilisateur connecté
-            receiver_id: 2, // L'ID de l'utilisateur avec qui on discute
-            message: message,
-            message_type: type
+function sendFile() {
+    const file = fileInput.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            appendMessage('sent', `<a href="${e.target.result}" download="${file.name}" class="sent-file">${file.name}</a>`);
         };
-
-        // Envoie le message via AJAX (exemple en utilisant fetch)
-        fetch('/send_message', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(messageData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            loadMessages('User'); // Recharge les messages
-        });
+        reader.readAsDataURL(file);
+        fileInput.value = ''; 
     }
+}
 
-    loadOnlineUsers();
-});
+function appendMessage(type, content) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = type === 'sent' ? 'sent-message' : 'received-message';
+    messageDiv.innerHTML = content; 
+    messagesArea.appendChild(messageDiv);
+    messagesArea.scrollTop = messagesArea.scrollHeight; 
+}
+
+let mediaRecorder;
+let audioChunks = [];
+
+
+function toggleRecording() {
+    const recordButton = document.getElementById('recordButton');
+    
+    if (mediaRecorder && mediaRecorder.state === "recording") {
+        mediaRecorder.stop();
+        recordButton.textContent = "🎤"; 
+    } else {
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(stream => {
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.start();
+                recordButton.textContent = "⏹️"; 
+                audioChunks = []; 
+
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    displayAudioMessage(audioUrl);
+                };
+            });
+    }
+}
+
+
+function displayAudioMessage(audioUrl) {
+    const messagesArea = document.getElementById('messagesArea');
+    const audioElement = document.createElement('audio');
+    
+    audioElement.src = audioUrl;
+    audioElement.controls = true; 
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('audio-message'); 
+    messageDiv.appendChild(audioElement);
+    
+    messagesArea.appendChild(messageDiv);
+    messagesArea.scrollTop = messagesArea.scrollHeight; 
+}
+
+
+function toggleMenu() {
+    const menu = document.getElementById('dropdownMenu');
+    menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
+}
+
+
+function openMessenger() {
+    alert("Messenger icon clicked!");
+}
