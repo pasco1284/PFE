@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Box</title>
+    <link rel="stylesheet" href="chatbox.css">
+</head>
+<body>
+    <div id="online-users">
+        <!-- Liste des utilisateurs en ligne -->
+        <ul>
+            <!-- Les utilisateurs en ligne seront ajoutés dynamiquement -->
+        </ul>
+    </div>
+
+    <div id="chat-box">
+        <!-- Conversation avec un utilisateur spécifique -->
+        <div id="conversation">
+            <!-- Les messages seront affichés ici -->
+        </div>
+        <form id="message-form">
+            <textarea id="message-input" placeholder="Écrire un message"></textarea>
+            <input type="file" id="image-input" accept="image/*">
+            <input type="file" id="audio-input" accept="audio/*">
+            <button type="submit">Envoyer</button>
+        </form>
+    </div>
+
+    <script src="/scripts/chatbox.js"defer></script>
+    <style>
+        /* Style de la page de chat */
+#online-users {
+    width: 200px;
+    float: left;
+    padding: 10px;
+}
+
+#online-users ul {
+    list-style-type: none;
+}
+
+#online-users li {
+    cursor: pointer;
+}
+
+#chat-box {
+    margin-left: 220px;
+    padding: 10px;
+    max-width: 600px;
+}
+
+#conversation {
+    height: 400px;
+    overflow-y: scroll;
+    margin-bottom: 10px;
+}
+
+#message-form {
+    display: flex;
+    align-items: center;
+}
+
+#message-input {
+    width: 70%;
+    padding: 5px;
+}
+
+#image-input, #audio-input {
+    margin-left: 10px;
+}
+    </style>
+</body>
+</html>
