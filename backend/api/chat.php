@@ -47,6 +47,21 @@ $stmt_messages->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 $stmt_messages->execute();
 $messages = $stmt_messages->fetchAll(PDO::FETCH_ASSOC);
 
+// Enregistrer un message dans la base de données
+if (isset($_POST['message']) && !empty($_POST['message'])) {
+    $message = $_POST['message'];
+    $receiver_id = $_POST['receiver_id'];
+
+    $sql_insert = "INSERT INTO messages (sender_id, receiver_id, message, created_at) VALUES (:sender_id, :receiver_id, :message, NOW())";
+    $stmt_insert = $pdo->prepare($sql_insert);
+    $stmt_insert->bindParam(':sender_id', $user_id, PDO::PARAM_INT);
+    $stmt_insert->bindParam(':receiver_id', $receiver_id, PDO::PARAM_INT);
+    $stmt_insert->bindParam(':message', $message, PDO::PARAM_STR);
+    $stmt_insert->execute();
+    
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -62,9 +77,7 @@ $messages = $stmt_messages->fetchAll(PDO::FETCH_ASSOC);
     <!-- Profile Menu -->
     <div class="profile-menu">
         <img src="images/<?php echo htmlspecialchars($photo); ?>" alt="Votre photo de profil" class="profile-icon" id="profileIcon" onclick="toggleMenu()">
-      
         <i class="fas fa-comments chat-icon" id="messengerIcon" onclick="openMessenger()"></i>
-      
         <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
             <ul>
                 <li><a href="http://57.129.134.101/Profile.php">Accéder au profil</a></li>
@@ -98,14 +111,18 @@ $messages = $stmt_messages->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <div class="message-input">
-                <input type="text" id="messageInput" placeholder="Écrivez un message..." onkeypress="sendMessage(event)">
-                <button class="styled-button" onclick="sendMessage()">Envoyer</button>
+                <form method="POST" action="">
+                    <input type="text" name="message" id="messageInput" placeholder="Écrivez un message..." onkeypress="sendMessage(event)">
+                    <input type="hidden" name="receiver_id" id="receiverId">
+                    <button class="styled-button" type="submit">Envoyer</button>
+                </form>
                 <input type="file" id="fileInput" accept="*/*" style="display: none;" onchange="sendFile()">
                 <label for="fileInput" class="send-file styled-button">📎</label>
                 <button id="recordButton" class="styled-button" onclick="toggleRecording()">🎤</button>
             </div>
         </div>
     </div>
+
     <style>
         
 body {
