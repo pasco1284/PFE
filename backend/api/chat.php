@@ -69,7 +69,7 @@ $messages = $stmt_messages->fetchAll(PDO::FETCH_ASSOC);
             <ul>
                 <li><a href="http://57.129.134.101/Profile.php">Accéder au profil</a></li>
                 <li><a href="http://57.129.134.101/home">Se déconnecter</a></li>
-                <li><a href="window.history.back();">Retour</a></li>
+                <li><button onclick="window.history.back();">Retour</button></li>
             </ul>
         </div>
     </div>
