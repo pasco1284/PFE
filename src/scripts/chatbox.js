@@ -14,17 +14,19 @@ function sendMessage(event) {
         if (messageText !== "") {
             const messageElement = document.createElement("div");
             messageElement.classList.add("message", "sent"); 
+
             messageElement.textContent = messageText;
 
             document.getElementById("messagesArea").appendChild(messageElement);
 
             messageInput.value = "";
+            
             document.getElementById("messagesArea").scrollTop = document.getElementById("messagesArea").scrollHeight;
         }
     }
 }
 
-function sendFile(fileInput) {
+function sendFile() {
     const file = fileInput.files[0];
     if (file) {
         const reader = new FileReader();
@@ -37,7 +39,6 @@ function sendFile(fileInput) {
 }
 
 function appendMessage(type, content) {
-    const messagesArea = document.getElementById('messagesArea');
     const messageDiv = document.createElement('div');
     messageDiv.className = type === 'sent' ? 'sent-message' : 'received-message';
     messageDiv.innerHTML = content; 
@@ -47,6 +48,7 @@ function appendMessage(type, content) {
 
 let mediaRecorder;
 let audioChunks = [];
+
 
 function toggleRecording() {
     const recordButton = document.getElementById('recordButton');
@@ -75,6 +77,7 @@ function toggleRecording() {
     }
 }
 
+
 function displayAudioMessage(audioUrl) {
     const messagesArea = document.getElementById('messagesArea');
     const audioElement = document.createElement('audio');
@@ -90,16 +93,12 @@ function displayAudioMessage(audioUrl) {
     messagesArea.scrollTop = messagesArea.scrollHeight; 
 }
 
-window.addEventListener("load", function() {
-    // Function to toggle the dropdown menu visibility
-    function toggleMenu() {
-        const dropdownMenu = document.getElementById("dropdownMenu");
-        dropdownMenu.style.display = dropdownMenu.style.display === "none" ? "block" : "none";
-    }
 
-    // Assuming this is where you want to initialize the menu toggle
-    document.getElementById("menuButton").addEventListener("click", toggleMenu);
-});
+function toggleMenu() {
+    const menu = document.getElementById('dropdownMenu');
+    menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
+}
+
 
 function openMessenger() {
     alert("Messenger icon clicked!");
