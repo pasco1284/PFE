@@ -18,6 +18,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 $user_id = $_SESSION['user_id'];
 
+// Récupérer les informations de l'utilisateur connecté
 $sql = "SELECT id, firstname, lastname, email, role, elements, created_at, photo FROM accounts WHERE id = :user_id";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
@@ -31,6 +32,21 @@ if (!$user) {
 
 // Vérification de la photo
 $photo = ($user['photo'] && file_exists('images/' . $user['photo'])) ? $user['photo'] : 'default-profile.png';
+
+// Récupérer les utilisateurs pour le chat
+$sql_users = "SELECT id, firstname, lastname, photo FROM accounts WHERE id != :user_id";
+$stmt_users = $pdo->prepare($sql_users);
+$stmt_users->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+$stmt_users->execute();
+$users = $stmt_users->fetchAll(PDO::FETCH_ASSOC);
+
+// Récupérer les messages pour le chat
+$sql_messages = "SELECT * FROM messages WHERE (sender_id = :user_id OR receiver_id = :user_id) ORDER BY created_at DESC";
+$stmt_messages = $pdo->prepare($sql_messages);
+$stmt_messages->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+$stmt_messages->execute();
+$messages = $stmt_messages->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -44,35 +60,42 @@ $photo = ($user['photo'] && file_exists('images/' . $user['photo'])) ? $user['ph
 </head>
 <body>
     <!-- Profile Menu -->
-<div class="profile-menu">
-    <img src="images/<?php echo htmlspecialchars($photo); ?>" alt="Votre photo de profil" class="profile-icon" id="profileIcon" onclick="toggleMenu()">
-  
-    <i class="fas fa-comments chat-icon" id="messengerIcon" onclick="openMessenger()"></i>
-  
-    <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
-        <ul>
-            <li><a href="http://57.129.134.101/Profile.php">Accéder au profil</a></li>
-            <li><a href="http://57.129.134.101/home">Se déconnecter</a></li>
-        </ul>
+    <div class="profile-menu">
+        <img src="images/<?php echo htmlspecialchars($photo); ?>" alt="Votre photo de profil" class="profile-icon" id="profileIcon" onclick="toggleMenu()">
+      
+        <i class="fas fa-comments chat-icon" id="messengerIcon" onclick="openMessenger()"></i>
+      
+        <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
+            <ul>
+                <li><a href="http://57.129.134.101/Profile.php">Accéder au profil</a></li>
+                <li><a href="http://57.129.134.101/home">Se déconnecter</a></li>
+            </ul>
+        </div>
     </div>
-</div>
+
     <div class="container">
         <aside class="sidebar">
             <h2>Utilisateurs</h2>
             <ul id="userList">
-                <li class="user" onclick="openChat('User 1')">
-                    <img src="images/chat en direct.png" alt="User 1" class="user-pic">
-                    <span class="user-name">User 1</span>
-                </li>
-                <li class="user" onclick="openChat('User 2')">
-                    <img src="images/Suivi des Progrès.png" alt="User 2" class="user-pic">
-                    <span class="user-name">User 2</span>
-                </li>
+                <?php foreach ($users as $user_item): ?>
+                    <li class="user" onclick="openChat(<?php echo $user_item['id']; ?>)">
+                        <img src="images/<?php echo htmlspecialchars($user_item['photo'] ?: 'default-profile.png'); ?>" alt="<?php echo htmlspecialchars($user_item['firstname']); ?>" class="user-pic">
+                        <span class="user-name"><?php echo htmlspecialchars($user_item['firstname']) . ' ' . htmlspecialchars($user_item['lastname']); ?></span>
+                    </li>
+                <?php endforeach; ?>
             </ul>
         </aside>
+
         <div class="chat-container">
             <div class="chat-header" id="chatHeader">Sélectionnez un utilisateur pour discuter</div>
-            <div class="messages" id="messagesArea"></div>
+            <div class="messages" id="messagesArea">
+                <?php foreach ($messages as $message): ?>
+                    <div class="message <?php echo $message['sender_id'] == $user_id ? 'sent' : 'received'; ?>">
+                        <?php echo htmlspecialchars($message['message']); ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
             <div class="message-input">
                 <input type="text" id="messageInput" placeholder="Écrivez un message..." onkeypress="sendMessage(event)">
                 <button class="styled-button" onclick="sendMessage()">Envoyer</button>
@@ -82,13 +105,12 @@ $photo = ($user['photo'] && file_exists('images/' . $user['photo'])) ? $user['ph
             </div>
         </div>
     </div>
+
     <button class="button" onclick="window.history.back();">
-  <svg class="svgIcon" viewBox="0 0 384 512">
-    <path
-      d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"
-    ></path>
-  </svg>
-</button>
+        <svg class="svgIcon" viewBox="0 0 384 512">
+            <path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"></path>
+        </svg>
+    </button>
     <style>
         
 body {
@@ -345,7 +367,7 @@ body {
   overflow: hidden;
   position: absolute;
   top: 1%;
-  right: 80%;
+  left: 92%;
   rotate: 10px;
 }
 
@@ -390,7 +412,7 @@ body {
 
     </style>
 
-    <script src="/scripts/chatbox.js"> </script>
-    <script src="/scripts/messagev.js"> </script>
+<script src="/scripts/chatbox.js"></script>
+    <script src="/scripts/messagev.js"></script>
 </body>
 </html>
