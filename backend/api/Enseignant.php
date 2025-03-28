@@ -1,9 +1,9 @@
 <?php
 // Connexion à la base de données
-$host = 'localhost'; // Votre hôte
-$dbname = 'siteweb'; // Nom de la base de données
-$username = 'root'; // Utilisateur de la base de données
-$password = '12345678'; // Mot de passe de la base de données
+$host = 'localhost'; 
+$dbname = 'siteweb'; 
+$username = 'root'; 
+$password = '12345678'; 
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -18,67 +18,82 @@ if (!isset($_SESSION['user_id'])) {
 }
 $user_id = $_SESSION['user_id'];
 
-$sql = "SELECT id, firstname, lastname, email, role, elements, created_at, photo FROM accounts WHERE id = :user_id";
+// Récupérer les infos de l'utilisateur
+$sql = "SELECT id, firstname, lastname FROM accounts WHERE id = :user_id";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 $stmt->execute();
-
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
 if (!$user) {
     die("Utilisateur non trouvé.");
 }
 
-// Vérification de la photo
-$photo = ($user['photo'] && file_exists('images/' . $user['photo'])) ? $user['photo'] : 'default-profile.png';
+// Dossier d'upload et fichier de logs
+$upload_dir = 'uploads/';
+$log_file = 'logs.txt';
+
+// Assurer que le dossier d'upload existe
+if (!is_dir($upload_dir)) {
+    mkdir($upload_dir, 0777, true);
+}
+
+// Extensions interdites
+$forbidden_extensions = ['exe', 'sh', 'bat', 'cmd', 'php', 'js'];
 
 // Message de confirmation ou d'erreur
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (isset($_POST['subject'], $_POST['course_title'], $_POST['exercise_title'], $_POST['level']) && isset($_FILES['file'], $_FILES['exercise_file'])) {
-      $subject = $_POST['subject'];
-      $courseTitle = $_POST['course_title'];
-      $exerciseTitle = $_POST['exercise_title'];
-      $level = $_POST['level']; // Récupérer l'élément choisi
+    if (isset($_POST['subject'], $_POST['course_title'], $_POST['exercise_title'], $_POST['level']) && isset($_FILES['file'], $_FILES['exercise_file'])) {
+        $subject = $_POST['subject'];
+        $courseTitle = $_POST['course_title'];
+        $exerciseTitle = $_POST['exercise_title'];
+        $level = $_POST['level'];
 
-      // Fichiers uploadés
-      $course_file = $_FILES['file'];
-      $exercise_file = $_FILES['exercise_file'];
+        $course_file = $_FILES['file'];
+        $exercise_file = $_FILES['exercise_file'];
 
-      // Vérification des erreurs d'upload
-      if ($course_file['error'] === UPLOAD_ERR_OK && $exercise_file['error'] === UPLOAD_ERR_OK) {
-          $upload_dir = 'uploads/';
-          $course_file_path = $upload_dir . basename($course_file['name']);
-          $exercise_file_path = $upload_dir . basename($exercise_file['name']);
+        // Vérifier l'extension des fichiers
+        $course_ext = pathinfo($course_file['name'], PATHINFO_EXTENSION);
+        $exercise_ext = pathinfo($exercise_file['name'], PATHINFO_EXTENSION);
 
-          // Déplacement des fichiers
-          if (move_uploaded_file($course_file['tmp_name'], $course_file_path) && move_uploaded_file($exercise_file['tmp_name'], $exercise_file_path)) {
-              // Insertion dans la base de données avec l'élément choisi
-              $sql = "INSERT INTO uploads (subject, course_title, exercise_title, level, course_file, exercise_file) 
-                      VALUES (:subject, :course_title, :exercise_title, :level, :course_file, :exercise_file)";
-              $stmt = $pdo->prepare($sql);
-              $stmt->bindParam(':subject', $subject);
-              $stmt->bindParam(':course_title', $courseTitle);
-              $stmt->bindParam(':exercise_title', $exerciseTitle);
-              $stmt->bindParam(':level', $level);
-              $stmt->bindParam(':course_file', $course_file_path);
-              $stmt->bindParam(':exercise_file', $exercise_file_path);
+        if (in_array($course_ext, $forbidden_extensions) || in_array($exercise_ext, $forbidden_extensions)) {
+            $message = "Fichier interdit détecté ! Veuillez envoyer un format autorisé.";
+        } elseif ($course_file['error'] === UPLOAD_ERR_OK && $exercise_file['error'] === UPLOAD_ERR_OK) {
+            $course_file_path = $upload_dir . basename($course_file['name']);
+            $exercise_file_path = $upload_dir . basename($exercise_file['name']);
 
-              if ($stmt->execute()) {
-                  $message = "Les fichiers ont été téléchargés avec succès.";
-              } else {
-                  $message = "Erreur lors de l'insertion dans la base de données.";
-              }
-          } else {
-              $message = "Erreur lors du déplacement des fichiers.";
-          }
-      } else {
-          $message = "Erreur lors de l'upload des fichiers.";
-      }
-  } else {
-      $message = "Tous les champs sont obligatoires.";
-  }
+            if (move_uploaded_file($course_file['tmp_name'], $course_file_path) && move_uploaded_file($exercise_file['tmp_name'], $exercise_file_path)) {
+                // Insérer dans la base de données
+                $sql = "INSERT INTO uploads (subject, course_title, exercise_title, level, course_file, exercise_file) 
+                        VALUES (:subject, :course_title, :exercise_title, :level, :course_file, :exercise_file)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(':subject', $subject);
+                $stmt->bindParam(':course_title', $courseTitle);
+                $stmt->bindParam(':exercise_title', $exerciseTitle);
+                $stmt->bindParam(':level', $level);
+                $stmt->bindParam(':course_file', $course_file_path);
+                $stmt->bindParam(':exercise_file', $exercise_file_path);
+
+                if ($stmt->execute()) {
+                    $message = "Les fichiers ont été téléchargés avec succès.";
+
+                    // 🔥 Ajouter un log
+                    $log_entry = "[" . date("Y-m-d H:i:s") . "] Utilisateur: " . $user['firstname'] . " " . $user['lastname'] .
+                                 " | Cours: $courseTitle | Exercice: $exerciseTitle | Fichiers: " . basename($course_file['name']) . ", " . basename($exercise_file['name']) . "\n";
+                    file_put_contents($log_file, $log_entry, FILE_APPEND);
+                } else {
+                    $message = "Erreur lors de l'insertion dans la base de données.";
+                }
+            } else {
+                $message = "Erreur lors du déplacement des fichiers.";
+            }
+        } else {
+            $message = "Erreur lors de l'upload des fichiers.";
+        }
+    } else {
+        $message = "Tous les champs sont obligatoires.";
+    }
 }
 ?>
 
@@ -87,85 +102,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload de Cours par Enseignants</title>
+    <title>Upload de Cours avec Logs</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="icon" type="image/png" href="/icon.png">
 </head>
 <body>
-    <div id="particles-js"></div>
-    <script type="text/javascript" src="images/particles.js"></script>
-    <script type="text/javascript" src="images/app-login.js"></script>
-
-    <div class="profile-menu">
-    <img src="images/<?php echo htmlspecialchars($photo); ?>" alt="Votre photo de profil" class="profile-icon" id="profileIcon" onclick="toggleMenu()">
-  
-    <i class="fas fa-comments chat-icon" id="messengerIcon" onclick="openMessenger()"></i>
-  
-    <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
-        <ul>
-            <li><a href="http://57.129.134.101/Profile.php">Accéder au profil</a></li>
-            <li><a href="http://57.129.134.101/home">Se déconnecter</a></li>
-        </ul>
-    </div>
-</div>
-    
     <div class="container-upload">
         <h2>Upload de Cours</h2>
         <?php if ($message): ?>
             <p><?= htmlspecialchars($message) ?></p>
         <?php endif; ?>
         <form id="upload-form" method="post" enctype="multipart/form-data">
-    <label for="subject">Matière</label>
-    <input type="text" id="subject" name="subject" required>
-    
-    <label for="course_title">Titre du Cours</label>
-    <input type="text" id="course_title" name="course_title" required>
-    
-    <label for="exercise_title">Titre de l'Exercice</label>
-    <input type="text" id="exercise_title" name="exercise_title" required>
-    
-    <!-- Sélectionner l'élément -->
-    <label for="level">Élément</label>
-    <select id="level" name="level" required>
-        <option value="L1">L1</option>
-        <option value="L2">L2</option>
-        <option value="L3">L3</option>
-        <option value="M1">M1</option>
-        <option value="M2">M2</option>
-    </select>
-
-            <div class="container">
-  <div class="folder">
-    <div class="front-side">
-      <div class="tip"></div>
-      <div class="cover"></div>
-    </div>
-    <div class="back-side cover"></div>
-  </div>
-</div>
-
+            <label for="subject">Matière</label>
+            <input type="text" id="subject" name="subject" required>
             
+            <label for="course_title">Titre du Cours</label>
+            <input type="text" id="course_title" name="course_title" required>
+            
+            <label for="exercise_title">Titre de l'Exercice</label>
+            <input type="text" id="exercise_title" name="exercise_title" required>
+
+            <label for="level">Élément</label>
+            <select id="level" name="level" required>
+                <option value="L1">L1</option>
+                <option value="L2">L2</option>
+                <option value="L3">L3</option>
+                <option value="M1">M1</option>
+                <option value="M2">M2</option>
+            </select>
+
             <label for="file">Fichier de cours</label>
-            <input type="file" id="file" name="file" required>
+            <input type="file" id="file" name="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt" required>
 
-            <div class="container">
-  <div class="folder">
-    <div class="front-side">
-      <div class="tip"></div>
-      <div class="cover"></div>
-    </div>
-    <div class="back-side cover"></div>
-  </div>
-</div>
-
-            
             <label for="exercise_file">Fichier d'exercice</label>
-            <input type="file" id="exercise_file" name="exercise_file" required>
-            
+            <input type="file" id="exercise_file" name="exercise_file" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt" required>
+
             <button type="submit">Télécharger</button>
         </form>
     </div>
-
     <style>
       * {
     margin: 0;
