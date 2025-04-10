@@ -71,7 +71,7 @@ if (isset($_POST['message']) && !empty($_POST['message'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Messenger</title>
     <link rel="stylesheet" href="css/messenger.css">
-    <link rel="icon" type="image/png" href="images/icon.png">
+    <link rel="icon" type="image/png" href="/icon.png">
 </head>
 <body>
     <!-- Profile Menu -->
