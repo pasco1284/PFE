@@ -7,22 +7,12 @@ import Footer from "./composants/Footer.astro";
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="/icon.png" />
   <title>Plateforme de Services Éducatifs</title>
-  <link rel="icon" type="image/png" href="/icon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --primary: #0066cc;
-      --secondary: #f0f4f8;
-      --text-dark: #222;
-      --text-light: #555;
-      --white: #fff;
-      --shadow: rgba(0, 0, 0, 0.1) 0px 4px 15px;
-      --radius: 12px;
-    }
-
     * {
       margin: 0;
       padding: 0;
@@ -30,45 +20,56 @@ import Footer from "./composants/Footer.astro";
     }
 
     body {
-      background-image: url('/background.png'); 
-      font-family: 'Open Sans', sans-serif;
-      background: linear-gradient(to right, #e0f0ff, #f9fcff);
+      font-family: 'Roboto', sans-serif;
+      background-image: url('/background.png');
+      background-size: cover;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-position: center;
+      color: #333;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      color: var(--text-dark);
+      overflow-x: hidden;
     }
 
     #content {
       flex: 1;
       display: flex;
       justify-content: space-between;
-      padding: 40px;
+      padding: 30px;
       flex-wrap: wrap;
-      gap: 30px;
+      backdrop-filter: blur(5px);
+      animation: fadeIn 1.5s ease-in-out;
     }
 
     .left-description {
       flex: 1;
+      margin-right: 20px;
+      background-color: rgba(255, 255, 255, 0.85);
       padding: 30px;
-      background: var(--white);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      animation: slideInLeft 1s ease-out forwards;
+      border-left: 5px solid #007bff;
+      border-radius: 10px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
       opacity: 0;
       transform: translateX(-80px);
+      animation: slideInLeft 1.2s ease-out forwards;
     }
 
-    .left-description h2, 
+    .left-description h2 {
+      margin-bottom: 15px;
+      font-size: 2em;
+      color: #007bff;
+      font-weight: 700;
+    }
+
     .left-description h3 {
-      color: var(--primary);
-      margin-bottom: 10px;
+      color: #0056b3;
+      margin-top: 15px;
     }
 
     .left-description p {
-      margin-bottom: 15px;
-      color: var(--text-light);
-      font-size: 1rem;
+      margin-top: 10px;
     }
 
     .right-section {
@@ -76,51 +77,79 @@ import Footer from "./composants/Footer.astro";
       display: flex;
       flex-direction: column;
       gap: 20px;
+      animation: floatUp 2s ease-in-out;
     }
 
     .service {
-      background: var(--white);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      background: rgba(255, 255, 255, 0.9);
+      border-left: 5px solid #007bff;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
       padding: 25px;
-      transition: all 0.3s ease-in-out;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .service h2 {
-      color: var(--primary);
-      font-size: 1.3rem;
+      color: #007bff;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 600;
       margin-bottom: 10px;
     }
 
     .service p {
-      color: var(--text-light);
-      line-height: 1.5;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
     }
 
     .service:hover {
-      transform: translateY(-5px);
-      box-shadow: rgba(0, 0, 0, 0.15) 0px 6px 20px;
+      transform: translateY(-8px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     }
 
     button {
-      background-color: var(--primary);
-      color: var(--white);
-      padding: 10px 20px;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background-color: #007bff;
+      color: white;
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      margin-top: 15px;
-      transition: background-color 0.3s ease;
+      transition: background 0.3s ease, transform 0.2s ease;
     }
 
     button:hover {
-      background-color: #004999;
+      background-color: #0056b3;
+      transform: scale(1.05);
     }
 
     @keyframes slideInLeft {
-      to {
+      0% {
+        opacity: 0;
+        transform: translateX(-100px);
+      }
+      100% {
         opacity: 1;
         transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
       }
     }
 
@@ -128,6 +157,12 @@ import Footer from "./composants/Footer.astro";
       #content {
         flex-direction: column;
         padding: 20px;
+      }
+
+      .left-description,
+      .right-section {
+        width: 100%;
+        margin-right: 0;
       }
 
       .left-description {
@@ -138,13 +173,17 @@ import Footer from "./composants/Footer.astro";
     }
 
     @media (max-width: 576px) {
-      .left-description, .service {
+      body {
+        font-size: 14px;
+      }
+
+      .left-description,
+      .service {
         padding: 20px;
       }
 
-      .left-description h2,
       .service h2 {
-        font-size: 1.2rem;
+        font-size: 1.2em;
       }
 
       button {
@@ -155,7 +194,6 @@ import Footer from "./composants/Footer.astro";
 </head>
 <body>
   <Header />
-
   <section id="content">
     <div class="left-description">
       <h2>Qui Sommes-Nous ?</h2>
@@ -184,7 +222,6 @@ import Footer from "./composants/Footer.astro";
       </div>
     </div>
   </section>
-
   <Footer />
 </body>
 </html>
