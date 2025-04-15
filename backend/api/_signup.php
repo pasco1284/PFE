@@ -1,17 +1,17 @@
 <?php
 session_start();
-include '_Database.php'; // Inclure le fichier de connexion avec mysqli
+include '_Database.php'; // Fichier de connexion
 
-// Récupérer les données du formulaire
-$firstname = $_POST['firstname'] ?? '';
-$lastname = $_POST['lastname'] ?? '';
-$email = $_POST['email'] ?? '';
+// Récupération des données du formulaire
+$firstname = trim($_POST['firstname'] ?? '');
+$lastname = trim($_POST['lastname'] ?? '');
+$email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
 $confirm_password = $_POST['confirm_password'] ?? '';
 $role = $_POST['role'] ?? '';
-$elements = isset($_POST['elements']) ? implode(",", $_POST['elements']) : ''; // Convertir les éléments sélectionnés en une chaîne
+$elements = isset($_POST['elements']) && is_array($_POST['elements']) ? implode(",", $_POST['elements']) : '';
 
-// Validation des données
+// Validation
 $errors = [];
 
 if (empty($firstname) || empty($lastname) || empty($email) || empty($password) || empty($confirm_password) || empty($role)) {
@@ -30,37 +30,34 @@ if (strlen($password) < 6) {
     $errors[] = "Le mot de passe doit contenir au moins 6 caractères.";
 }
 
+// Si aucune erreur, procéder à l'insertion
 if (empty($errors)) {
-    // Hasher le mot de passe
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Préparer la requête d'insertion avec mysqli
     $query = "INSERT INTO accounts (firstname, lastname, email, password, role, elements) 
               VALUES (?, ?, ?, ?, ?, ?)";
-    
-    // Utiliser la méthode prepare() de mysqli
+
     $stmt = $conn->prepare($query);
-    
-    if ($stmt === false) {
-        die('Error preparing statement: ' . $conn->error);
+
+    if (!$stmt) {
+        die("Erreur de préparation : " . $conn->error);
     }
 
-    // Lier les paramètres
     $stmt->bind_param("ssssss", $firstname, $lastname, $email, $hashed_password, $role, $elements);
 
-    // Exécuter la requête
-    try {
-        $stmt->execute();
-
-        
+    if ($stmt->execute()) {
         header("Location: http://57.129.134.101/login");
         exit;
-    } catch (Exception $e) {
-        $errors[] = "Erreur lors de l'inscription : " . $e->getMessage();
+    } else {
+        $errors[] = "Erreur lors de l'inscription : " . $stmt->error;
     }
+
+    $stmt->close();
 }
 
-// Afficher les erreurs, le cas échéant
+$conn->close();
+
+// Affichage des erreurs
 if (!empty($errors)) {
     foreach ($errors as $error) {
         echo "<p style='color: red;'>$error</p>";

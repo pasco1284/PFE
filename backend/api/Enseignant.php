@@ -19,7 +19,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 // Récupérer les infos de l'utilisateur
-$sql = "SELECT id, firstname, lastname FROM accounts WHERE id = :user_id";
+$sql = "SELECT id, firstname, lastname, email, role, elements, created_at, photo FROM accounts WHERE id = :user_id";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 $stmt->execute();
@@ -94,6 +94,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = "Tous les champs sont obligatoires.";
     }
 }
+// Vérification de la photo
+$photo = ($user['photo'] && file_exists('images/' . $user['photo'])) ? $user['photo'] : 'default-profile.png';
 ?>
 
 <!DOCTYPE html>
@@ -370,8 +372,46 @@ button:hover {
     right: 200%;
   }
     </style>
+
 </head>
 <body>
+<!-- Profile Menu -->
+<div class="profile-menu">
+    <img src="images/<?php echo htmlspecialchars($photo); ?>" alt="Votre photo de profil" class="profile-icon" id="profileIcon" onclick="toggleMenu()">
+  
+    <i class="fas fa-comments chat-icon" id="messengerIcon" onclick="openMessenger()"></i>
+  
+    <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
+        <ul>
+            <li><a href="http://57.129.134.101/Profile.php">Accéder au profil</a></li>
+            <li><a href="http://57.129.134.101/home">Se déconnecter</a></li>
+        </ul>
+    </div>
+</div>
+
+<script>
+         // Attendre que la fenêtre soit entièrement chargée
+ window.addEventListener("load", function() {
+    // Fonction pour afficher ou masquer le menu déroulant
+    function toggleMenu() {
+        const dropdownMenu = document.getElementById("dropdownMenu");
+        dropdownMenu.style.display = dropdownMenu.style.display === "none" ? "block" : "none";
+    }
+
+    // Fonction pour rediriger vers la page de messagerie
+    function openMessenger() {
+        window.location.href = "http://57.129.134.101/chat.php"; // Remplacez "messagerie.html" par le chemin de votre page de messagerie
+    }    
+    // Ajouter des événements sur les éléments pour éviter l'utilisation de `onclick` directement dans le HTML
+    document.getElementById("profileIcon").addEventListener("click", toggleMenu);
+    document.getElementById("messengerIcon").addEventListener("click", openMessenger);
+});
+    </script>
+
+    <div id="particles-js"></div>
+    <script type="text/javascript" src="images/particles.js"></script>
+    <script type="text/javascript" src="images/app-login.js"></script>
+
   <div class="container-upload">
     <h2>Upload de Cours</h2>
     <?php if ($message): ?>
@@ -405,24 +445,5 @@ button:hover {
       <button type="submit">Télécharger</button>
     </form>
   </div>
-
-  <script>
-         // Attendre que la fenêtre soit entièrement chargée
- window.addEventListener("load", function() {
-    // Fonction pour afficher ou masquer le menu déroulant
-    function toggleMenu() {
-        const dropdownMenu = document.getElementById("dropdownMenu");
-        dropdownMenu.style.display = dropdownMenu.style.display === "none" ? "block" : "none";
-    }
-
-    // Fonction pour rediriger vers la page de messagerie
-    function openMessenger() {
-        window.location.href = "http://57.129.134.101/chat.php"; // Remplacez "messagerie.html" par le chemin de votre page de messagerie
-    }    
-    // Ajouter des événements sur les éléments pour éviter l'utilisation de `onclick` directement dans le HTML
-    document.getElementById("profileIcon").addEventListener("click", toggleMenu);
-    document.getElementById("messengerIcon").addEventListener("click", openMessenger);
-});
-    </script>
 </body>
 </html>

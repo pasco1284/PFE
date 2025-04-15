@@ -46,16 +46,16 @@ import Menu from './composants/Menu.astro';
           <option value="enseignant">Enseignant</option>
         </select>
       </label>
-        <div id="choixElements" style="display: none;">
-          <label>Choisissez un élément :</label>
-          <div id="checkboxes"><br>
-            <label><input type="checkbox" name="elements" value="element1" onchange="verifierSelection(this)">　L1　　</label>
-            <label><input type="checkbox" name="elements" value="element2" onchange="verifierSelection(this)">　L2　　</label>
-            <label><input type="checkbox" name="elements" value="element3" onchange="verifierSelection(this)">　L3　　</label>
-            <label><input type="checkbox" name="elements" value="element4" onchange="verifierSelection(this)">　M1　</label>
-            <label><input type="checkbox" name="elements" value="element5" onchange="verifierSelection(this)">　M2　　</label>
-          </div>
+      <div id="choixElements" style="display: none;">
+        <label>Choisissez un élément :</label>
+        <div id="checkboxes"><br>
+          <label><input type="checkbox" name="elements[]" value="element1" onchange="verifierSelection(this)">　L1　　</label>
+          <label><input type="checkbox" name="elements[]" value="element2" onchange="verifierSelection(this)">　L2　　</label>
+          <label><input type="checkbox" name="elements[]" value="element3" onchange="verifierSelection(this)">　L3　　</label>
+          <label><input type="checkbox" name="elements[]" value="element4" onchange="verifierSelection(this)">　M1　</label>
+          <label><input type="checkbox" name="elements[]" value="element5" onchange="verifierSelection(this)">　M2　　</label>
         </div>
+      </div>
     
         <button class="submit" style="margin-top: 40px;">Create account</button>
         <p class="signin" style="color:rgb(0, 4, 255); ">Already have an acount? <a href="http://57.129.134.101/login" style="color:rgb(255, 0, 0);">login</a></p> 
