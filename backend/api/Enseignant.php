@@ -104,72 +104,272 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>Enseignant - Upload</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: radial-gradient(ellipse at bottom, #0b358f 0%, #000000 100%);
-      color: #fff;
-      padding: 0;
-      margin: 0;
-    }
-    .container-upload {
-      width: 90%;
-      max-width: 800px;
-      margin: 60px auto;
-      background: rgba(0, 0, 9, 0.42);
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-    }
-    form label {
-      display: block;
-      margin: 15px 0 5px;
-    }
-    input[type="text"], input[type="file"], select {
-      width: 100%;
-      padding: 12px;
-      border: 2px solid #ccc;
-      border-radius: 8px;
-      font-size: 1rem;
-      color: #000;
-      background: #f9f9f9;
-    }
-    input[type="file"]::file-selector-button {
-      background-color: #27096b;
+      * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden; 
+    height: 100%;
+    background: radial-gradient(ellipse at bottom, #0b358f 0%, #000000 100%);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+
+  button {
+    margin: 10px;
+  }
+  
+  #particles-js {
+    height: 150%;
+  }
+  .container-upload {
+    position: absolute;
+    top: 28%;
+    left: 5%;
+    width: 90%;
+    max-width: 800px;
+    padding: 30px;
+    background: rgba(0, 0, 9, 0.42);
+    border-radius: 12px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+}
+    
+h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+    
+    .upload-section {
+      margin-bottom: 15px;
       color: white;
-      border: none;
-      padding: 10px 20px;
+    }
+    
+    label {
+    font-size: 1rem;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+}
+    
+input[type="text"],
+input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    color: #333;
+}
+
+input[type="text"]:focus,
+input[type="file"]:focus {
+    border-color: #27096b;
+    box-shadow: 0 0 8px rgba(39, 9, 107, 0.5);
+    outline: none;
+}
+
+input[type="file"]::file-selector-button {
+    padding: 10px 20px;
+    background-color: #27096b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: #1b054b;
+}
+    
+button {
+    padding: 12px 30px;
+    background-color: #27096b;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #1b054b;
+    transform: scale(1.05);
+}
+
+    /* From Uiverse.io by 3bdel3ziz-T */ 
+.container {
+  --transition: 350ms;
+  --folder-W: 120px;
+  --folder-H: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px;
+  background: transparent;
+  border-radius: 15px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  height: calc(var(--folder-H) * 1.7);
+  position: relative;
+}
+
+.folder {
+  position: absolute;
+  top: 30px;
+  left: calc(50% - 60px);
+  animation: float 2.5s infinite ease-in-out;
+  transition: transform var(--transition) ease;
+}
+
+.folder:hover {
+  transform: scale(1.05);
+}
+
+.folder .front-side,
+.folder .back-side {
+  position: absolute;
+  transition: transform var(--transition);
+  transform-origin: bottom center;
+}
+
+.folder .back-side::before,
+.folder .back-side::after {
+  content: "";
+  display: block;
+  background-color: white;
+  opacity: 0.5;
+  z-index: 0;
+  width: var(--folder-W);
+  height: var(--folder-H);
+  position: absolute;
+  transform-origin: bottom center;
+  border-radius: 15px;
+  transition: transform 350ms;
+  z-index: 0;
+}
+
+.container:hover .back-side::before {
+  transform: rotateX(-5deg) skewX(5deg);
+}
+.container:hover .back-side::after {
+  transform: rotateX(-15deg) skewX(12deg);
+}
+
+.folder .front-side {
+  z-index: 1;
+}
+
+.container:hover .front-side {
+  transform: rotateX(-40deg) skewX(15deg);
+}
+
+.folder .tip {
+  background: linear-gradient(135deg, #ff9a56, #ff6f56);
+  width: 80px;
+  height: 20px;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: -10px;
+  z-index: 2;
+}
+
+.folder .cover {
+  background: linear-gradient(135deg, #ffe563, #ffc663);
+  width: var(--folder-W);
+  height: var(--folder-H);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+    
+    .profile-menu {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .profile-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid white;
+    }
+    
+    
+    .dropdown-menu {
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       border-radius: 5px;
-      cursor: pointer;
+      overflow: hidden;
     }
-    input[type="file"]::file-selector-button:hover {
-      background-color: #1b054b;
+    
+    .dropdown-menu ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
     }
-    button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 12px;
-      font-size: 1rem;
-      background-color: #27096b;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      cursor: pointer;
+    
+    .dropdown-menu ul li {
+      padding: 10px;
+      text-align: left;
     }
-    button:hover {
-      background-color: #1b054b;
-      transform: scale(1.05);
+    
+    .dropdown-menu ul li a {
+      text-decoration: none;
+      color: #000;
+      display: block;
     }
-    p {
-      text-align: center;
-      font-weight: bold;
-      color: #ffcc00;
+    
+    .dropdown-menu ul li:hover {
+      background-color: #f0f0f0;
     }
-  </style>
+  .chat-icon {
+    font-size: 24px;
+    color: #ffffff;
+    margin-left: 15px;
+    cursor: pointer;
+    position: absolute;
+    top: 35%;
+    right: 200%;
+  }
+    </style>
 </head>
 <body>
   <div class="container-upload">
@@ -205,5 +405,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <button type="submit">Télécharger</button>
     </form>
   </div>
+
+  <script>
+         // Attendre que la fenêtre soit entièrement chargée
+ window.addEventListener("load", function() {
+    // Fonction pour afficher ou masquer le menu déroulant
+    function toggleMenu() {
+        const dropdownMenu = document.getElementById("dropdownMenu");
+        dropdownMenu.style.display = dropdownMenu.style.display === "none" ? "block" : "none";
+    }
+
+    // Fonction pour rediriger vers la page de messagerie
+    function openMessenger() {
+        window.location.href = "http://57.129.134.101/chat.php"; // Remplacez "messagerie.html" par le chemin de votre page de messagerie
+    }    
+    // Ajouter des événements sur les éléments pour éviter l'utilisation de `onclick` directement dans le HTML
+    document.getElementById("profileIcon").addEventListener("click", toggleMenu);
+    document.getElementById("messengerIcon").addEventListener("click", openMessenger);
+});
+    </script>
 </body>
 </html>
