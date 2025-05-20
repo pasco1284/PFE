@@ -1,430 +1,340 @@
 <?php
 // Connexion à la base de données
-$host = 'localhost'; 
-$dbname = 'siteweb'; 
-$username = 'root'; 
-$password = '12345678'; 
+$host = 'localhost';
+$dbname = 'siteweb';
+$username = 'root';
+$password = '12345678';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    die("Erreur de connexion à la base de données : " . $e->getMessage());
+    die("Erreur de connexion : " . $e->getMessage());
 }
 
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    die("Veuillez vous connecter pour accéder à cette page.");
+    die("Veuillez vous connecter.");
 }
 $user_id = $_SESSION['user_id'];
 
-// Récupérer les informations de l'utilisateur connecté
-$sql = "SELECT id, firstname, lastname, email, role, elements, created_at, photo FROM accounts WHERE id = :user_id";
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-$stmt->execute();
-
+// Infos utilisateur
+$stmt = $pdo->prepare("SELECT * FROM accounts WHERE id = :id");
+$stmt->execute(['id' => $user_id]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if (!$user) {
-    die("Utilisateur non trouvé.");
-}
+if (!$user) die("Utilisateur non trouvé.");
 
-// Vérification de la photo
 $photo = ($user['photo'] && file_exists('images/' . $user['photo'])) ? $user['photo'] : 'default-profile.png';
 
-// Récupérer les utilisateurs pour le chat
-$sql_users = "SELECT id, firstname, lastname, photo FROM accounts WHERE id != :user_id";
-$stmt_users = $pdo->prepare($sql_users);
-$stmt_users->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-$stmt_users->execute();
-$users = $stmt_users->fetchAll(PDO::FETCH_ASSOC);
+// Liste des autres utilisateurs
+$stmt = $pdo->prepare("SELECT id, firstname, lastname, photo FROM accounts WHERE id != :id");
+$stmt->execute(['id' => $user_id]);
+$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Récupérer les messages pour le chat
-$sql_messages = "SELECT * FROM messages WHERE (sender_id = :user_id OR receiver_id = :user_id) ORDER BY created_at DESC";
-$stmt_messages = $pdo->prepare($sql_messages);
-$stmt_messages->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-$stmt_messages->execute();
-$messages = $stmt_messages->fetchAll(PDO::FETCH_ASSOC);
-
-// Enregistrer un message dans la base de données
-if (isset($_POST['message']) && !empty($_POST['message'])) {
-    $message = $_POST['message'];
+// Envoi d’un message
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['receiver_id'])) {
     $receiver_id = $_POST['receiver_id'];
+    $message = htmlspecialchars($_POST['message'] ?? '');
+    $file_path = null;
+    $file_type = null;
 
-    $sql_insert = "INSERT INTO messages (sender_id, receiver_id, message, created_at) VALUES (:sender_id, :receiver_id, :message, NOW())";
-    $stmt_insert = $pdo->prepare($sql_insert);
-    $stmt_insert->bindParam(':sender_id', $user_id, PDO::PARAM_INT);
-    $stmt_insert->bindParam(':receiver_id', $receiver_id, PDO::PARAM_INT);
-    $stmt_insert->bindParam(':message', $message, PDO::PARAM_STR);
-    $stmt_insert->execute();
-    
-    header("Location: " . $_SERVER['PHP_SELF']);
+    // Traitement des fichiers uploadés
+    if (!empty($_FILES['file']['name'])) {
+        $target_dir = "uploads/";
+        if (!is_dir($target_dir)) mkdir($target_dir, 0777, true);
+        $filename = time() . "_" . basename($_FILES["file"]["name"]);
+        $target_file = $target_dir . $filename;
+
+        if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
+            $file_path = $target_file;
+            $file_type = mime_content_type($target_file);
+        }
+    }
+
+    // Traitement du message vocal
+    if (!empty($_POST['voice_data'])) {
+        $voiceData = $_POST['voice_data'];
+        $voiceData = explode(',', $voiceData);
+        $voiceBin = base64_decode($voiceData[1]);
+        $voiceFile = "uploads/voice_" . time() . ".webm";
+        file_put_contents($voiceFile, $voiceBin);
+        $file_path = $voiceFile;
+        $file_type = 'audio/webm';
+    }
+
+    // Insertion en base
+    $stmt = $pdo->prepare("INSERT INTO messages (sender_id, receiver_id, message, file_path, file_type, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
+    $stmt->execute([$user_id, $receiver_id, $message, $file_path, $file_type]);
+
+    // Notification sonore
+    echo "<script>new Audio('notif.mp3').play();</script>";
+
+    header("Location: chat.php?receiver_id=" . $receiver_id);
     exit();
 }
-?>
 
+// Chargement des messages entre les 2 utilisateurs
+$receiver_id = isset($_GET['receiver_id']) ? (int)$_GET['receiver_id'] : 0;
+$messages = [];
+
+if ($receiver_id > 0) {
+    $stmt = $pdo->prepare("SELECT * FROM messages WHERE 
+        (sender_id = :me AND receiver_id = :them) OR 
+        (sender_id = :them AND receiver_id = :me)
+        ORDER BY created_at ASC");
+    $stmt->execute([
+        'me' => $user_id,
+        'them' => $receiver_id
+    ]);
+    $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Messenger</title>
+    <title>Chat</title>
     <link rel="stylesheet" href="css/messenger.css">
-    <link rel="icon" type="image/png" href="/icon.png">
+    <style>
+        body { font-family: sans-serif; margin: 0; }
+        .container { display: flex; height: 100vh; }
+        .sidebar {
+            width: 300px;
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .user { display: flex; align-items: center; cursor: pointer; margin-bottom: 10px; }
+        .user img { width: 40px; height: 40px; border-radius: 50%; margin-right: 10px; }
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #f4f4f4;
+        }
+        .chat-header { padding: 15px; background: #3498db; color: white; font-weight: bold; }
+        .messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            max-width: 60%;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 10px;
+        }
+        .sent { background: #0078ff; color: white; align-self: flex-end; }
+        .received { background: #ccc; align-self: flex-start; }
+        .message-input {
+            display: flex;
+            padding: 10px;
+            background: #fff;
+            border-top: 1px solid #ddd;
+        }
+        .message-input input[type=text] {
+            flex: 1;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+        }
+        .message-input button {
+            margin-left: 10px;
+            border: none;
+            background: #3498db;
+            color: white;
+            border-radius: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+    .container {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        height: 150px;
+        display: flex;
+        overflow-x: scroll;
+    }
+    .chat-container {
+        height: calc(100vh - 150px);
+    }
+    .message-input {
+        flex-direction: column;
+    }
+    .message-input input[type="text"] {
+        margin-bottom: 10px;
+    }
+}
+    </style>
 </head>
 <body>
-    <!-- Profile Menu -->
-    <div class="profile-menu">
-        <img src="images/<?php echo htmlspecialchars($photo); ?>" alt="Votre photo de profil" class="profile-icon" id="profileIcon" onclick="toggleMenu()">
-        <i class="fas fa-comments chat-icon" id="messengerIcon" onclick="openMessenger()"></i>
-        <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
-            <ul>
-                <li><a href="http://57.129.134.101/Profile.php">Accéder au profil</a></li>
-                <li><a href="http://57.129.134.101/home">Se déconnecter</a></li>
-                <li><button onclick="window.history.back();">Retour</button></li>
-            </ul>
-        </div>
+<div class="container">
+    <div class="sidebar">
+        <h3>Discussions</h3>
+        <?php foreach ($users as $u): ?>
+            <div class="user" onclick="location.href='chat.php?receiver_id=<?= $u['id'] ?>'">
+                <img src="images/<?= htmlspecialchars($u['photo'] ?? 'default-profile.png') ?>" alt="">
+                <span><?= htmlspecialchars($u['firstname']) . " " . htmlspecialchars($u['lastname']) ?></span>
+            </div>
+        <?php endforeach; ?>
     </div>
 
-    <div class="container">
-        <aside class="sidebar">
-            <h2>Utilisateurs</h2>
-            <ul id="userList">
-                <?php foreach ($users as $user_item): ?>
-                    <li class="user" onclick="openChat(<?php echo $user_item['id']; ?>)">
-                        <img src="images/<?php echo htmlspecialchars($user_item['photo'] ?: 'default-profile.png'); ?>" alt="<?php echo htmlspecialchars($user_item['firstname']); ?>" class="user-pic">
-                        <span class="user-name"><?php echo htmlspecialchars($user_item['firstname']) . ' ' . htmlspecialchars($user_item['lastname']); ?></span>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </aside>
-
-        <div class="chat-container">
-            <div class="chat-header" id="chatHeader">Sélectionnez un utilisateur pour discuter</div>
-            <div class="messages" id="messagesArea">
-                <?php foreach ($messages as $message): ?>
-                    <div class="message <?php echo $message['sender_id'] == $user_id ? 'sent' : 'received'; ?>">
-                        <?php echo htmlspecialchars($message['message']); ?>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-
-            <div class="message-input">
-                <form method="POST" action="">
-                    <input type="text" name="message" id="messageInput" placeholder="Écrivez un message..." onkeypress="sendMessage(event)">
-                    <input type="hidden" name="receiver_id" id="receiverId">
-                    <button class="styled-button" type="submit">Envoyer</button>
-                </form>
-                <input type="file" id="fileInput" accept="*/*" style="display: none;" onchange="sendFile()">
-                <label for="fileInput" class="send-file styled-button">📎</label>
-                <button id="recordButton" class="styled-button" onclick="toggleRecording()">🎤</button>
-            </div>
+    <div class="chat-container">
+        <div class="chat-header">
+            <?php if ($receiver_id): ?>
+                Discussion avec ID <?= $receiver_id ?>
+            <?php else: ?>
+                Sélectionnez un utilisateur
+            <?php endif; ?>
         </div>
+
+        <div class="messages">
+            <?php foreach ($messages as $msg): ?>
+                <div class="message <?= $msg['sender_id'] == $user_id ? 'sent' : 'received' ?>">
+    <?php if ($msg['file_path']): ?>
+        <?php if (strpos($msg['file_type'], 'image') !== false): ?>
+            <img src="<?= $msg['file_path'] ?>" style="max-width:200px; border-radius:10px;">
+        <?php elseif (strpos($msg['file_type'], 'audio') !== false): ?>
+            <audio controls src="<?= $msg['file_path'] ?>"></audio>
+        <?php else: ?>
+            <a href="<?= $msg['file_path'] ?>" download>Télécharger le fichier</a>
+        <?php endif; ?>
+    <?php endif; ?>
+    <?= nl2br(htmlspecialchars($msg['message'])) ?>
+</div>
+            <?php endforeach; ?>
+        </div>
+
+        <?php if ($receiver_id): ?>
+            <form method="POST" enctype="multipart/form-data" class="message-input">
+    <input type="hidden" name="receiver_id" value="<?= $receiver_id ?>">
+    <input type="text" name="message" id="message" placeholder="Votre message...">
+    
+    <!-- Upload fichier -->
+    <input type="file" name="file" id="fileInput" style="display:none" onchange="document.getElementById('message').placeholder = this.files[0].name;">
+    <button type="button" onclick="document.getElementById('fileInput').click()">📎</button>
+
+    <!-- Enregistrement vocal -->
+    <button type="button" onclick="startRecording()">🎙️</button>
+    <input type="hidden" name="voice_data" id="voiceData">
+
+    <button type="submit">Envoyer</button>
+    </form>
+        <?php endif; ?>
     </div>
+</div>
+<script>
+let mediaRecorder;
+let audioChunks = [];
 
-    <style>
-        
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    background-color: #eef2f7;
-    color: #333;
+function startRecording() {
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.start();
+
+        audioChunks = [];
+
+        mediaRecorder.addEventListener("dataavailable", event => {
+            audioChunks.push(event.data);
+        });
+
+        mediaRecorder.addEventListener("stop", () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            const reader = new FileReader();
+            reader.onload = () => {
+                document.getElementById('voiceData').value = reader.result;
+                document.querySelector('form').submit();
+            };
+            reader.readAsDataURL(audioBlob);
+        });
+
+        setTimeout(() => {
+            mediaRecorder.stop();
+        }, 60000); // 60 secondes d'enregistrement
+    });
+}
+const receiverId = <?= json_encode($receiver_id) ?>;
+const userId = <?= json_encode($user_id) ?>;
+const messagesDiv = document.querySelector('.messages');
+const form = document.querySelector('form.message-input');
+
+function displayMessages(messages) {
+    messagesDiv.innerHTML = '';
+    messages.forEach(msg => {
+        const div = document.createElement('div');
+        div.classList.add('message');
+        div.classList.add(msg.sender_id == userId ? 'sent' : 'received');
+
+        if (msg.file_path) {
+            if (msg.file_type.startsWith('image')) {
+                const img = document.createElement('img');
+                img.src = msg.file_path;
+                img.style.maxWidth = '200px';
+                img.style.borderRadius = '10px';
+                div.appendChild(img);
+            } else if (msg.file_type.startsWith('audio')) {
+                const audio = document.createElement('audio');
+                audio.controls = true;
+                audio.src = msg.file_path;
+                div.appendChild(audio);
+            } else {
+                const a = document.createElement('a');
+                a.href = msg.file_path;
+                a.download = '';
+                a.textContent = "Télécharger le fichier";
+                div.appendChild(a);
+            }
+        }
+
+        const text = document.createElement('div');
+        text.innerHTML = msg.message.replace(/\n/g, "<br>");
+        div.appendChild(text);
+
+        messagesDiv.appendChild(div);
+    });
+    messagesDiv.scrollTop = messagesDiv.scrollHeight; // scroll bottom
 }
 
-
-.container {
-    display: flex;
-    height: 100vh;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
-
-.sidebar {
-    width: 300px;
-    background-color: #2c3e50;
-    color: #ecf0f1;
-    padding: 20px;
-}
-
-@media (max-width: 1000px){
-    .sidebar {
-        width: 300px;
-        background-color: #2c3e50;
-        color: #ecf0f1;
-        padding: 20px;
+async function fetchMessages() {
+    try {
+        const res = await fetch(`fetch_messages.php?receiver_id=${receiverId}`);
+        if (res.ok) {
+            const data = await res.json();
+            displayMessages(data);
+        }
+    } catch (e) {
+        console.error(e);
     }
-  
-  }
-
-
-.sidebar h2 {
-    font-size: 20px;
-    margin-bottom: 20px;
 }
 
-.user {
-    display: flex;
-    align-items: center;
-    padding: 10px 0;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border-bottom: 1px solid #34495e;
-}
+// Rafraîchir messages toutes les 2 secondes
+setInterval(fetchMessages, 2000);
+fetchMessages();
 
-.user:hover {
-    background-color: #34495e;
-}
+// Soumission du formulaire en AJAX (pour ne pas recharger)
+form.addEventListener('submit', async e => {
+    e.preventDefault();
 
-.user-pic {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 15px;
-    border: 2px solid #ecf0f1;
-}
-
-
-.chat-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: #fff;
-}
-
-.chat-header {
-    padding: 20px;
-    background-color: #3498db;
-    color: #fff;
-    text-align: center;
-    font-size: 18px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-
-.messages {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    background-color: #f0f0f0;
-}
-
-.message.sent {
-    background-color: #0078ff;
-    color: white;
-    padding: 10px;
-    border-radius: 10px;
-    max-width: 10%;
-    margin: 10px 0;
-    align-self: flex-end; 
-    text-align: left;
-}
-
-
-.message.received {
-    background-color: #b1a5a5;
-    color: rgb(255, 255, 255);
-    padding: 10px;
-    border-radius: 10px;
-    max-width: 10%;
-    margin: 10px 0;
-    align-self: flex-start; 
-    text-align: right;
-}
-
-
-.message-input {
-    display: flex;
-    padding: 15px;
-    background-color: #fff;
-    border-top: 1px solid #ddd;
-}
-
-.message-input input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    outline: none;
-    font-size: 16px;
-}
-
-.message-input button, 
-#recordButton {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 60px;
-    height: 40px;
-    margin-left: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.message-input button:hover,
-#recordButton:hover {
-    background-color: #2980b9;
-}
-
-
-.send-file {
-    display: inline-flex; 
-    justify-content: center;
-    align-items: center;
-    background-color: #3498db;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 60px; 
-    height: 40px;
-    margin-left: 10px; 
-    font-size: 18px; 
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.send-file:hover {
-    background-color: #2980b9; 
-}
-
-
-#fileInput {
-    display: none;
-}
-
-#recordButton {
-    font-size: 20px;
-}
-
-
-.profile-menu {
-    position: fixed;
-    top: 100px;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-@media (max-width: 380px){
-    .profile-menu {
-        position: fixed;
-        top: 600px;
-        right: 200px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    const formData = new FormData(form);
+    try {
+        const res = await fetch('', { method: 'POST', body: formData });
+        if (res.ok) {
+            document.getElementById('message').value = '';
+            document.getElementById('fileInput').value = '';
+            document.getElementById('voiceData').value = '';
+            fetchMessages();
+        }
+    } catch (err) {
+        console.error(err);
     }
-  
-  }
-
-.profile-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.dropdown-menu {
-    position: absolute;
-    top: 70px;
-    right: 0;
-    background-color: white;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
-    display: none;
-}
-
-.dropdown-menu ul {
-    list-style: none;
-    margin: 0;
-    padding: 10px;
-}
-
-.dropdown-menu ul li {
-    padding: 10px;
-    text-align: center;
-    transition: background-color 0.2s;
-}
-
-.dropdown-menu ul li:hover {
-    background-color: #f0f0f0;
-}
-
-.dropdown-menu ul li a {
-    text-decoration: none;
-    color: #333;
-    display: block;
-}
-/* From Uiverse.io by vinodjangid07 */ 
-.button {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: rgb(20, 20, 20);
-  border: none;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 0px 0px 4px rgba(180, 160, 255, 0.253);
-  cursor: pointer;
-  transition-duration: 0.3s;
-  overflow: hidden;
-  position: absolute;
-  top: 1%;
-  left: 92%;
-  rotate: 10px;
-}
-
-.svgIcon {
-  width: 12px;
-  transition-duration: 0.3s;
-}
-
-.svgIcon path {
-  fill: white;
-}
-
-.button:hover {
-  width: 140px;
-  border-radius: 50px;
-  transition-duration: 0.3s;
-  background-color: rgb(181, 160, 255);
-  align-items: center;
-}
-
-.button:hover .svgIcon {
-  /* width: 20px; */
-  transition-duration: 0.3s;
-  transform: translateY(-200%);
-}
-
-.button::before {
-  position: absolute;
-  content: "Back";
-  color: white;
-  /* transition-duration: .3s; */
-  font-size: 0px;
-}
-
-.button:hover::before {
-  font-size: 13px;
-  opacity: 1;
-  bottom: unset;
-  /* transform: translateY(-30px); */
-  transition-duration: 0.3s;
-}
-
-    </style>
-
-<script src="/scripts/chatbox.js"></script>
-    <script src="/scripts/messagev.js"></script>
+});
+</script>
 </body>
 </html>
