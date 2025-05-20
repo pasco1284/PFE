@@ -1,0 +1,4 @@
+[2025-04-15 16:36:04] ID: 5 | pasco russo | Cours: TEST 1 | Exercice: EXERCICE 1  | Fichiers: AltaCV_Template.pdf, AltaCV_Template.pdf
+[2025-04-15 16:38:21] ID: 5 | pasco russo | Cours: TEST 1 | Exercice: EXERCICE 1  | Fichiers: AltaCV_Template.pdf, AltaCV_Template.pdf
+[2025-04-15 16:38:22] ID: 5 | pasco russo | Cours: TEST 1 | Exercice: EXERCICE 1  | Fichiers: AltaCV_Template.pdf, AltaCV_Template.pdf
+[2025-04-15 18:22:16] ID: 15 | pasco saadaoui | Cours: TEST 1 | Exercice: EXERCICE 1  | Fichiers: set.txt, Facture_TN545578.pdf

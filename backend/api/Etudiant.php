@@ -36,9 +36,9 @@ $photo = ($user['photo'] && file_exists('images/' . $user['photo'])) ? $user['ph
 $student_element = $user['elements']; // Cela suppose que "elements" contient l'élément choisi par l'étudiant
 
 // Requête pour récupérer les fichiers filtrés selon l'élément de l'étudiant
-$sql = "SELECT id, subject, course_title, exercise_title, course_file, exercise_file FROM uploads WHERE subject = :subject";
+$sql = "SELECT id, subject, course_title, exercise_title, course_file, exercise_file FROM uploads WHERE level = :level";
 $stmt = $pdo->prepare($sql);
-$stmt->bindParam(':subject', $student_element, PDO::PARAM_STR);
+$stmt->bindParam(':level', $student_element, PDO::PARAM_STR);
 $stmt->execute();
 
 // Récupérer tous les fichiers filtrés
@@ -113,8 +113,8 @@ $files = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td><?php echo htmlspecialchars($file['subject']); ?></td>
                             <td><?php echo htmlspecialchars($file['course_title']); ?></td>
                             <td><?php echo htmlspecialchars($file['exercise_title']); ?></td>
-                            <td><a href="/uploads/<?php echo htmlspecialchars($file['course_file']); ?>" class="download-btn" download>Télécharger</a></td>
-                            <td><a href="/uploads/<?php echo htmlspecialchars($file['exercise_file']); ?>" class="download-btn" download>Télécharger</a></td>
+                            <td><a href="<?php echo urlencode($file['course_file']); ?>" class="download-btn" download>Télécharger</a></td>
+                            <td><a href="<?php echo urlencode($file['exercise_file']); ?>" class="download-btn" download>Télécharger</a></td>
                         </tr>
                     <?php endforeach;
                 else: ?>

@@ -275,7 +275,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <div>
             <label for="elements">Éléments sélectionnés:</label>
-            <input type="text" id="elements" name="elements" value="<?php echo htmlspecialchars($user['elements']); ?>" disabled>
+            <input type="text" id="elements" name="elements" value="<?php echo htmlspecialchars($user['elements']); ?>" readonly>
         </div>
 
         <div>
