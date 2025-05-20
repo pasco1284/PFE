@@ -192,7 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   transition-duration: 0.3s;
   overflow: hidden;
   position: absolute;
-  top: 10%;
+  top: 50%;
   right: 85%;
   rotate: 10px;
 }
